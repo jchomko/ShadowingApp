@@ -269,9 +269,22 @@ void ofApp::draw()
         ofRect(0, 0, 320,240);
     }
 
-    
-    ShadowingProductionModeA();
+    if (!livebuffer.empty())
+    {
+        for (int i = 0; i < livebuffer.size(); i++)
+        {
+            livebuffer[i].draw(255);
+        }
+    }
+    if (!buffers.empty())
+    {
+        for (int i = 0; i < buffers.size(); i++)
+        {
+            buffers[i].draw(255);
+        }
+    }
 
+    ShadowingProductionModeA();
     
     if (useShader)
     {
@@ -1112,7 +1125,7 @@ void ofApp::ShadowingProductionModeA()
         if (!livebuffer.empty())
         {
             livebuffer[0].start();
-            livebuffer[0].draw(255);
+            //livebuffer[0].draw(255);
             cout << "Playing Stranger" << endl; // Debug
             if (livebuffer[0].isFinished())
             {
@@ -1130,7 +1143,7 @@ void ofApp::ShadowingProductionModeA()
         if (livebuffer.size() > 1)
         {
             livebuffer[1].start();
-            livebuffer[1].draw(255);
+            //livebuffer[1].draw(255);
             cout << "Playing Self: " << ofToString(playCounter) << endl; // Debug
             if (livebuffer[1].isFinished() && playCounter < 3)
             {

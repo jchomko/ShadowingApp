@@ -11,7 +11,7 @@ void ofApp::setup()
 {
     ofSetWindowShape(ofGetScreenWidth(), ofGetScreenHeight());
     ofSetFrameRate(FRAMERATE);
-    
+   ofSetVerticalSync(true);
     // Setup the Projector
     setupProjector();
     
@@ -1116,7 +1116,7 @@ void ofApp::ShadowingProductionModeA()
             cout << "Playing Stranger" << endl; // Debug
             if (livebuffer[0].isFinished())
             {
-                livebuffer[0].reset();
+                livebuffer[0].stop();//reset();
             }
         }
     }
@@ -1138,7 +1138,7 @@ void ofApp::ShadowingProductionModeA()
                 cout << "Playing Reset" << endl; // Debug
                 playCounter++;
             }
-            else if (playCounter >= 3)
+            else if (playCounter >= 1)
             {
                 cout << "Buffer 1 Stop" << endl; // Debug
                 livebuffer[1].stop();

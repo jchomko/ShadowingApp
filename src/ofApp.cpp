@@ -9,9 +9,12 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+    ofBuffer buffer = ofBufferFromFile("/root/id.txt");
+    cout << buffer.getText();
+    unitID = buffer.getText();
     ofSetWindowShape(ofGetScreenWidth(), ofGetScreenHeight());
     ofSetFrameRate(FRAMERATE);
-   ofSetVerticalSync(true);
+    ofSetVerticalSync(true);
     // Setup the Projector
     setupProjector();
     
@@ -362,7 +365,7 @@ void ofApp::keyPressed(int key)
             form.action = STATUS_SCRIPT;
             form.method = OFX_HTTP_POST;
             form.addFormField("secret", SECRET_KEY);
-            form.addFormField("location", WHERE_ARE_WE);
+            form.addFormField("location", unitID);
             form.addFormField("status", "TESTEVENT");
             form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
             form.addFormField("submit","1");
@@ -438,7 +441,7 @@ void ofApp::onDirectoryWatcherItemAdded(const DirectoryWatcherManager::Directory
         form.action = UPLOAD_SCRIPT;
         form.method = OFX_HTTP_POST;
         form.addFormField("secret", SECRET_KEY);
-        form.addFormField("location", WHERE_ARE_WE);
+        form.addFormField("location", unitID);
         form.addFormField("timestamp",ofGetTimestampString());
         form.addFormField("currentmode", modeString);
         form.addFile("file",latestGifPath);
@@ -467,7 +470,7 @@ void ofApp::onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::Directo
         form.action = UPLOAD_SCRIPT;
         form.method = OFX_HTTP_POST;
         form.addFormField("secret", SECRET_KEY);
-        form.addFormField("location", WHERE_ARE_WE);
+        form.addFormField("location", unitID);
         form.addFormField("timestamp",ofGetTimestampString());
         form.addFormField("currentmode", modeString);
         form.addFile("file",latestGifPath);
@@ -492,7 +495,7 @@ void ofApp::exit()
     form.action = STATUS_SCRIPT;
     form.method = OFX_HTTP_POST;
     form.addFormField("secret", SECRET_KEY);
-    form.addFormField("location", WHERE_ARE_WE);
+    form.addFormField("location", unitID);
     form.addFormField("status", "STOPPED");
     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
     form.addFormField("submit","1");
@@ -619,7 +622,7 @@ void ofApp::setupHTTP()
     form.action = STATUS_SCRIPT;
     form.method = OFX_HTTP_POST;
     form.addFormField("secret", SECRET_KEY);
-    form.addFormField("location", WHERE_ARE_WE);
+    form.addFormField("location", unitID);
     form.addFormField("status", "STARTED");
     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
     form.addFormField("submit","1");
@@ -782,7 +785,7 @@ void ofApp::statusTimerComplete(int &args)
     form.action = STATUS_SCRIPT;
     form.method = OFX_HTTP_POST;
     form.addFormField("secret", SECRET_KEY);
-    form.addFormField("location", WHERE_ARE_WE);
+    form.addFormField("location", unitID);
     form.addFormField("status", "ON");
     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
     form.addFormField("submit","1");
@@ -1555,7 +1558,7 @@ void ofApp::drawData()
     string title = "Shadowing " + ofToString(ofGetTimestampString("%H:%M:%S  %d/%m/%Y"));
     stringstream debugData;
     debugData << title << endl;
-    debugData << "Unit " << WHERE_ARE_WE << endl;
+    debugData << "Unit " << unitID << endl;
     debugData << "FrameRate: " << ofGetFrameRate() << endl;
     
     debugData << endl;

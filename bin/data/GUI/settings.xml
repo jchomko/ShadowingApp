@@ -1,0 +1,145 @@
+<Widget>
+    <Kind>17</Kind>
+    <Name>Fullscreen</Name>
+    <Value>1</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Production Mode</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Draw CV</Name>
+    <Value>1</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Show Buffers</Name>
+    <Value>1</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Draw Live</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Show Data</Name>
+    <Value>1</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>PLAYBACK_MODE</Name>
+    <Value>0.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>BUFFER_NUMBER</Name>
+    <Value>10.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Use Mask</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>Mask_No</Name>
+    <Value>3.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Mirror H</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Mirror V</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>THRESHOLD</Name>
+    <Value>255.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>MIN_BLOB_SIZE</Name>
+    <Value>120.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>MAX_BLOB_SIZE</Name>
+    <Value>25600.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>MAX_BLOB_NUM</Name>
+    <Value>2.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Fill Holes</Name>
+    <Value>1</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Use Approximation</Name>
+    <Value>1</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>BLUR</Name>
+    <Value>9.999999046</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>BrightnessV</Name>
+    <Value>1.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>ContrastV</Name>
+    <Value>1.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Erode</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Dilate</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Progressive Background</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>PROGRESSIVE_RATE</Name>
+    <Value>0.010000000</Value>
+</Widget>
+<Widget>
+    <Kind>28</Kind>
+    <Name>Background_Color</Name>
+    <XValue>0.866141737</XValue>
+    <YValue>0.929133832</YValue>
+    <RColor>255</RColor>
+    <GColor>255</GColor>
+    <BColor>255</BColor>
+    <AColor>255</AColor>
+</Widget>
+<Widget>
+    <Kind>28</Kind>
+    <Name>Shadow_Color</Name>
+    <XValue>0.503937006</XValue>
+    <YValue>0.503937006</YValue>
+    <RColor>0</RColor>
+    <GColor>3</GColor>
+    <BColor>3</BColor>
+    <AColor>255</AColor>
+</Widget>

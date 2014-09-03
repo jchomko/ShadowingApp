@@ -1,0 +1,12 @@
+ofxOpenCv
+ofxXmlSettings
+ofxIO
+ofxSimpleTimer
+ofxDaveVideoBuffers
+ofxGifEncoder
+ofxProjectorControl
+ofxHttpUtils
+ofxUI
+ofxDaveOpenCV
+ofxCalibrationUtils
+ofxBlur

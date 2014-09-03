@@ -87,6 +87,7 @@ void ofApp::update()
     // If blob detected Start Recording
     if(openCV.isSomeoneThere() && imageCounter < MAX_BUFFER_SIZE)
     {
+	whichBufferAreWePlaying = 1;
         if (bSwitch == true)
         {
             if (livebuffer.size() >= 2)
@@ -271,7 +272,7 @@ void ofApp::draw()
         ofSetColor(255, 255);
         ofRect(0, 0, 320,240);
     }
-
+    ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);   
     if (!livebuffer.empty())
     {
         for (int i = 0; i < livebuffer.size(); i++)
@@ -286,7 +287,7 @@ void ofApp::draw()
             buffers[i].draw(255);
         }
     }
-
+    ofDisableBlendMode();
     ShadowingProductionModeA();
     
     if (useShader)

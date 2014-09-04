@@ -226,5 +226,7 @@ class ofApp : public ofBaseApp{
         int playCounter;
         bool firstLearn;
 	string unitID;
+	
+	bool randomWaitLatch;
+	long randomWaitTimer;
 };
-

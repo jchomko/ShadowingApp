@@ -1015,28 +1015,51 @@ void ofApp::ShadowingDreamStateB()
         {
             // Nothing
         }
-        buffers[whichBufferAreWePlaying].draw(255);
+        //buffers[whichBufferAreWePlaying].draw(255);
         ofDisableBlendMode();
         
         if (buffers.size() > 2)
         {
-            if (buffers[whichBufferAreWePlaying].isFinished())
+            if (buffers[whichBufferAreWePlaying].isFinished() && randomWaitLatch == false)
             {
-                // Reset the Awaiting buffer otherwise nothing will happen
-                buffers[whichBufferAreWePlaying+1].reset();
+                randomWaitTimer = ofGetElapsedTimeMillis() + ofRandom(1000,4000);
+		randomWaitLatch = true;
+		// Reset the Awaiting buffer otherwise nothing will happen
+                // buffers[whichBufferAreWePlaying+1].reset();
                 // Progress the Buffer Counter
-                whichBufferAreWePlaying++;
-                buffers[whichBufferAreWePlaying].start();
+                // whichBufferAreWePlaying++;
+                // buffers[whichBufferAreWePlaying].start();
             }
         }
-        if (whichBufferAreWePlaying >= buffers.size())
-        {
-            // Reset the first Buffer
-            buffers[0].reset();
-            // Go back to the start and Await my instructions
-            whichBufferAreWePlaying = 0;
-            buffers[whichBufferAreWePlaying].start();
-        }
+	if (buffers.size() > 2)
+	{
+        	if (randomWaitLatch && ofGetElapsedTimeMillis() > randomWaitTimer)
+		{
+			if (whichBufferAreWePlaying >= buffers.size())
+        		{
+            			// Reset the first Buffer
+	            		buffers[0].reset();
+        	    		// Go back to the start and Await my instructions
+            			whichBufferAreWePlaying = 0;
+           			buffers[whichBufferAreWePlaying].start();
+				randomWaitLatch = false;
+        		}
+			else
+			{
+				buffers[whichBufferAreWePlaying+1].reset();
+				whichBufferAreWePlaying++;
+				buffers[whichBufferAreWePlaying].start();
+				randomWaitLatch = false;
+			}	
+		}
+
+	}
+	if (whichBufferAreWePlaying >= buffers.size())
+	{
+		buffers[0].reset();
+		whichBufferAreWePlaying = 0;
+		buffers[whichBufferAreWePlaying].start();
+	}
     }
 }
 //--------------------------------------------------------------

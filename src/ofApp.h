@@ -225,5 +225,6 @@ class ofApp : public ofBaseApp{
         bool bSwitch;
         int playCounter;
         bool firstLearn;
+	string unitID;
 };
 

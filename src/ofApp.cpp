@@ -87,7 +87,15 @@ void ofApp::update()
     // If blob detected Start Recording
     if(openCV.isSomeoneThere() && imageCounter < MAX_BUFFER_SIZE)
     {
-	whichBufferAreWePlaying = 1;
+	if (buffers.size() > 3)
+	{
+		whichBufferAreWePlaying = 2;
+	}
+	else
+	{
+		whichBufferAreWePlaying = 0;
+	}
+
         if (bSwitch == true)
         {
             if (livebuffer.size() >= 2)
@@ -288,7 +296,23 @@ void ofApp::draw()
         }
     }
     ofDisableBlendMode();
-    ShadowingProductionModeA();
+   
+    if (playbackMode == 0)
+    {
+        ShadowingProductionModeA();
+    }
+    else if (playbackMode == 1)
+    {
+
+    }
+    else if (playbackMode == 2)
+    {
+
+    }
+    else
+    {
+	
+    }
     
     if (useShader)
     {
@@ -321,7 +345,16 @@ void ofApp::keyPressed(int key)
 {
     switch(key)
     {
-        case 'h':
+        case '1':
+	    playbackMode = 0;
+	    break;
+	case '2':
+	    playbackMode = 1;
+	    break;
+	case '3':
+	    playbackMode = 3;
+	    break;
+	case 'h':
             gui->toggleVisible();
             break;
         case 'm':
@@ -569,6 +602,7 @@ void ofApp::setupVariables()
     dream = false;
     triggerDreamTimer = false;
     progress = 0;
+    playbackMode = 0;
     howmanyrecordings = 0;
     whichBufferAreWePlaying = 0;
     hasBeenPushedFlag = true;
@@ -1404,7 +1438,7 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
     else if(e.getName() == "PLAYBACK_MODE")
     {
         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-        playbackMode = dial->getValue();
+        //playbackMode = dial->getValue();
     }
     else if(e.getName() == "Mask_No")
     {

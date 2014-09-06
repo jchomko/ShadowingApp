@@ -226,7 +226,10 @@ class ofApp : public ofBaseApp{
         int playCounter;
         bool firstLearn;
 	string unitID;
-	
+	bool noneDream;	
 	bool randomWaitLatch;
 	long randomWaitTimer;
+	bool playBackLatch;
+        bool lastPresentState;
+
 };

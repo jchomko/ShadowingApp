@@ -44,7 +44,8 @@ void ofApp::setup()
     
     // Setup Shaders
     setupShader();
-    
+    playBackLatch = false;
+    lastPresentState = false;    
 }
 //--------------------------------------------------------------
 void ofApp::update()
@@ -75,7 +76,10 @@ void ofApp::update()
     }
     
     // Subtraction Plus Brightness and Contrast Settings
-    openCV.subtractionLoop(learnBackground, bProgressiveLearning,fProgressiveRate,bMirrorH,bMirrorV,threshold,fBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,erode,dilate);
+openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,fBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast);
+    
+    
+//openCV.subtractionLoop(learnBackground, bProgressiveLearning,fProgressiveRate,bMirrorH,bMirrorV,threshold,fBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,erode,dilate);
     learnBackground = false;
     // Do Blob Assembly
     openCV.readAndWriteBlobData(ofColor::white,ofColor::black);
@@ -96,35 +100,13 @@ void ofApp::update()
 		whichBufferAreWePlaying = 0;
 	}
 
-        if (bSwitch == true)
-        {
-            if (livebuffer.size() >= 2)
-            {
-                cout << "SWBuffer 1 Stop" << endl; // Debug
-                livebuffer[1].stop();
-                livebuffer[0].clear();
-                //livebuffer.insert(livebuffer.begin(), livebuffer[1]);
-                livebuffer[0] = livebuffer[1];
-                cout << "SWBuffer 0 << 1" << endl;
-                //livebuffer[1].clear();
-                cout << "SWBuffer 1 Clear" << endl;
-                playCounter = 0;
-                cout << "SWPlay Counter = 0" << endl;
-                //dream = true;
-            }
-            else
-            {
-                cout << "NULL" << endl;
-            }
-            bSwitch = false;
-        }
-        
         canSaveGif = true;
         activityTimer.stop();
         doCVBackgroundTimer.stop();
         startRecording = true;
         hasBeenPushedFlag = false;
         dream = false;
+	noneDream = false;
         triggerDreamTimer = true;
     }
     else
@@ -145,29 +127,7 @@ void ofApp::update()
                     howmanyrecordings++;
                     canSaveGif = false;
                 }
-                // Push the buffer to the Front of the Queue
-                //livebuffer.push_front(b);
-                
-                //------------------------------------------
-                //* BUFFER INSERTION
-                //* This is complicated look at comments
-                //------------------------------------------
-                if (livebuffer.size() < 1) // If the live buffer is just starting
-                {
-                    livebuffer.insert(livebuffer.begin(), b); // Put the Recorded Buffer into the First Container
-                    cout << "Inserted into First Container" << endl; // Debug
-                }
-                else if (livebuffer.size() >= 1) // If the live buffer is bigger than 0 > 1
-                {
-                    livebuffer.insert(livebuffer.begin()+1, b); // Insert the Recorded Buffer into the Second Container
-                    
-                    // IMPORTANT: Push the latest recording into the main storage
-                    // Must come after the Container has been inserted!
-                    buffers.push_front(livebuffer[1]);
-            
-                    cout << "Inserted into Second Container" << endl;
-                }
-            
+		buffers.push_front(b);            
                 b.clear();
                 hasBeenPushedFlag = true;
                 imageCounter = 0;
@@ -303,7 +263,7 @@ void ofApp::draw()
     }
     else if (playbackMode == 1)
     {
-
+	ShadowingProductionModeA();
     }
     else if (playbackMode == 2)
     {
@@ -611,6 +571,7 @@ void ofApp::setupVariables()
     stopLoop = false;
     bSwitch = false;
     firstLearn = true;
+    noneDream == false;
 }
 //--------------------------------------------------------------
 //* Setup Directory Watcher
@@ -845,8 +806,9 @@ void ofApp::CVTimerComplete(int &args)
 //--------------------------------------------------------------
 void ofApp::activityTimerComplete(int &args)
 {
-    cout << "Timer Complete" << endl;
-    dream = true;
+    	cout << "Timer Complete" << endl;
+	noneDream = false;
+	dream = true;
 }
 //--------------------------------------------------------------
 void ofApp::activityTimerStarted(int &args)
@@ -1165,7 +1127,7 @@ void ofApp::ShadowingDefaultMirroredMode()
 //--------------------------------------------------------------
 void ofApp::ShadowingProductionModeA()
 {
-    // This will change the Blend Modes according to the brightness of FBO
+// This will change the Blend Modes according to the brightness of FBO
     if (backColor.getBrightness() >= 125)
     {
         ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
@@ -1179,72 +1141,35 @@ void ofApp::ShadowingProductionModeA()
         // Nothing
     }
     
-    if(openCV.isSomeoneThere())
+    if(openCV.isSomeoneThere() && openCV.isSomeoneThere() != lastPresentState && buffers.size() > 0 && !buffers[0].isPlaying())
     {
-        dreamState = ofRandom(1,2);
+        
+        playBackLatch = false;
+        
         modeString = "Shadowing Basic Mode";
-        if (!livebuffer.empty())
-        {
-            livebuffer[0].start();
-            //livebuffer[0].draw(255);
-            cout << "Playing Stranger" << endl; // Debug
-            if (livebuffer[0].isFinished())
-            {
-                livebuffer[0].stop();//reset();
-            }
-        }
+        
+        buffers[0].reset();
+        buffers[0].start();
+        
     }
-    else if(!openCV.isSomeoneThere() && dream == false)
+    else if(!openCV.isSomeoneThere() && dream == false && playBackLatch == false)
     {
         bSwitch = true;
         modeString = "Shadowing Basic Mode Stage 2";
-        // Stop the Previous buffer
-        // livebuffer[0].stop();
         
-        if (livebuffer.size() > 1)
-        {
-            livebuffer[1].start();
-            //livebuffer[1].draw(255);
-            cout << "Playing Self: " << ofToString(playCounter) << endl; // Debug
-            if (livebuffer[1].isFinished() && playCounter < 3)
-            {
-                livebuffer[1].reset();
-                cout << "Playing Reset" << endl; // Debug
-                playCounter++;
-            }
-            else if (playCounter >= 1)
-            {
-                cout << "Buffer 1 Stop" << endl; // Debug
-                livebuffer[1].stop();
-                livebuffer[0].clear();
-                //livebuffer.insert(livebuffer.begin(), livebuffer[1]);
-                livebuffer[0] = livebuffer[1];
-                cout << "Buffer 0 << 1" << endl;
-                //livebuffer[1].clear();
-                cout << "Buffer 1 Clear" << endl;
-                playCounter = 0;
-                cout << "Play Counter = 0" << endl;
-                dream = true;
-            }
-        }
+        buffers[0].start();
+        playBackLatch  = false;
+
+        
     }
     else if(dream == true)
     {
-        //if (dreamState == 1)
-        //{
-        //    ShadowingDreamStateA();
-        //}
-        //else if (dreamState == 2)
-        //{
             // Dream Sequentially
             ShadowingDreamStateB();
-        //}
-        //else
-        //{
             
-        //}
     }
-    ofDisableBlendMode();
+    lastPresentState = openCV.isSomeoneThere();
+    ofDisableBlendMode(); 
 }
 //--------------------------------------------------------------
 //* Production BASIC A - Walking under light triggers the most recent recording

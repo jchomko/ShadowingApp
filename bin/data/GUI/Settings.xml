@@ -6,7 +6,7 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Do Calibration</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -31,7 +31,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BUFFER_NUMBER</Name>
-    <Value>12.000000000</Value>
+    <Value>14.000000000</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -41,7 +41,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>Mask_No</Name>
-    <Value>4.000000000</Value>
+    <Value>1.000000000</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -131,7 +131,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR_RADIUS</Name>
-    <Value>0.200000018</Value>
+    <Value>0.100000016</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>

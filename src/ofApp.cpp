@@ -720,9 +720,9 @@ void ofApp::setupGUI()
     gui->addSpacer(255,1);
     gui->addWidgetDown(new ofxUILabelToggle("Fullscreen",true,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Do Calibration",false,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabelToggle("Draw CV",true,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabelToggle("Show Buffers",true,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabelToggle("Show Data",true,255,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Draw CV",false,255,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Show Buffers",false,255,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Show Data",false,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Playback Mode", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "PLAYBACK_MODE", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Number of Buffers", OFX_UI_FONT_MEDIUM));

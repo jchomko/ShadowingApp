@@ -497,7 +497,7 @@ void ofApp::exit()
     
     ofSleepMillis(5000);
     httpUtils.stop();
- 
+   openCV.releaseCamera(); 
     gui->saveSettings("GUI/Settings.xml");
     delete gui;
     projector.projectorOff();

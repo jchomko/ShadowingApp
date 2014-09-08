@@ -11,12 +11,12 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Draw CV</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
     <Name>Show Buffers</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -91,7 +91,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR</Name>
-    <Value>3.000000000</Value>
+    <Value>13.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -151,10 +151,10 @@
 <Widget>
     <Kind>28</Kind>
     <Name>Shadow_Color</Name>
-    <XValue>0.503937006</XValue>
-    <YValue>0.488188982</YValue>
-    <RColor>8</RColor>
-    <GColor>0</GColor>
-    <BColor>15</BColor>
+    <XValue>0.960629940</XValue>
+    <YValue>1.000000000</YValue>
+    <RColor>255</RColor>
+    <GColor>255</GColor>
+    <BColor>255</BColor>
     <AColor>255</AColor>
 </Widget>

@@ -11,12 +11,12 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Draw CV</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
     <Name>Show Buffers</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -26,7 +26,7 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Show Data</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -61,7 +61,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>THRESHOLD</Name>
-    <Value>255.000000000</Value>
+    <Value>40.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>

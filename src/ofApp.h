@@ -25,7 +25,7 @@
 #define FRAMERATE 30
 #define MIN_BUFFER_SIZE 30 //Frames
 #define MAX_BUFFER_SIZE 900 //Frames
-#define STATUS_TIMER (1000*60)*2
+#define STATUS_TIMER (1000*60)*5
 
 //--------------------------------------------------------------
 //* 1 = Wilder Street

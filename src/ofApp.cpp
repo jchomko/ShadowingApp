@@ -494,10 +494,13 @@ void ofApp::exit()
     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
     form.addFormField("submit","1");
     httpUtils.addForm(form);
-    
+
+    cout << "Releasing Camera" << endl;
+    openCV.releaseCamera();
     ofSleepMillis(5000);
+    cout << "Released Camera" << endl;
+
     httpUtils.stop();
-   openCV.releaseCamera(); 
     gui->saveSettings("GUI/Settings.xml");
     delete gui;
     projector.projectorOff();
@@ -786,6 +789,9 @@ void ofApp::statusTimerComplete(int &args)
     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
     form.addFormField("submit","1");
     httpUtils.addForm(form);
+
+    // Pulse the Projector
+    projector.projectorOn();
 }
 //--------------------------------------------------------------
 void ofApp::statusTimerStarted(int &args)

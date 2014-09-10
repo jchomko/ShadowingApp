@@ -654,7 +654,7 @@ void ofApp::setupShader()
 void ofApp::setupProjector()
 {
     // Connect to the projector
-    projector.openConnection("/dev/ttyUSB0");
+    projector.openConnection("/dev/ttyUSB1");
     
     // Wait while connection is established
     ofSleepMillis(1000);

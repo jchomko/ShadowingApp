@@ -834,14 +834,14 @@ void ofApp::drawMisc()
     
     // Show the previous Buffers
     ofPushStyle();
-    if (showPreviousBuffers)
+     if (showPreviousBuffers)
     {
         if (!buffers.empty())
         {
             for (int i = 0; i < buffers.size(); i++)
             {
                 // Draw the Mini Buffers
-                buffers[i].drawMini(640, 0+(i*240/4));
+                // buffers[i].drawMini(640, 0+(i*240/4));
             }
         }
         if (!livebuffer.empty())
@@ -849,7 +849,7 @@ void ofApp::drawMisc()
             for (int i = 0; i < livebuffer.size(); i++)
             {
                 // Draw the Mini Buffers
-                livebuffer[i].drawMini(640+80, 0+(i*240/4));
+                // livebuffer[i].drawMini(640+80, 0+(i*240/4));
             }
         }
     }

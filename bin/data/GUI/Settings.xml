@@ -11,12 +11,12 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Draw CV</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
     <Name>Show Buffers</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -61,12 +61,12 @@
 <Widget>
     <Kind>8</Kind>
     <Name>THRESHOLD</Name>
-    <Value>50.000000000</Value>
+    <Value>40.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>MIN_BLOB_SIZE</Name>
-    <Value>160.000000000</Value>
+    <Value>90.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -91,7 +91,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR</Name>
-    <Value>13.000000000</Value>
+    <Value>7.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>

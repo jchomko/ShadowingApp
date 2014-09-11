@@ -298,7 +298,7 @@ void ofApp::draw()
         masks[whichMask].draw(0,0,ofGetWidth(),ofGetHeight());
         ofDisableAlphaBlending();
     }
-    drawMisc();
+//    drawMisc();
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -654,7 +654,7 @@ void ofApp::setupShader()
 void ofApp::setupProjector()
 {
     // Connect to the projector
-    projector.openConnection("/dev/ttyUSB1");
+    projector.openConnection("/dev/ttyUSB0");
     
     // Wait while connection is established
     ofSleepMillis(1000);

@@ -655,9 +655,14 @@ void ofApp::setupProjector()
 {
     // Connect to the projector
     projector.openConnection("/dev/ttyUSB0");
+
+    projector.turnOffCamera();
+    ofSleepMillis(1000);
+    projector.turnOnCamera();
+    ofSleepMillis(3000);
     
     // Wait while connection is established
-    ofSleepMillis(1000);
+    //ofSleepMillis(3000);
     
     // Turn the projector On
     projector.projectorOn();

@@ -1153,7 +1153,7 @@ void ofApp::ShadowingProductionModeA()
         // Nothing
     }
     
-    if(openCV.isSomeoneThere() && openCV.isSomeoneThere() != lastPresentState && buffers.size() > 0 && !buffers[0].isPlaying())
+    if(openCV.isSomeoneThere() && openCV.isSomeoneThere() != lastPresentState && buffers.size() > 0 && buffers[0].isNearlyFinished())
     {
         
         playBackLatch = false;

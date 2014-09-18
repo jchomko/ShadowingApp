@@ -158,3 +158,8 @@
     <BColor>255</BColor>
     <AColor>255</AColor>
 </Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>DREAM_WAIT_TIME</Name>
+    <Value>18000.000000000</Value>
+</Widget>

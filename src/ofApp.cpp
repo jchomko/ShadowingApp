@@ -699,7 +699,7 @@ void ofApp::setupMasks()
 void ofApp::setupTimers()
 {
     statusTimer.setup(STATUS_TIMER); // Every 2 minutes 1000 millis * 60 seconds * 2
-    activityTimer.setup(60000);
+    activityTimer.setup(15000);
     doCVBackgroundTimer.setup(5000);
     
     ofAddListener(activityTimer.TIMER_STARTED, this, &ofApp::activityTimerStarted);
@@ -775,6 +775,7 @@ void ofApp::setupGUI()
     gui->addWidgetDown(new ofxUIImageSampler(255/2, 255/2, colorSampler, "Background_Color"));
     gui->addWidgetEastOf(new ofxUILabel("Shadow Color", OFX_UI_FONT_MEDIUM),"BGL");
     gui->addWidgetEastOf(new ofxUIImageSampler(255/2, 255/2, colorSampler, "Shadow_Color"),"Background_Color");
+    gui->addWidgetDown(new ofxUINumberDialer(0,60000,18000,1,"DREAM_WAIT_TIME", OFX_UI_FONT_MEDIUM));
     gui->autoSizeToFitWidgets();
     ofAddListener(gui->newGUIEvent,this, &ofApp::guiEvent);
 
@@ -1541,6 +1542,12 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
         useShader = toggle->getValue();
     }
+    else if (e.getName() == "DREAM_WAIT_TIME")
+     {
+	ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+	dreamWaitTime =  dial->getValue();
+     }
+
 }
 //--------------------------------------------------------------
 //* Debug Data

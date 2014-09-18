@@ -188,6 +188,8 @@ class ofApp : public ofBaseApp{
     
         string CVstring;
         void drawMisc();
+	
+	int dreamWaitTime;
     
         // Directory Watcher
         void setupDirectoryWatcher();

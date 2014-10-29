@@ -15,9 +15,17 @@ void ofApp::setup()
     ofSetWindowShape(ofGetScreenWidth(), ofGetScreenHeight());
     ofSetFrameRate(FRAMERATE);
     ofSetVerticalSync(true);
+    
+
+    overlay.loadMovie("018165646-bats-flying-white-background_H264_420.mov");
+    overlay2.loadMovie("000904597-hd-halloween-006_prores.mov");
+    whichOverlay = 0;
+    playSwitch = false;
+    loopSwitch = false;
+    
     // Setup the Projector
     setupProjector();
-    
+
     // Setup Variables
     setupVariables();
     
@@ -45,7 +53,7 @@ void ofApp::setup()
     // Setup Shaders
     setupShader();
     playBackLatch = false;
-    lastPresentState = false;    
+    lastPresentState = false;
 }
 //--------------------------------------------------------------
 void ofApp::update()
@@ -53,6 +61,8 @@ void ofApp::update()
     // Set Window Title
     string title = "Shadowing: " + ofToString(ofGetTimestampString("%H:%M:%S  %d/%m/%Y"));
     ofSetWindowTitle(title);
+    overlay.update();
+    overlay2.update();
     
     //--------------------------------------------------------------
     // If we have %i buffers in the memory then release one
@@ -66,6 +76,10 @@ void ofApp::update()
         livebuffer.pop_back();
     }
     
+	if(whichOverlay > 1 )
+	{
+		whichOverlay = 0;
+	}
     //--------------------------------------------------------------
     // Custom CV mechanisms
     // Wait until we have a new frame before learning background
@@ -76,21 +90,50 @@ void ofApp::update()
     }
     
     // Subtraction Plus Brightness and Contrast Settings
-openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,fBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast);
+    openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,fBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast);
     
-    
-//openCV.subtractionLoop(learnBackground, bProgressiveLearning,fProgressiveRate,bMirrorH,bMirrorV,threshold,fBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,erode,dilate);
     learnBackground = false;
     // Do Blob Assembly
     openCV.readAndWriteBlobData(ofColor::white,ofColor::black);
 
-    // Can choose the background color
-    //openCV.readAndWriteBlobData(backColor,shadowColor);
-    
+	if(openCV.isSomeoneThere() && loopSwitch == false && playSwitch == false && whichOverlay == 0)
+	{
+		overlay.play();
+		playSwitch = true;
+        loopSwitch = true;
+	}
+	else if(openCV.isSomeoneThere() && loopSwitch == false && playSwitch == false && whichOverlay == 1)
+    {
+        overlay2.play();
+        playSwitch = true;
+        loopSwitch = true;
+    }
 
+    if(overlay.getIsMovieDone() && playSwitch == true && whichOverlay == 0)
+    {
+        overlay.setFrame(0);
+        overlay.stop();
+        whichOverlay++;
+        playSwitch = false;
+    }
+
+    if(overlay2.getIsMovieDone() && playSwitch == true && whichOverlay == 1)
+    {
+        overlay2.setFrame(0);
+        overlay2.stop();
+        whichOverlay++;
+        playSwitch = false;
+    }
+    
+    if (!openCV.isSomeoneThere() )
+    {
+        loopSwitch = false;
+    }
+    
     // If blob detected Start Recording
     if(openCV.isSomeoneThere() && imageCounter < MAX_BUFFER_SIZE)
     {
+
 	if (buffers.size() > 3)
 	{
 		whichBufferAreWePlaying = 2;
@@ -106,7 +149,7 @@ openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,fBlur,iMinB
         startRecording = true;
         hasBeenPushedFlag = false;
         dream = false;
-	noneDream = false;
+        noneDream = false;
         triggerDreamTimer = true;
     }
     else
@@ -127,7 +170,7 @@ openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,fBlur,iMinB
                     howmanyrecordings++;
                     canSaveGif = false;
                 }
-		buffers.push_front(b);            
+                buffers.push_front(b);
                 b.clear();
                 hasBeenPushedFlag = true;
                 imageCounter = 0;
@@ -255,6 +298,12 @@ void ofApp::draw()
             buffers[i].draw(255);
         }
     }
+
+    if(playSwitch == true)
+    {
+    		overlay.draw(0,0,320,240);
+            overlay2.draw(0,0,320,240);
+    }
     ofDisableBlendMode();
    
     if (playbackMode == 0)
@@ -279,6 +328,8 @@ void ofApp::draw()
         shader.end();
         shader.draw();
     }
+
+
     mainOut.end();
 
 //-------------Main Drawing Mechanism-----------

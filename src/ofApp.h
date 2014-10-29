@@ -234,4 +234,9 @@ class ofApp : public ofBaseApp{
 	bool playBackLatch;
         bool lastPresentState;
 
+	ofVideoPlayer overlay;
+	bool playSwitch;
+	ofVideoPlayer overlay2;
+    bool loopSwitch;
+	int whichOverlay;
 };

@@ -7,15 +7,30 @@
 //--------------------------------------------------
 #include "ofApp.h"
 //--------------------------------------------------------------
+void ofApp::loadConfig()
+{
+    cout << "Loading Settings" << endl;
+    if (XML.loadFile("/root/config.xml")) {
+        _locationID = XML.getValue("CONFIG:LOCATIONID", "");
+        _statusurl = XML.getValue("CONFIG:STATUSURL", "");
+        _uploadFileURL = XML.getValue("CONFIG:UPLOADFILEURL", "");
+        _secretKey = XML.getValue("CONFIG:SECRETKEY", "");
+        cout << "Loaded Settings!" << endl;
+    }
+    else {
+        cout << "Not Loaded Settings!" << endl;
+    }
+}
+//--------------------------------------------------------------
 void ofApp::setup()
 {
-    ofBuffer buffer = ofBufferFromFile("/root/id.txt");
-    cout << buffer.getText();
-    unitID = buffer.getText();
+//    ofBuffer buffer = ofBufferFromFile("/root/id.txt");
+//    cout << buffer.getText();
+//    unitID = buffer.getText();
     ofSetWindowShape(ofGetScreenWidth(), ofGetScreenHeight());
     ofSetFrameRate(FRAMERATE);
     ofSetVerticalSync(true);
-    
+    loadConfig();
 
     //overlay.loadMovie("018165646-bats-flying-white-background_H264_420.mov");
     //overlay2.loadMovie("000904597-hd-halloween-006_prores.mov");
@@ -407,10 +422,10 @@ void ofApp::keyPressed(int key)
         case 't':
             // Send the Gif to the Server
             ofxHttpForm form;
-            form.action = STATUS_SCRIPT;
+            form.action = _statusurl;
             form.method = OFX_HTTP_POST;
-            form.addFormField("secret", SECRET_KEY);
-            form.addFormField("location", unitID);
+            form.addFormField("secret", _secretKey);
+            form.addFormField("location", _locationID);
             form.addFormField("status", "TESTEVENT");
             form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
             form.addFormField("submit","1");
@@ -483,10 +498,10 @@ void ofApp::onDirectoryWatcherItemAdded(const DirectoryWatcherManager::Directory
         
         // Send the Gif to the Server
         ofxHttpForm form;
-        form.action = UPLOAD_SCRIPT;
+        form.action = _uploadFileURL;
         form.method = OFX_HTTP_POST;
-        form.addFormField("secret", SECRET_KEY);
-        form.addFormField("location", unitID);
+        form.addFormField("secret", _secretKey);
+        form.addFormField("location", _locationID);
         form.addFormField("timestamp",ofGetTimestampString());
         form.addFormField("currentmode", modeString);
         form.addFile("file",latestGifPath);
@@ -512,10 +527,10 @@ void ofApp::onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::Directo
         
         // Send the Gif to the Server
         ofxHttpForm form;
-        form.action = UPLOAD_SCRIPT;
+        form.action = _uploadFileURL;
         form.method = OFX_HTTP_POST;
-        form.addFormField("secret", SECRET_KEY);
-        form.addFormField("location", unitID);
+        form.addFormField("secret", _secretKey);
+        form.addFormField("location", _locationID);
         form.addFormField("timestamp",ofGetTimestampString());
         form.addFormField("currentmode", modeString);
         form.addFile("file",latestGifPath);
@@ -537,10 +552,10 @@ void ofApp::exit()
     
     // Send the Gif to the Server
     ofxHttpForm form;
-    form.action = STATUS_SCRIPT;
+    form.action = _statusurl;
     form.method = OFX_HTTP_POST;
-    form.addFormField("secret", SECRET_KEY);
-    form.addFormField("location", unitID);
+    form.addFormField("secret", _secretKey);
+    form.addFormField("location", _locationID);
     form.addFormField("status", "STOPPED");
     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
     form.addFormField("submit","1");
@@ -669,10 +684,10 @@ void ofApp::setupHTTP()
     
     // Send Status
     ofxHttpForm form;
-    form.action = STATUS_SCRIPT;
+    form.action = _statusurl;
     form.method = OFX_HTTP_POST;
-    form.addFormField("secret", SECRET_KEY);
-    form.addFormField("location", unitID);
+    form.addFormField("secret", _secretKey);
+    form.addFormField("location", _locationID);
     form.addFormField("status", "STARTED");
     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
     form.addFormField("submit","1");
@@ -838,10 +853,10 @@ void ofApp::statusTimerComplete(int &args)
 {
     // Send Status to the Server
     ofxHttpForm form;
-    form.action = STATUS_SCRIPT;
+    form.action = _statusurl;
     form.method = OFX_HTTP_POST;
-    form.addFormField("secret", SECRET_KEY);
-    form.addFormField("location", unitID);
+    form.addFormField("secret", _secretKey);
+    form.addFormField("location", _locationID);
     form.addFormField("status", "ON");
     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
     form.addFormField("submit","1");
@@ -1610,7 +1625,7 @@ void ofApp::drawData()
     string title = "Shadowing " + ofToString(ofGetTimestampString("%H:%M:%S  %d/%m/%Y"));
     stringstream debugData;
     debugData << title << endl;
-    debugData << "Unit " << unitID << endl;
+    debugData << "Unit " << _locationID << endl;
     debugData << "FrameRate: " << ofGetFrameRate() << endl;
     
     debugData << endl;

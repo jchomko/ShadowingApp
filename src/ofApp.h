@@ -38,14 +38,14 @@
 //* 8 = Lower Ashley Road
 //* 9 = Dame Emily Park
 //--------------------------------------------------------------
-#define WHERE_ARE_WE "4"
-
-#define UPLOAD_SCRIPT "http://wcode.org/sandbox/shadowing/upload.php"
-#define STATUS_SCRIPT "http://wcode.org/sandbox/shadowing/status.php"
-#define SECRET_KEY "7dshtbfydjsgMXfdgshj"
+//#define WHERE_ARE_WE "4"
+//
+//#define UPLOAD_SCRIPT "http://wcode.org/sandbox/shadowing/upload.php"
+//#define STATUS_SCRIPT "http://wcode.org/sandbox/shadowing/status.php"
+//#define SECRET_KEY "7dshtbfydjsgMXfdgshj"
 
 #define SAVE_PATH_NUC "/root/of_v0.8.3_linux64_release/apps/myApps/ShadowingApp/bin/data/gifs/"
-#define SAVE_PATH_MAC "/Users/davidhaylock/Desktop/of_v0.8.3_osx_release/apps/Shadowing/ShadowingStage0_5/bin/data/gifs/"
+//#define SAVE_PATH_MAC "/Users/davidhaylock/Desktop/of_v0.8.3_osx_release/apps/Shadowing/ShadowingStage0_5/bin/data/gifs/"
 
 //#define DEBUG_MODE
 #define NUC
@@ -189,7 +189,7 @@ class ofApp : public ofBaseApp{
         string CVstring;
         void drawMisc();
 	
-	int dreamWaitTime;
+        int dreamWaitTime;
     
         // Directory Watcher
         void setupDirectoryWatcher();
@@ -227,12 +227,22 @@ class ofApp : public ofBaseApp{
         bool bSwitch;
         int playCounter;
         bool firstLearn;
-	string unitID;
-	bool noneDream;	
-	bool randomWaitLatch;
-	long randomWaitTimer;
-	bool playBackLatch;
+//        string unitID;
+        bool noneDream;
+        bool randomWaitLatch;
+        long randomWaitTimer;
+        bool playBackLatch;
         bool lastPresentState;
+    
+    
+        // New Loadconfig for AWS
+        void loadConfig();
+        ofxXmlSettings XML;
+        string _locationID;
+        string _secretKey;
+        string _statusurl;
+        string _uploadFileURL;
+    
 
 	//ofVideoPlayer overlay;
 	//bool playSwitch;

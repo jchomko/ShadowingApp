@@ -24,20 +24,11 @@ void ofApp::loadConfig()
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-//    ofBuffer buffer = ofBufferFromFile("/root/id.txt");
-//    cout << buffer.getText();
-//    unitID = buffer.getText();
     ofSetWindowShape(ofGetScreenWidth(), ofGetScreenHeight());
     ofSetFrameRate(FRAMERATE);
     ofSetVerticalSync(true);
     loadConfig();
 
-    //overlay.loadMovie("018165646-bats-flying-white-background_H264_420.mov");
-    //overlay2.loadMovie("000904597-hd-halloween-006_prores.mov");
-    //whichOverlay = 0;
-    //playSwitch = false;
-    //loopSwitch = false;
-    
     // Setup the Projector
     setupProjector();
 
@@ -76,8 +67,6 @@ void ofApp::update()
     // Set Window Title
     string title = "Shadowing: " + ofToString(ofGetTimestampString("%H:%M:%S  %d/%m/%Y"));
     ofSetWindowTitle(title);
-    //overlay.update();
-    //overlay2.update();
     
     //--------------------------------------------------------------
     // If we have %i buffers in the memory then release one
@@ -91,10 +80,6 @@ void ofApp::update()
         livebuffer.pop_back();
     }
     
-//	if(whichOverlay > 1 )
-//	{
-//		whichOverlay = 0;
-//	}
     //--------------------------------------------------------------
     // Custom CV mechanisms
     // Wait until we have a new frame before learning background
@@ -111,40 +96,6 @@ void ofApp::update()
     // Do Blob Assembly
     openCV.readAndWriteBlobData(ofColor::white,ofColor::black);
 
-/*	if(openCV.isSomeoneThere() && loopSwitch == false && playSwitch == false && whichOverlay == 0)
-	{
-		overlay.play();
-		playSwitch = true;
-        loopSwitch = true;
-	}
-	else if(openCV.isSomeoneThere() && loopSwitch == false && playSwitch == false && whichOverlay == 1)
-    {
-        overlay2.play();
-        playSwitch = true;
-        loopSwitch = true;
-    }
-
-    if(overlay.getIsMovieDone() && playSwitch == true && whichOverlay == 0)
-    {
-        overlay.setFrame(0);
-        overlay.stop();
-        whichOverlay++;
-        playSwitch = false;
-    }
-
-    if(overlay2.getIsMovieDone() && playSwitch == true && whichOverlay == 1)
-    {
-        overlay2.setFrame(0);
-        overlay2.stop();
-        whichOverlay++;
-        playSwitch = false;
-    }
-    
-    if (!openCV.isSomeoneThere() )
-    {
-        loopSwitch = false;
-    }
-  */  
     // If blob detected Start Recording
     if(openCV.isSomeoneThere() && imageCounter < MAX_BUFFER_SIZE)
     {
@@ -314,11 +265,6 @@ void ofApp::draw()
         }
     }
 
-    /*if(playSwitch == true)
-    {
-    		overlay.draw(0,0,320,240);
-            overlay2.draw(0,0,320,240);
-    }*/
     ofDisableBlendMode();
    
     if (playbackMode == 0)

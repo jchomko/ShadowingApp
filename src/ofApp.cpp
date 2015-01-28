@@ -40,10 +40,12 @@ void ofApp::setup()
     
     // Setup Directory Watcher
     setupDirectoryWatcher();
-    
+#ifdef HAVE_WEB    
     // Setup HTTP Stuff
     setupHTTP();
-    
+#else
+
+#endif
     // Setup CV
     setupCV();
     
@@ -366,7 +368,8 @@ void ofApp::keyPressed(int key)
             ((ofxUILabelToggle *) gui->getWidget("Show Buffers"))->setValue(showPreviousBuffers);
             break;
         case 't':
-            // Send the Gif to the Server
+      
+#ifdef HAVE_WEB      // Send the Gif to the Server
             ofxHttpForm form;
             form.action = _statusurl;
             form.method = OFX_HTTP_POST;
@@ -377,6 +380,9 @@ void ofApp::keyPressed(int key)
             form.addFormField("submit","1");
             httpUtils.addForm(form);
             break;
+#else
+break;
+#endif
     }
 }
 //--------------------------------------------------------------
@@ -436,6 +442,7 @@ void ofApp::newResponse(ofxHttpResponse & response)
 //--------------------------------------------------------------
 void ofApp::onDirectoryWatcherItemAdded(const DirectoryWatcherManager::DirectoryEvent& evt)
 {
+
 #ifndef NUC
     if (ofIsStringInString(evt.item.path(),".gif") && evt.item.getSize() > 5000)
     {
@@ -455,6 +462,7 @@ void ofApp::onDirectoryWatcherItemAdded(const DirectoryWatcherManager::Directory
         httpUtils.addForm(form);
     }
 #endif
+
 }
 //--------------------------------------------------------------------------------------------------
 void ofApp::onDirectoryWatcherItemRemoved(const DirectoryWatcherManager::DirectoryEvent& evt){ }
@@ -465,6 +473,7 @@ void ofApp::onDirectoryWatcherItemMovedFrom(const DirectoryWatcherManager::Direc
 //--------------------------------------------------------------------------------------------------
 void ofApp::onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::DirectoryEvent& evt)
 {
+#ifdef HAVE_WEB
 #ifdef NUC
     if (ofIsStringInString(evt.item.path(),".gif") && evt.item.getSize() > 5000)
     {
@@ -484,7 +493,7 @@ void ofApp::onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::Directo
         httpUtils.addForm(form);
     }
 #endif
-    
+#endif  
 }
 //--------------------------------------------------------------------------------------------------
 void ofApp::onDirectoryWatcherError(const Poco::Exception& exc){ }
@@ -495,7 +504,7 @@ void ofApp::exit()
     
     // As it says
     cleanGifFolder();
-    
+    #ifdef HAVE_WEB
     // Send the Gif to the Server
     ofxHttpForm form;
     form.action = _statusurl;
@@ -506,13 +515,14 @@ void ofApp::exit()
     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
     form.addFormField("submit","1");
     httpUtils.addForm(form);
-
+#endif
     cout << "Releasing Camera" << endl;
     openCV.releaseCamera();
     ofSleepMillis(5000);
     cout << "Released Camera" << endl;
-
+#ifdef HAVE_WEB
     httpUtils.stop();
+#endif
     gui->saveSettings("GUI/Settings.xml");
     delete gui;
     projector.projectorOff();

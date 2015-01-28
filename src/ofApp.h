@@ -40,7 +40,7 @@
 //--------------------------------------------------------------
 
 #define SAVE_PATH_NUC "/root/of_v0.8.3_linux64_release/apps/myApps/ShadowingApp/bin/data/gifs/"
-
+//#define HAVE_WEB
 #define NUC
 
 using namespace ofx::IO;

@@ -176,7 +176,7 @@ void ofApp::update()
             {
                 // Capture the CV image
                 b.getNewImage(openCV.getRecordPixels());
-                blobPath.push_back(openCV.getBlobPath());
+                //blobPath.push_back(openCV.getBlobPath());
                 imageCounter++;
             }
         }
@@ -312,7 +312,8 @@ void ofApp::draw()
         masks[whichMask].draw(0,0,ofGetWidth(),ofGetHeight());
         ofDisableAlphaBlending();
     }
-//    drawMisc();
+//	openCV.draw();
+    drawMisc();
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)

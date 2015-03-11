@@ -6,12 +6,12 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Do Calibration</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
     <Name>Draw CV</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -56,32 +56,32 @@
 <Widget>
     <Kind>8</Kind>
     <Name>TRACKING_BOUNDARY</Name>
-    <Value>35.000000000</Value>
+    <Value>20.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>THRESHOLD</Name>
-    <Value>45.000000000</Value>
+    <Value>40.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>MIN_BLOB_SIZE</Name>
-    <Value>90.000000000</Value>
+    <Value>300.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>MAX_BLOB_SIZE</Name>
-    <Value>25600.000000000</Value>
+    <Value>30000.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>MAX_BLOB_NUM</Name>
-    <Value>1.000000000</Value>
+    <Value>10.000000000</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
     <Name>Fill Holes</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -91,27 +91,27 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR</Name>
-    <Value>7.000000000</Value>
+    <Value>5.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>BrightnessV</Name>
-    <Value>1.000000000</Value>
+    <Value>30.000019073</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>ContrastV</Name>
-    <Value>1.000000000</Value>
+    <Value>5.000000000</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
     <Name>Erode</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
     <Name>Dilate</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -131,12 +131,12 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR_RADIUS</Name>
-    <Value>0.100000016</Value>
+    <Value>0.049999997</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR_PASS</Name>
-    <Value>0.000000000</Value>
+    <Value>0.020000000</Value>
 </Widget>
 <Widget>
     <Kind>28</Kind>

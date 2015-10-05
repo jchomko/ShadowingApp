@@ -10,3 +10,4 @@ ofxUI
 ofxDaveOpenCV
 ofxCalibrationUtils
 ofxBlur
+ofxKinect

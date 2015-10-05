@@ -375,6 +375,10 @@ obj/linux64/Release/src/ofApp.o: src/ofApp.cpp src/ofApp.h \
  ../../../addons/ofxXmlSettings/src/ofxXmlSettings.h \
  ../../../addons/ofxXmlSettings/libs/tinyxml.h \
  ../../../addons/ofxCalibrationUtils/src/baseGui.h \
+ ../../../addons/ofxKinect/src/ofxKinect.h \
+ ../../../addons/ofxKinect/libs/libfreenect/include/libfreenect.h \
+ /usr/include/libusb-1.0/libusb.h \
+ ../../../addons/ofxKinect/src/ofxBase3DVideo.h \
  ../../../addons/ofxSimpleTimer/src/ofxSimpleTimer.h \
  ../../../addons/ofxUI/src/ofxUI.h \
  ../../../addons/ofxUI/src/ofxUIDefines.h \
@@ -1285,6 +1289,14 @@ src/ofApp.h:
 ../../../addons/ofxXmlSettings/libs/tinyxml.h:
 
 ../../../addons/ofxCalibrationUtils/src/baseGui.h:
+
+../../../addons/ofxKinect/src/ofxKinect.h:
+
+../../../addons/ofxKinect/libs/libfreenect/include/libfreenect.h:
+
+/usr/include/libusb-1.0/libusb.h:
+
+../../../addons/ofxKinect/src/ofxBase3DVideo.h:
 
 ../../../addons/ofxSimpleTimer/src/ofxSimpleTimer.h:
 

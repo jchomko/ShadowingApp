@@ -11,12 +11,12 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Draw CV</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
     <Name>Show Buffers</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -31,7 +31,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BUFFER_NUMBER</Name>
-    <Value>14.000000000</Value>
+    <Value>12.000000000</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -41,7 +41,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>Mask_No</Name>
-    <Value>1.000000000</Value>
+    <Value>4.000000000</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -56,27 +56,27 @@
 <Widget>
     <Kind>8</Kind>
     <Name>TRACKING_BOUNDARY</Name>
-    <Value>20.000000000</Value>
+    <Value>31.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>THRESHOLD</Name>
-    <Value>40.000000000</Value>
+    <Value>29.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>MIN_BLOB_SIZE</Name>
-    <Value>300.000000000</Value>
+    <Value>390.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>MAX_BLOB_SIZE</Name>
-    <Value>30000.000000000</Value>
+    <Value>76800.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>MAX_BLOB_NUM</Name>
-    <Value>10.000000000</Value>
+    <Value>4.000000000</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -86,32 +86,32 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Use Approximation</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR</Name>
-    <Value>5.000000000</Value>
+    <Value>0.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>BrightnessV</Name>
-    <Value>30.000019073</Value>
+    <Value>0.320000052</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>ContrastV</Name>
-    <Value>5.000000000</Value>
+    <Value>0.779999673</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
     <Name>Erode</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
     <Name>Dilate</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -126,23 +126,23 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Use Shader</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR_RADIUS</Name>
-    <Value>0.049999997</Value>
+    <Value>0.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR_PASS</Name>
-    <Value>0.020000000</Value>
+    <Value>0.000000000</Value>
 </Widget>
 <Widget>
     <Kind>28</Kind>
     <Name>Background_Color</Name>
-    <XValue>1.000000000</XValue>
-    <YValue>0.968503952</YValue>
+    <XValue>0.039370079</XValue>
+    <YValue>0.039370079</YValue>
     <RColor>255</RColor>
     <GColor>255</GColor>
     <BColor>255</BColor>
@@ -151,15 +151,15 @@
 <Widget>
     <Kind>28</Kind>
     <Name>Shadow_Color</Name>
-    <XValue>0.960629940</XValue>
-    <YValue>1.000000000</YValue>
-    <RColor>255</RColor>
-    <GColor>255</GColor>
-    <BColor>255</BColor>
+    <XValue>0.480314970</XValue>
+    <YValue>0.385826766</YValue>
+    <RColor>47</RColor>
+    <GColor>0</GColor>
+    <BColor>115</BColor>
     <AColor>255</AColor>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>DREAM_WAIT_TIME</Name>
-    <Value>18000.000000000</Value>
+    <Value>60000.000000000</Value>
 </Widget>

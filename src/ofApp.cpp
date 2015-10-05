@@ -93,7 +93,8 @@ void ofApp::update()
     
     // Subtraction Plus Brightness and Contrast Settings
     openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,fBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast);
-    
+    //was JsubtractionLoop
+
     learnBackground = false;
     // Do Blob Assembly
     openCV.readAndWriteBlobData(ofColor::white,ofColor::black);

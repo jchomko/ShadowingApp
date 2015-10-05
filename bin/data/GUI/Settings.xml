@@ -21,7 +21,7 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Show Data</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -101,7 +101,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>ContrastV</Name>
-    <Value>0.779999673</Value>
+    <Value>0.519999921</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>

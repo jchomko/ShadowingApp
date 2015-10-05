@@ -121,6 +121,7 @@ void ofApp::update()
         noneDream = false;
         triggerDreamTimer = true;
     }
+
     else
     {
         bSwitch = true;
@@ -132,22 +133,24 @@ void ofApp::update()
                 if (canSaveGif == true)
                 {
                     #ifdef NUC
-                    gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
+    //                gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
                     #else
-                    gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
+      //              gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
                     #endif
                     howmanyrecordings++;
                     canSaveGif = false;
                 }
-                buffers.push_front(b);
-                b.clear();
-                hasBeenPushedFlag = true;
+                //buffers.push_front(b);
+                //b.clear();
+                buffers[0].start();
+		hasBeenPushedFlag = true;
                 imageCounter = 0;
                 doCVBackgroundTimer.start(false);
             }
             else if(imageCounter < MIN_BUFFER_SIZE)
             {
-                b.clear();
+		buffers.pop_front();
+                //b.clear();
                 imageCounter = 0;
                 hasBeenPushedFlag = true;
             }
@@ -164,9 +167,11 @@ void ofApp::update()
     
     if(startRecording == true)
     {
+
         // If new frame
         if (openCV.newFrame())
         {
+	
             // Capture Gif Image every 5 frames
             if (ofGetFrameNum() % 5 == 0)
             {
@@ -175,8 +180,14 @@ void ofApp::update()
             // Capture Data according to %i number
             if (ofGetFrameNum() % 1 == 0)
             {
-                // Capture the CV image
-                b.getNewImage(openCV.getRecordPixels());
+                if(imageCounter == 0){
+			buffers.push_front(b);
+			cout << "starting new videobuffer" << endl;
+		}
+		// Capture the CV image
+		//videoBuffers.push_back(videoBuffer);
+		buffers[0].buffer.push_back(openCV.getRecordPixels());
+		//b.getNewImage(openCV.getRecordPixels());
                 //blobPath.push_back(openCV.getBlobPath());
                 imageCounter++;
             }
@@ -192,9 +203,9 @@ void ofApp::update()
         if (canSaveGif == true)
         {
             #ifdef NUC
-                gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
+//                gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
             #else
-                gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
+  //              gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
             #endif
             howmanyrecordings++;
             canSaveGif = false;
@@ -218,13 +229,13 @@ void ofApp::update()
     }
     
     // Update the Holding buffer progressors
-    if (!livebuffer.empty())
-    {
-        for (int i = 0; i < livebuffer.size(); i++)
-        {
-            livebuffer[i].update();
-        }
-    }
+    //if (!livebuffer.empty())
+   // {
+     //   for (int i = 0; i < livebuffer.size(); i++)
+     //   {
+     //       livebuffer[i].update();
+     //   }
+   // }
     
     doCVBackgroundTimer.update();
     statusTimer.update();
@@ -258,13 +269,14 @@ void ofApp::draw()
         ofRect(0, 0, 320,240);
     }
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);   
-    if (!livebuffer.empty())
-    {
-        for (int i = 0; i < livebuffer.size(); i++)
-        {
-            livebuffer[i].draw(255);
-        }
-    }
+    //if (!livebuffer.empty())
+    //{
+    //    for (int i = 0; i < livebuffer.size(); i++)
+    //    {
+    //        livebuffer[i].draw(255);
+    //    }
+    //}
+
     if (!buffers.empty())
     {
         for (int i = 0; i < buffers.size(); i++)
@@ -274,7 +286,7 @@ void ofApp::draw()
     }
 
     ofDisableBlendMode();
-   
+
     if (playbackMode == 0)
     {
         ShadowingProductionModeA();
@@ -1189,8 +1201,8 @@ void ofApp::ShadowingProductionModeA()
         
         modeString = "Shadowing Basic Mode";
         
-        buffers[0].reset();
-        buffers[0].start();
+        buffers[1].reset();
+        buffers[1].start();
         
     }
     else if(!openCV.isSomeoneThere() && dream == false && playBackLatch == false)
@@ -1198,7 +1210,7 @@ void ofApp::ShadowingProductionModeA()
         bSwitch = true;
         modeString = "Shadowing Basic Mode Stage 2";
         
-        buffers[0].start();
+        buffers[1].start();
         playBackLatch  = false;
 
         

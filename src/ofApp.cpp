@@ -245,8 +245,13 @@ void ofApp::draw()
     ofBackground(backColor);
     mainOut.begin();
     ofClear(backColor);
-    
-    if (useShader)
+
+    	ofPushStyle();
+	ofSetColor(0);
+	ofDrawBitmapString(ofGetTimestampString(),300,300);
+    	ofPopStyle();
+
+	if (useShader)
     {
         shader.begin();
         ofSetColor(255, 255);

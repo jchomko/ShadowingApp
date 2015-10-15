@@ -133,9 +133,9 @@ void ofApp::update()
                 if (canSaveGif == true)
                 {
                     #ifdef NUC
-    //                gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
+                    gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
                     #else
-      //              gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
+                    gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
                     #endif
                     howmanyrecordings++;
                     canSaveGif = false;
@@ -178,8 +178,8 @@ void ofApp::update()
                 captureFrame();
             }
             // Capture Data according to %i number
-            if (ofGetFrameNum() % 1 == 0)
-            {
+//            if (ofGetFrameNum() % 1 == 0)
+//          {
                 if(imageCounter == 0){
 			buffers.push_front(b);
 			cout << "starting new videobuffer" << endl;
@@ -190,7 +190,7 @@ void ofApp::update()
 		//b.getNewImage(openCV.getRecordPixels());
                 //blobPath.push_back(openCV.getBlobPath());
                 imageCounter++;
-            }
+    //        }
         }
     }
     else if (!startRecording)
@@ -203,9 +203,9 @@ void ofApp::update()
         if (canSaveGif == true)
         {
             #ifdef NUC
-//                gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
+                gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
             #else
-  //              gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
+                gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
             #endif
             howmanyrecordings++;
             canSaveGif = false;

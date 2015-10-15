@@ -28,7 +28,7 @@ void ofApp::setup()
     ofSetFrameRate(FRAMERATE);
     ofSetVerticalSync(true);
     loadConfig();
-    
+
     // Setup the Projector
     setupProjector();
 
@@ -40,10 +40,12 @@ void ofApp::setup()
     
     // Setup Directory Watcher
     setupDirectoryWatcher();
-    
+#ifdef HAVE_WEB    
     // Setup HTTP Stuff
     setupHTTP();
-    
+#else
+
+#endif
     // Setup CV
     setupCV();
     
@@ -78,7 +80,7 @@ void ofApp::update()
     if (livebuffer.size() > 2) {
         livebuffer.pop_back();
     }
-
+    
     //--------------------------------------------------------------
     // Custom CV mechanisms
     // Wait until we have a new frame before learning background
@@ -90,7 +92,8 @@ void ofApp::update()
     
     // Subtraction Plus Brightness and Contrast Settings
     openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,fBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast);
-    
+    //was JsubtractionLoop
+
     learnBackground = false;
     // Do Blob Assembly
     openCV.readAndWriteBlobData(ofColor::white,ofColor::black);
@@ -117,6 +120,7 @@ void ofApp::update()
         noneDream = false;
         triggerDreamTimer = true;
     }
+
     else
     {
         bSwitch = true;
@@ -135,15 +139,17 @@ void ofApp::update()
                     howmanyrecordings++;
                     canSaveGif = false;
                 }
-                buffers.push_front(b);
-                b.clear();
-                hasBeenPushedFlag = true;
+                //buffers.push_front(b);
+                //b.clear();
+                buffers[0].start();
+		hasBeenPushedFlag = true;
                 imageCounter = 0;
                 doCVBackgroundTimer.start(false);
             }
             else if(imageCounter < MIN_BUFFER_SIZE)
             {
-                b.clear();
+		buffers.pop_front();
+                //b.clear();
                 imageCounter = 0;
                 hasBeenPushedFlag = true;
             }
@@ -160,22 +166,30 @@ void ofApp::update()
     
     if(startRecording == true)
     {
+
         // If new frame
         if (openCV.newFrame())
         {
+	
             // Capture Gif Image every 5 frames
             if (ofGetFrameNum() % 5 == 0)
             {
                 captureFrame();
             }
             // Capture Data according to %i number
-            if (ofGetFrameNum() % 1 == 0)
-            {
-                // Capture the CV image
-                b.getNewImage(openCV.getRecordPixels());
-                blobPath.push_back(openCV.getBlobPath());
+//            if (ofGetFrameNum() % 1 == 0)
+//          {
+                if(imageCounter == 0){
+			buffers.push_front(b);
+			cout << "starting new videobuffer" << endl;
+		}
+		// Capture the CV image
+		//videoBuffers.push_back(videoBuffer);
+		buffers[0].buffer.push_back(openCV.getRecordPixels());
+		//b.getNewImage(openCV.getRecordPixels());
+                //blobPath.push_back(openCV.getBlobPath());
                 imageCounter++;
-            }
+    //        }
         }
     }
     else if (!startRecording)
@@ -214,13 +228,13 @@ void ofApp::update()
     }
     
     // Update the Holding buffer progressors
-    if (!livebuffer.empty())
-    {
-        for (int i = 0; i < livebuffer.size(); i++)
-        {
-            livebuffer[i].update();
-        }
-    }
+    //if (!livebuffer.empty())
+   // {
+     //   for (int i = 0; i < livebuffer.size(); i++)
+     //   {
+     //       livebuffer[i].update();
+     //   }
+   // }
     
     doCVBackgroundTimer.update();
     statusTimer.update();
@@ -241,21 +255,27 @@ void ofApp::draw()
     ofBackground(backColor);
     mainOut.begin();
     ofClear(backColor);
-    
-    if (useShader)
+
+    	ofPushStyle();
+	ofSetColor(0);
+	ofDrawBitmapString(ofGetTimestampString(),300,300);
+    	ofPopStyle();
+
+	if (useShader)
     {
         shader.begin();
         ofSetColor(255, 255);
         ofRect(0, 0, 320,240);
     }
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);   
-    if (!livebuffer.empty())
-    {
-        for (int i = 0; i < livebuffer.size(); i++)
-        {
-            livebuffer[i].draw(255);
-        }
-    }
+    //if (!livebuffer.empty())
+    //{
+    //    for (int i = 0; i < livebuffer.size(); i++)
+    //    {
+    //        livebuffer[i].draw(255);
+    //    }
+    //}
+
     if (!buffers.empty())
     {
         for (int i = 0; i < buffers.size(); i++)
@@ -265,7 +285,7 @@ void ofApp::draw()
     }
 
     ofDisableBlendMode();
-   
+
     if (playbackMode == 0)
     {
         ShadowingProductionModeA();
@@ -309,7 +329,8 @@ void ofApp::draw()
         masks[whichMask].draw(0,0,ofGetWidth(),ofGetHeight());
         ofDisableAlphaBlending();
     }
-//    drawMisc();
+//	openCV.draw();
+    drawMisc();
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -365,7 +386,8 @@ void ofApp::keyPressed(int key)
             ((ofxUILabelToggle *) gui->getWidget("Show Buffers"))->setValue(showPreviousBuffers);
             break;
         case 't':
-            // Send the Gif to the Server
+      
+#ifdef HAVE_WEB      // Send the Gif to the Server
             ofxHttpForm form;
             form.action = _statusurl;
             form.method = OFX_HTTP_POST;
@@ -376,6 +398,9 @@ void ofApp::keyPressed(int key)
             form.addFormField("submit","1");
             httpUtils.addForm(form);
             break;
+#else
+break;
+#endif
     }
 }
 //--------------------------------------------------------------
@@ -435,6 +460,7 @@ void ofApp::newResponse(ofxHttpResponse & response)
 //--------------------------------------------------------------
 void ofApp::onDirectoryWatcherItemAdded(const DirectoryWatcherManager::DirectoryEvent& evt)
 {
+
 #ifndef NUC
     if (ofIsStringInString(evt.item.path(),".gif") && evt.item.getSize() > 5000)
     {
@@ -454,6 +480,7 @@ void ofApp::onDirectoryWatcherItemAdded(const DirectoryWatcherManager::Directory
         httpUtils.addForm(form);
     }
 #endif
+
 }
 //--------------------------------------------------------------------------------------------------
 void ofApp::onDirectoryWatcherItemRemoved(const DirectoryWatcherManager::DirectoryEvent& evt){ }
@@ -464,6 +491,7 @@ void ofApp::onDirectoryWatcherItemMovedFrom(const DirectoryWatcherManager::Direc
 //--------------------------------------------------------------------------------------------------
 void ofApp::onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::DirectoryEvent& evt)
 {
+#ifdef HAVE_WEB
 #ifdef NUC
     if (ofIsStringInString(evt.item.path(),".gif") && evt.item.getSize() > 5000)
     {
@@ -483,7 +511,7 @@ void ofApp::onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::Directo
         httpUtils.addForm(form);
     }
 #endif
-    
+#endif  
 }
 //--------------------------------------------------------------------------------------------------
 void ofApp::onDirectoryWatcherError(const Poco::Exception& exc){ }
@@ -494,7 +522,7 @@ void ofApp::exit()
     
     // As it says
     cleanGifFolder();
-    
+    #ifdef HAVE_WEB
     // Send the Gif to the Server
     ofxHttpForm form;
     form.action = _statusurl;
@@ -505,13 +533,14 @@ void ofApp::exit()
     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
     form.addFormField("submit","1");
     httpUtils.addForm(form);
-
+#endif
     cout << "Releasing Camera" << endl;
     openCV.releaseCamera();
     ofSleepMillis(5000);
     cout << "Released Camera" << endl;
-
+#ifdef HAVE_WEB
     httpUtils.stop();
+#endif
     gui->saveSettings("GUI/Settings.xml");
     delete gui;
     projector.projectorOff();
@@ -1171,8 +1200,8 @@ void ofApp::ShadowingProductionModeA()
         
         modeString = "Shadowing Basic Mode";
         
-        buffers[0].reset();
-        buffers[0].start();
+        buffers[1].reset();
+        buffers[1].start();
         
     }
     else if(!openCV.isSomeoneThere() && dream == false && playBackLatch == false)
@@ -1180,7 +1209,7 @@ void ofApp::ShadowingProductionModeA()
         bSwitch = true;
         modeString = "Shadowing Basic Mode Stage 2";
         
-        buffers[0].start();
+        buffers[1].start();
         playBackLatch  = false;
 
         

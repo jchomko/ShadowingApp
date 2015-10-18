@@ -28,7 +28,7 @@ void ofApp::setup()
     ofSetFrameRate(FRAMERATE);
     ofSetVerticalSync(true);
     loadConfig();
-    
+
     // Setup the Projector
     setupProjector();
 
@@ -40,10 +40,12 @@ void ofApp::setup()
     
     // Setup Directory Watcher
     setupDirectoryWatcher();
-    
+#ifdef HAVE_WEB    
     // Setup HTTP Stuff
     setupHTTP();
-    
+#else
+
+#endif
     // Setup CV
     setupCV();
     
@@ -78,7 +80,7 @@ void ofApp::update()
     if (livebuffer.size() > 2) {
         livebuffer.pop_back();
     }
-
+    
     //--------------------------------------------------------------
     // Custom CV mechanisms
     // Wait until we have a new frame before learning background
@@ -90,7 +92,8 @@ void ofApp::update()
     
     // Subtraction Plus Brightness and Contrast Settings
     openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,fBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast);
-    
+    //was JsubtractionLoop
+
     learnBackground = false;
     // Do Blob Assembly
     openCV.readAndWriteBlobData(ofColor::white,ofColor::black);
@@ -117,6 +120,7 @@ void ofApp::update()
         noneDream = false;
         triggerDreamTimer = true;
     }
+
     else
     {
         bSwitch = true;
@@ -135,15 +139,17 @@ void ofApp::update()
                     howmanyrecordings++;
                     canSaveGif = false;
                 }
-                buffers.push_front(b);
-                b.clear();
-                hasBeenPushedFlag = true;
+                //buffers.push_front(b);
+                //b.clear();
+                buffers[0].start();
+		hasBeenPushedFlag = true;
                 imageCounter = 0;
                 doCVBackgroundTimer.start(false);
             }
             else if(imageCounter < MIN_BUFFER_SIZE)
             {
-                b.clear();
+		buffers.pop_front();
+                //b.clear();
                 imageCounter = 0;
                 hasBeenPushedFlag = true;
             }
@@ -157,7 +163,7 @@ void ofApp::update()
             //Do nothing
         }
     }
-    
+
     if(startRecording == true)
     {
         // If new frame
@@ -168,21 +174,19 @@ void ofApp::update()
             {
                 captureFrame();
             }
-            // Capture Data according to %i number
-            if (ofGetFrameNum() % 1 == 0)
-            {
-                // Capture the CV image
-                b.getNewImage(openCV.getRecordPixels());
-                blobPath.push_back(openCV.getBlobPath());
+                if(imageCounter == 0){
+			buffers.push_front(b);
+			cout << "starting new videobuffer" << endl;
+		}
+		// Capture the CV image
+		//videoBuffers.push_back(videoBuffer);
+		buffers[0].buffer.push_back(openCV.getRecordPixels());
+		//b.getNewImage(openCV.getRecordPixels());
+                //blobPath.push_back(openCV.getBlobPath());
                 imageCounter++;
-            }
         }
     }
-    else if (!startRecording)
-    {
-        
-    }
-    
+
     if(!openCV.isSomeoneThere())
     {
         if (canSaveGif == true)
@@ -197,13 +201,13 @@ void ofApp::update()
         }
         stopLoop = true;
     }
-    
+
     if (!openCV.isSomeoneThere() && triggerDreamTimer == true)
     {
         activityTimer.start(false);
         triggerDreamTimer = false;
     }
-    
+
     // Update the buffer progressors
     if (!buffers.empty())
     {
@@ -212,20 +216,11 @@ void ofApp::update()
             buffers[i].update();
         }
     }
-    
-    // Update the Holding buffer progressors
-    if (!livebuffer.empty())
-    {
-        for (int i = 0; i < livebuffer.size(); i++)
-        {
-            livebuffer[i].update();
-        }
-    }
-    
+
     doCVBackgroundTimer.update();
     statusTimer.update();
     activityTimer.update();
-    
+
     if (cursorDisplay == true)
     {
         ofShowCursor();
@@ -241,21 +236,20 @@ void ofApp::draw()
     ofBackground(backColor);
     mainOut.begin();
     ofClear(backColor);
-    
-    if (useShader)
+
+    	ofPushStyle();
+	ofSetColor(0);
+	ofDrawBitmapString(ofGetTimestampString(),300,300);
+    	ofPopStyle();
+
+	if (useShader)
     {
         shader.begin();
         ofSetColor(255, 255);
         ofRect(0, 0, 320,240);
     }
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);   
-    if (!livebuffer.empty())
-    {
-        for (int i = 0; i < livebuffer.size(); i++)
-        {
-            livebuffer[i].draw(255);
-        }
-    }
+
     if (!buffers.empty())
     {
         for (int i = 0; i < buffers.size(); i++)
@@ -265,24 +259,12 @@ void ofApp::draw()
     }
 
     ofDisableBlendMode();
-   
-    if (playbackMode == 0)
-    {
-        ShadowingProductionModeA();
-    }
-    else if (playbackMode == 1)
-    {
-	ShadowingProductionModeA();
-    }
-    else if (playbackMode == 2)
-    {
 
-    }
-    else
-    {
-	
-    }
-    
+//    if (playbackMode == 0)
+//    {
+        ShadowingProductionModeA();
+//    }
+
     if (useShader)
     {
         shader.end();
@@ -293,14 +275,10 @@ void ofApp::draw()
     mainOut.end();
 
 //-------------Main Drawing Mechanism-----------
-//----------------------------------------------
-//----------------------------------------------
     ofSetColor(255, 255, 255);
     mainOut.draw(0,0,ofGetWidth(),ofGetHeight());
 //----------------------------------------------
-//----------------------------------------------
-    
-    
+
     // As it implies does alpha layering and draws mask to blur the edges of the projection
     if (drawMask)
     {
@@ -309,7 +287,9 @@ void ofApp::draw()
         masks[whichMask].draw(0,0,ofGetWidth(),ofGetHeight());
         ofDisableAlphaBlending();
     }
-//    drawMisc();
+    drawMisc();
+    openCV.drawGui();
+
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -357,7 +337,8 @@ void ofApp::keyPressed(int key)
             ((ofxUILabelToggle *) gui->getWidget("Show Data"))->setValue(canDrawData);
             break;
         case 'v':
-            drawCV = !drawCV;
+            openCV.toggleGui();
+	    drawCV = !drawCV;
             ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
             break;
         case 'b':
@@ -365,7 +346,8 @@ void ofApp::keyPressed(int key)
             ((ofxUILabelToggle *) gui->getWidget("Show Buffers"))->setValue(showPreviousBuffers);
             break;
         case 't':
-            // Send the Gif to the Server
+      
+#ifdef HAVE_WEB      // Send the Gif to the Server
             ofxHttpForm form;
             form.action = _statusurl;
             form.method = OFX_HTTP_POST;
@@ -376,6 +358,9 @@ void ofApp::keyPressed(int key)
             form.addFormField("submit","1");
             httpUtils.addForm(form);
             break;
+#else
+break;
+#endif
     }
 }
 //--------------------------------------------------------------
@@ -435,6 +420,7 @@ void ofApp::newResponse(ofxHttpResponse & response)
 //--------------------------------------------------------------
 void ofApp::onDirectoryWatcherItemAdded(const DirectoryWatcherManager::DirectoryEvent& evt)
 {
+
 #ifndef NUC
     if (ofIsStringInString(evt.item.path(),".gif") && evt.item.getSize() > 5000)
     {
@@ -454,6 +440,7 @@ void ofApp::onDirectoryWatcherItemAdded(const DirectoryWatcherManager::Directory
         httpUtils.addForm(form);
     }
 #endif
+
 }
 //--------------------------------------------------------------------------------------------------
 void ofApp::onDirectoryWatcherItemRemoved(const DirectoryWatcherManager::DirectoryEvent& evt){ }
@@ -464,6 +451,7 @@ void ofApp::onDirectoryWatcherItemMovedFrom(const DirectoryWatcherManager::Direc
 //--------------------------------------------------------------------------------------------------
 void ofApp::onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::DirectoryEvent& evt)
 {
+#ifdef HAVE_WEB
 #ifdef NUC
     if (ofIsStringInString(evt.item.path(),".gif") && evt.item.getSize() > 5000)
     {
@@ -483,7 +471,7 @@ void ofApp::onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::Directo
         httpUtils.addForm(form);
     }
 #endif
-    
+#endif  
 }
 //--------------------------------------------------------------------------------------------------
 void ofApp::onDirectoryWatcherError(const Poco::Exception& exc){ }
@@ -494,7 +482,7 @@ void ofApp::exit()
     
     // As it says
     cleanGifFolder();
-    
+    #ifdef HAVE_WEB
     // Send the Gif to the Server
     ofxHttpForm form;
     form.action = _statusurl;
@@ -505,13 +493,14 @@ void ofApp::exit()
     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
     form.addFormField("submit","1");
     httpUtils.addForm(form);
-
+#endif
     cout << "Releasing Camera" << endl;
     openCV.releaseCamera();
     ofSleepMillis(5000);
     cout << "Released Camera" << endl;
-
+#ifdef HAVE_WEB
     httpUtils.stop();
+#endif
     gui->saveSettings("GUI/Settings.xml");
     delete gui;
     projector.projectorOff();
@@ -710,7 +699,8 @@ void ofApp::setupMasks()
 void ofApp::setupTimers()
 {
     statusTimer.setup(STATUS_TIMER); // Every 2 minutes 1000 millis * 60 seconds * 2
-    activityTimer.setup(15000);
+	//activity timer is dream timer
+	activityTimer.setup(30000);
     doCVBackgroundTimer.setup(5000);
     
     ofAddListener(activityTimer.TIMER_STARTED, this, &ofApp::activityTimerStarted);
@@ -1171,8 +1161,8 @@ void ofApp::ShadowingProductionModeA()
         
         modeString = "Shadowing Basic Mode";
         
-        buffers[0].reset();
-        buffers[0].start();
+        buffers[1].reset();
+        buffers[1].start();
         
     }
     else if(!openCV.isSomeoneThere() && dream == false && playBackLatch == false)
@@ -1180,7 +1170,7 @@ void ofApp::ShadowingProductionModeA()
         bSwitch = true;
         modeString = "Shadowing Basic Mode Stage 2";
         
-        buffers[0].start();
+        buffers[1].start();
         playBackLatch  = false;
 
         

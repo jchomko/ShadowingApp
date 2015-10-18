@@ -20,6 +20,7 @@
 #include "ofxHttpUtils.h"
 #include "ofxBlur.h"
 
+
 #define CAM_WIDTH 320
 #define CAM_HEIGHT 240
 #define FRAMERATE 30
@@ -38,8 +39,9 @@
 //* 8 = Lower Ashley Road
 //* 9 = Dame Emily Park
 //--------------------------------------------------------------
-#define SAVE_PATH_NUC "/root/of_v0.8.3_linux64_release/apps/myApps/ShadowingApp/bin/data/gifs/"
 
+#define SAVE_PATH_NUC "/root/of_v0.8.3_linux64_release/apps/myApps/ShadowingApp/bin/data/gifs/"
+//#define HAVE_WEB
 #define NUC
 
 using namespace ofx::IO;

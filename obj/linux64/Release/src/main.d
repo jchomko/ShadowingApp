@@ -375,6 +375,20 @@ obj/linux64/Release/src/main.o: src/main.cpp \
  ../../../addons/ofxXmlSettings/src/ofxXmlSettings.h \
  ../../../addons/ofxXmlSettings/libs/tinyxml.h \
  ../../../addons/ofxCalibrationUtils/src/baseGui.h \
+ ../../../addons/ofxKinect/src/ofxKinect.h \
+ ../../../addons/ofxKinect/libs/libfreenect/include/libfreenect.h \
+ /usr/include/libusb-1.0/libusb.h \
+ ../../../addons/ofxKinect/src/ofxBase3DVideo.h \
+ ../../../addons/ofxV4L2Settings/src/ofxV4L2Settings.h \
+ ../../../addons/ofxGui/src/ofxGui.h \
+ ../../../addons/ofxGui/src/ofxToggle.h \
+ ../../../addons/ofxGui/src/ofxBaseGui.h \
+ ../../../addons/ofxGui/src/ofxSlider.h \
+ ../../../addons/ofxGui/src/ofxSliderGroup.h \
+ ../../../addons/ofxGui/src/ofxGuiGroup.h \
+ ../../../addons/ofxGui/src/ofxButton.h \
+ ../../../addons/ofxGui/src/ofxPanel.h \
+ ../../../addons/ofxGui/src/ofxLabel.h \
  ../../../addons/ofxSimpleTimer/src/ofxSimpleTimer.h \
  ../../../addons/ofxUI/src/ofxUI.h \
  ../../../addons/ofxUI/src/ofxUIDefines.h \
@@ -1285,6 +1299,34 @@ src/ofApp.h:
 ../../../addons/ofxXmlSettings/libs/tinyxml.h:
 
 ../../../addons/ofxCalibrationUtils/src/baseGui.h:
+
+../../../addons/ofxKinect/src/ofxKinect.h:
+
+../../../addons/ofxKinect/libs/libfreenect/include/libfreenect.h:
+
+/usr/include/libusb-1.0/libusb.h:
+
+../../../addons/ofxKinect/src/ofxBase3DVideo.h:
+
+../../../addons/ofxV4L2Settings/src/ofxV4L2Settings.h:
+
+../../../addons/ofxGui/src/ofxGui.h:
+
+../../../addons/ofxGui/src/ofxToggle.h:
+
+../../../addons/ofxGui/src/ofxBaseGui.h:
+
+../../../addons/ofxGui/src/ofxSlider.h:
+
+../../../addons/ofxGui/src/ofxSliderGroup.h:
+
+../../../addons/ofxGui/src/ofxGuiGroup.h:
+
+../../../addons/ofxGui/src/ofxButton.h:
+
+../../../addons/ofxGui/src/ofxPanel.h:
+
+../../../addons/ofxGui/src/ofxLabel.h:
 
 ../../../addons/ofxSimpleTimer/src/ofxSimpleTimer.h:
 

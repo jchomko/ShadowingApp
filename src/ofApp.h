@@ -20,6 +20,7 @@
 #include "ofxHttpUtils.h"
 #include "ofxBlur.h"
 
+
 #define CAM_WIDTH 320
 #define CAM_HEIGHT 240
 #define FRAMERATE 30

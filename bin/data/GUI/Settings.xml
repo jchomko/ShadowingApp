@@ -11,7 +11,7 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Draw CV</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -21,7 +21,7 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Show Data</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -61,7 +61,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>THRESHOLD</Name>
-    <Value>29.000000000</Value>
+    <Value>27.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -81,7 +81,7 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Fill Holes</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -91,17 +91,17 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR</Name>
-    <Value>0.000000000</Value>
+    <Value>0.400000006</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>BrightnessV</Name>
-    <Value>0.320000052</Value>
+    <Value>0.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>ContrastV</Name>
-    <Value>0.519999921</Value>
+    <Value>0.160000056</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -111,7 +111,7 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Dilate</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -126,12 +126,12 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Use Shader</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR_RADIUS</Name>
-    <Value>0.000000000</Value>
+    <Value>0.020000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -161,5 +161,5 @@
 <Widget>
     <Kind>8</Kind>
     <Name>DREAM_WAIT_TIME</Name>
-    <Value>60000.000000000</Value>
+    <Value>120000.000000000</Value>
 </Widget>

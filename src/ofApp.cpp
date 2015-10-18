@@ -331,6 +331,8 @@ void ofApp::draw()
     }
 //	openCV.draw();
     drawMisc();
+    openCV.drawGui();
+
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -378,7 +380,8 @@ void ofApp::keyPressed(int key)
             ((ofxUILabelToggle *) gui->getWidget("Show Data"))->setValue(canDrawData);
             break;
         case 'v':
-            drawCV = !drawCV;
+            openCV.toggleGui();
+	    drawCV = !drawCV;
             ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
             break;
         case 'b':

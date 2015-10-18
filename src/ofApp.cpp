@@ -291,6 +291,136 @@ void ofApp::draw()
     openCV.drawGui();
 
 }
+
+
+//--------------------------------------------------------------
+//* Production BASIC A - Walking under light triggers the most recent recording
+//* Then playback the new recorded buffer
+//* Then playback the previous buffers sequentially
+//* If no users, Do the Dream State
+//--------------------------------------------------------------
+//--------------------------------------------------------------
+void ofApp::ShadowingProductionModeA()
+{
+// This will change the Blend Modes according to the brightness of FBO
+    if (backColor.getBrightness() >= 125)
+    {
+        ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+    }
+    else if (backColor.getBrightness() <= 124)
+    {
+        ofEnableBlendMode(OF_BLENDMODE_ADD);
+    }
+    else
+    {
+        // Nothing
+    }
+    
+    if(openCV.isSomeoneThere() && openCV.isSomeoneThere() != lastPresentState && buffers.size() > 0 && buffers[0].isNearlyFinished())
+    {
+        
+        playBackLatch = false;
+        
+        modeString = "Shadowing Basic Mode";
+        
+        buffers[1].reset();
+        buffers[1].start();
+        
+    }
+    else if(!openCV.isSomeoneThere() && dream == false && playBackLatch == false)
+    {
+        bSwitch = true;
+        modeString = "Shadowing Basic Mode Stage 2";
+        
+        buffers[1].start();
+        playBackLatch  = false;
+
+        
+    }
+    else if(dream == true)
+    {
+            // Dream Sequentially
+            ShadowingDreamStateB();
+            
+    }
+    lastPresentState = openCV.isSomeoneThere();
+    ofDisableBlendMode(); 
+}
+
+//--------------------------------------------------------------
+//* Dream state - Play the buffers Sequentially
+//--------------------------------------------------------------
+void ofApp::ShadowingDreamStateB()
+{
+    modeString = "Dreaming Sequentially";
+    // Check if the buffers are live. Start and Draw the first element in the vector.
+    // When the buffer has finished playing the iterate to the next buffer
+    if (!buffers.empty())
+    {
+        buffers[whichBufferAreWePlaying].start();
+        
+        // This will change the Blend Modes according to the brightness of FBO
+        if (backColor.getBrightness() >=125)
+        {
+            ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+        }
+        else if (backColor.getBrightness() <= 124)
+        {
+            ofEnableBlendMode(OF_BLENDMODE_ADD);
+        }
+        else
+        {
+            // Nothing
+        }
+        //buffers[whichBufferAreWePlaying].draw(255);
+        ofDisableBlendMode();
+        
+        if (buffers.size() > 2)
+        {
+            if (buffers[whichBufferAreWePlaying].isFinished() && randomWaitLatch == false)
+            {
+                randomWaitTimer = ofGetElapsedTimeMillis() + ofRandom(1000,4000);
+        randomWaitLatch = true;
+        // Reset the Awaiting buffer otherwise nothing will happen
+                // buffers[whichBufferAreWePlaying+1].reset();
+                // Progress the Buffer Counter
+                // whichBufferAreWePlaying++;
+                // buffers[whichBufferAreWePlaying].start();
+            }
+        }
+    if (buffers.size() > 2)
+    {
+            if (randomWaitLatch && ofGetElapsedTimeMillis() > randomWaitTimer)
+        {
+            if (whichBufferAreWePlaying >= buffers.size())
+                {
+                        // Reset the first Buffer
+                        buffers[0].reset();
+                        // Go back to the start and Await my instructions
+                        whichBufferAreWePlaying = 0;
+                    buffers[whichBufferAreWePlaying].start();
+                randomWaitLatch = false;
+                }
+            else
+            {
+                buffers[whichBufferAreWePlaying+1].reset();
+                whichBufferAreWePlaying++;
+                buffers[whichBufferAreWePlaying].start();
+                randomWaitLatch = false;
+            }   
+        }
+
+    }
+    if (whichBufferAreWePlaying >= buffers.size())
+    {
+        buffers[0].reset();
+        whichBufferAreWePlaying = 0;
+        buffers[whichBufferAreWePlaying].start();
+    }
+    }
+}
+
+
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
@@ -819,7 +949,7 @@ void ofApp::CVTimerComplete(int &args)
 //--------------------------------------------------------------
 void ofApp::activityTimerComplete(int &args)
 {
-    	cout << "Timer Complete" << endl;
+    cout << "Timer Complete - dreaming starts now" << endl;
 	noneDream = false;
 	dream = true;
 }
@@ -868,515 +998,8 @@ void ofApp::drawMisc()
         drawData();
     }
 }
-//--------------------------------------------------------------
-//* Here are all the Buffer Playback Functions
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-//* Live Delayed Shadow - Participants Shadow a second behind live action
-//--------------------------------------------------------------
-void ofApp::playSlowShadow()
-{
-    ofSetColor(255);
-    if (!videoImage.empty())
-    {
-        videoImage[liveShadowProgress].draw(0, 0, ofGetWidth(),ofGetHeight());
-    }
-    
-    if(openCV.isSomeoneThere())
-    {
-        if (!buffers.empty())
-        {
-            buffers[0].start();
-        }
-    }
-    
-    // Draw the first buffer in the Vector
-    if (!buffers.empty())
-    {
-        if (backColor.getBrightness() >=125)
-        {
-            ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-        }
-        else if (backColor.getBrightness() <= 124)
-        {
-            ofEnableBlendMode(OF_BLENDMODE_ADD);
-        }
-        else
-        {
-            
-        }
-        openCV.drawLiveShadow();
-        buffers[0].draw(255);
-        ofDisableBlendMode();
-    }
-}
-//--------------------------------------------------------------
-//* SHADOWING STATES AND FUNCTIONS
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-//* THESE ARE THE NEW PLAYBACK STATES
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-//* Dream state - Play all the buffers in memory simultaneously
-//* Layered
-//--------------------------------------------------------------
-void ofApp::ShadowingDreamStateA()
-{
-    modeString = "Dreaming About Everybody";
-    if (!buffers.empty())
-    {
-        for (int i = 0; i < buffers.size(); i++)
-        {
-            buffers[i].start();
-        }
-    }
-    
-    if (!buffers.empty())
-    {
-        for (int i = 0; i < buffers.size(); i++)
-        {
-            if (buffers[i].isFinished())
-            {
-                buffers[i].reset();
-            }
-        }
-    }
-    
-    if (!buffers.empty())
-    {
-        for (int i = 0; i < buffers.size(); i++)
-        {
-            // This will change the Blend Modes according to the brightness of FBO
-            if (backColor.getBrightness() >=125)
-            {
-                ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-            }
-            else if (backColor.getBrightness() <= 124)
-            {
-                ofEnableBlendMode(OF_BLENDMODE_ADD);
-            }
-            else
-            {
-                // Nothing
-            }
-            
-            buffers[i].draw(255);
-            ofDisableBlendMode();
-        }
-    }
-}
-//--------------------------------------------------------------
-//* Dream state - Play the buffers Sequentially
-//--------------------------------------------------------------
-void ofApp::ShadowingDreamStateB()
-{
-    modeString = "Dreaming Sequentially";
-    // Check if the buffers are live. Start and Draw the first element in the vector.
-    // When the buffer has finished playing the iterate to the next buffer
-    if (!buffers.empty())
-    {
-        buffers[whichBufferAreWePlaying].start();
-        
-        // This will change the Blend Modes according to the brightness of FBO
-        if (backColor.getBrightness() >=125)
-        {
-            ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-        }
-        else if (backColor.getBrightness() <= 124)
-        {
-            ofEnableBlendMode(OF_BLENDMODE_ADD);
-        }
-        else
-        {
-            // Nothing
-        }
-        //buffers[whichBufferAreWePlaying].draw(255);
-        ofDisableBlendMode();
-        
-        if (buffers.size() > 2)
-        {
-            if (buffers[whichBufferAreWePlaying].isFinished() && randomWaitLatch == false)
-            {
-                randomWaitTimer = ofGetElapsedTimeMillis() + ofRandom(1000,4000);
-		randomWaitLatch = true;
-		// Reset the Awaiting buffer otherwise nothing will happen
-                // buffers[whichBufferAreWePlaying+1].reset();
-                // Progress the Buffer Counter
-                // whichBufferAreWePlaying++;
-                // buffers[whichBufferAreWePlaying].start();
-            }
-        }
-	if (buffers.size() > 2)
-	{
-        	if (randomWaitLatch && ofGetElapsedTimeMillis() > randomWaitTimer)
-		{
-			if (whichBufferAreWePlaying >= buffers.size())
-        		{
-            			// Reset the first Buffer
-	            		buffers[0].reset();
-        	    		// Go back to the start and Await my instructions
-            			whichBufferAreWePlaying = 0;
-           			buffers[whichBufferAreWePlaying].start();
-				randomWaitLatch = false;
-        		}
-			else
-			{
-				buffers[whichBufferAreWePlaying+1].reset();
-				whichBufferAreWePlaying++;
-				buffers[whichBufferAreWePlaying].start();
-				randomWaitLatch = false;
-			}	
-		}
 
-	}
-	if (whichBufferAreWePlaying >= buffers.size())
-	{
-		buffers[0].reset();
-		whichBufferAreWePlaying = 0;
-		buffers[whichBufferAreWePlaying].start();
-	}
-    }
-}
-//--------------------------------------------------------------
-//* THESE ARE THE NEW PLAYBACK FUNCTIONS
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-//* Default - Walking under light triggers the most recent recording
-//* Whilst recording the current shadow (Repeats)
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-void ofApp::ShadowingDefaultMode()
-{
-    modeString = "Default Shadowing";
-    if(openCV.isSomeoneThere())
-    {
-        if (!buffers.empty())
-        {
-            buffers[0].start();
-            buffers[0].draw(255);
-            
-            if (buffers[0].isFinished())
-            {
-                buffers[0].reset();
-            }
-        }
-    }
-}
-//--------------------------------------------------------------
-//* Default No Loop - Walking under light triggers the most recent recording
-//* Whilst recording the current shadow (Repeats)
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-void ofApp::ShadowingDefaultModeNoLoop()
-{
-    modeString = "Default Shadowing No Loop";
-    if(openCV.isSomeoneThere())
-    {
-        if (!buffers.empty())
-        {
-            buffers[0].start();
-            buffers[0].draw(255);
-            
-            if (buffers[0].isFinished())
-            {
-                buffers[0].stop();
-            }
-        }
-    }
-}
-//--------------------------------------------------------------
-//* Default Mirrored - Walking under light triggers the most recent recording
-//* Whilst recording the current shadow (Repeats)
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-void ofApp::ShadowingDefaultMirroredMode()
-{
-    modeString = "Default Mirrored Shadowing";
-    if(openCV.isSomeoneThere())
-    {
-        if (!buffers.empty())
-        {
-            buffers[0].start();
-            // Past Version
-            buffers[0].draw(255);
-            
-            if (buffers[0].isFinished())
-            {
-                buffers[0].reset();
-            }
-        }
-    }
-    if (backColor.getBrightness() >=125)
-    {
-        ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-    }
-    else if (backColor.getBrightness() <= 124)
-    {
-        ofEnableBlendMode(OF_BLENDMODE_ADD);
-    }
-    else
-    {
-        
-    }
-    // This is the Mirrored Version
-    ofSetColor(255);
-    if (!videoImage.empty())
-    {
-        ofImage reverseImg;
-        reverseImg.setFromPixels(openCV.getRecordPixels());
-        reverseImg.mirror(false, true);
-        reverseImg.draw(0,0, 320, 240);
-    }
-    // Live Version
-    openCV.drawLiveShadow();
-    ofDisableBlendMode();
-}
-//--------------------------------------------------------------
-//* Production BASIC A - Walking under light triggers the most recent recording
-//* Then playback the new recorded buffer
-//* Then playback the previous buffers sequentially
-//* If no users, Do the Dream State
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-void ofApp::ShadowingProductionModeA()
-{
-// This will change the Blend Modes according to the brightness of FBO
-    if (backColor.getBrightness() >= 125)
-    {
-        ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-    }
-    else if (backColor.getBrightness() <= 124)
-    {
-        ofEnableBlendMode(OF_BLENDMODE_ADD);
-    }
-    else
-    {
-        // Nothing
-    }
-    
-    if(openCV.isSomeoneThere() && openCV.isSomeoneThere() != lastPresentState && buffers.size() > 0 && buffers[0].isNearlyFinished())
-    {
-        
-        playBackLatch = false;
-        
-        modeString = "Shadowing Basic Mode";
-        
-        buffers[1].reset();
-        buffers[1].start();
-        
-    }
-    else if(!openCV.isSomeoneThere() && dream == false && playBackLatch == false)
-    {
-        bSwitch = true;
-        modeString = "Shadowing Basic Mode Stage 2";
-        
-        buffers[1].start();
-        playBackLatch  = false;
 
-        
-    }
-    else if(dream == true)
-    {
-            // Dream Sequentially
-            ShadowingDreamStateB();
-            
-    }
-    lastPresentState = openCV.isSomeoneThere();
-    ofDisableBlendMode(); 
-}
-//--------------------------------------------------------------
-//* Production BASIC A - Walking under light triggers the most recent recording
-//* Then playback the new recorded buffer
-//* Then playback the previous buffers sequentially
-//* If no users, Do the Dream State
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-void ofApp::ShadowingProductionModeB()
-{
-    // Default Dream State B
-    
-    // If under light but not in zone fade out dream state
-    
-    // If in trigger area Start recording and Playback most recent recording
-    
-    // When user exits playback recording
-    
-    // If no-one there Dream State B
-}
-//--------------------------------------------------------------
-//* Production BASIC A - Walking under light triggers the most recent recording
-//* Then playback the new recorded buffer
-//* Then playback the previous buffers sequentially
-//* If no users, Do the Dream State
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-void ofApp::ShadowingProductionTest()
-{
-    
-    ofPushStyle();
-    for (int i = 0; i < buffers.size(); i++)
-    {
-        buffers[i].draw(255);
-    }
-    
-    ofPopStyle();
-    
-}
-//--------------------------------------------------------------
-//* BASIC B - Walking under light triggers the most recent recording
-//* Then playback the new recorded buffer
-//* Then playback the previous buffers sequentially
-//* If no users, Do the Dream State
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-void ofApp::ShadowingModeA()
-{
-    // If someone is there play the last shadow
-    if(openCV.isSomeoneThere())
-    {
-        modeString = "Shadowing Mode A";
-        if (!buffers.empty())
-        {
-            buffers[0].start();
-            buffers[0].draw(255);
-        }
-    }
-    else if(!openCV.isSomeoneThere() && dream == false)
-    {
-        dream = true;
-    }
-    else if(dream == true)
-    {
-        // Dream Sequentially
-        ShadowingDreamStateB();
-    }
-}
-//--------------------------------------------------------------
-//* BASIC B - Walking under light triggers the most recent recording
-//* Then Dreams of Everybody
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-void ofApp::ShadowingModeB()
-{
-    if(openCV.isSomeoneThere())
-    {
-        modeString = "Shadowing Mode B";
-        if (!buffers.empty())
-        {
-            buffers[0].start();
-            buffers[0].draw(255);
-        }
-    }
-    else if(!openCV.isSomeoneThere() && dream == false)
-    {
-        dream = true;
-    }
-    else if(dream == true)
-    {
-        //Dream of Everybody
-        ShadowingDreamStateA();
-    }
-}
-//--------------------------------------------------------------
-//* Here are all the Buffer Playback Functions
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-void ofApp::ShadowingModeC()
-{
-    
-    
-}
-//--------------------------------------------------------------
-//* Here are all the Buffer Playback Functions
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-void ofApp::ShadowingModeD()
-{
-    if (!buffers.empty())
-    {
-        if (openCV.isSomeoneInTheLight() && !buffers[whichBufferAreWePlaying].isFinished())
-        {
-            ofDrawBitmapStringHighlight("Not finished yet", ofGetWidth()/2,ofGetHeight()/2);
-        }
-        else if (openCV.isSomeoneInTheLight() && buffers[whichBufferAreWePlaying].isFinished())
-        {
-            ofDrawBitmapStringHighlight("Finished Buffer", ofGetWidth()/2,ofGetHeight()/2);
-        }
-        else
-        {
-            
-        }
-    }
-    else if(!openCV.isSomeoneThere() && dream == false)
-    {
-        dream = true;
-    }
-    else if(dream == true)
-    {
-        ShadowingDreamStateB();
-    }
-}
-//--------------------------------------------------------------
-//* Here are all the Buffer Playback Functions
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-void ofApp::ShadowingModeE()
-{
-    
-    
-}
-//--------------------------------------------------------------
-//* Here are all the Buffer Playback Functions
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-void ofApp::ShadowingModeF()
-{
-    
-    
-}
-//--------------------------------------------------------------
-//* Here are all the Buffer Playback Functions
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-void ofApp::ShadowingModeG()
-{
-    modeString = "Live Image and Buffer";
-    if(openCV.isSomeoneThere())
-    {
-        if (!buffers.empty())
-        {
-            buffers[0].start();
-        }
-    }
-    
-    // Draw the first buffer in the Vector
-    if (!buffers.empty())
-    {
-        openCV.drawLiveShadow();
-        if (backColor.getBrightness() >=125)
-        {
-            ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-        }
-        else if (backColor.getBrightness() <= 124)
-        {
-            ofEnableBlendMode(OF_BLENDMODE_ADD);
-        }
-        else
-        {
-            
-        }
-        buffers[0].draw(255);
-        ofDisableBlendMode();
-    }
-}
-//--------------------------------------------------------------
-//* Here are all the Buffer Playback Functions
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-void ofApp::ShadowingModeH()
-{
-    ShadowingDefaultModeNoLoop();
-}
 //--------------------------------------------------------------
 void ofApp::guiEvent(ofxUIEventArgs &e)
 {
@@ -1604,3 +1227,54 @@ void ofApp::drawData()
     ofDrawBitmapStringHighlight(debugData.str(), 5,ofGetHeight()/2);
 
 }
+
+
+//Extra modes:
+
+void ofApp::ShadowingDreamStateA()
+{
+    modeString = "Dreaming About Everybody";
+    if (!buffers.empty())
+    {
+        for (int i = 0; i < buffers.size(); i++)
+        {
+            buffers[i].start();
+        }
+    }
+    
+    if (!buffers.empty())
+    {
+        for (int i = 0; i < buffers.size(); i++)
+        {
+            if (buffers[i].isFinished())
+            {
+                buffers[i].reset();
+            }
+        }
+    }
+    
+    if (!buffers.empty())
+    {
+        for (int i = 0; i < buffers.size(); i++)
+        {
+            // This will change the Blend Modes according to the brightness of FBO
+            if (backColor.getBrightness() >=125)
+            {
+                ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+            }
+            else if (backColor.getBrightness() <= 124)
+            {
+                ofEnableBlendMode(OF_BLENDMODE_ADD);
+            }
+            else
+            {
+                // Nothing
+            }
+            
+            buffers[i].draw(255);
+            ofDisableBlendMode();
+        }
+    }
+}
+
+

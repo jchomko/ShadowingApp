@@ -161,5 +161,5 @@
 <Widget>
     <Kind>8</Kind>
     <Name>DREAM_WAIT_TIME</Name>
-    <Value>120000.000000000</Value>
+    <Value>60000.000000000</Value>
 </Widget>

@@ -163,22 +163,17 @@ void ofApp::update()
             //Do nothing
         }
     }
-    
+
     if(startRecording == true)
     {
-
         // If new frame
         if (openCV.newFrame())
         {
-	
             // Capture Gif Image every 5 frames
             if (ofGetFrameNum() % 5 == 0)
             {
                 captureFrame();
             }
-            // Capture Data according to %i number
-//            if (ofGetFrameNum() % 1 == 0)
-//          {
                 if(imageCounter == 0){
 			buffers.push_front(b);
 			cout << "starting new videobuffer" << endl;
@@ -189,14 +184,9 @@ void ofApp::update()
 		//b.getNewImage(openCV.getRecordPixels());
                 //blobPath.push_back(openCV.getBlobPath());
                 imageCounter++;
-    //        }
         }
     }
-    else if (!startRecording)
-    {
-        
-    }
-    
+
     if(!openCV.isSomeoneThere())
     {
         if (canSaveGif == true)
@@ -211,13 +201,13 @@ void ofApp::update()
         }
         stopLoop = true;
     }
-    
+
     if (!openCV.isSomeoneThere() && triggerDreamTimer == true)
     {
         activityTimer.start(false);
         triggerDreamTimer = false;
     }
-    
+
     // Update the buffer progressors
     if (!buffers.empty())
     {
@@ -226,20 +216,11 @@ void ofApp::update()
             buffers[i].update();
         }
     }
-    
-    // Update the Holding buffer progressors
-    //if (!livebuffer.empty())
-   // {
-     //   for (int i = 0; i < livebuffer.size(); i++)
-     //   {
-     //       livebuffer[i].update();
-     //   }
-   // }
-    
+
     doCVBackgroundTimer.update();
     statusTimer.update();
     activityTimer.update();
-    
+
     if (cursorDisplay == true)
     {
         ofShowCursor();
@@ -268,13 +249,6 @@ void ofApp::draw()
         ofRect(0, 0, 320,240);
     }
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);   
-    //if (!livebuffer.empty())
-    //{
-    //    for (int i = 0; i < livebuffer.size(); i++)
-    //    {
-    //        livebuffer[i].draw(255);
-    //    }
-    //}
 
     if (!buffers.empty())
     {
@@ -290,19 +264,7 @@ void ofApp::draw()
     {
         ShadowingProductionModeA();
     }
-    else if (playbackMode == 1)
-    {
-	ShadowingProductionModeA();
-    }
-    else if (playbackMode == 2)
-    {
 
-    }
-    else
-    {
-	
-    }
-    
     if (useShader)
     {
         shader.end();
@@ -313,14 +275,10 @@ void ofApp::draw()
     mainOut.end();
 
 //-------------Main Drawing Mechanism-----------
-//----------------------------------------------
-//----------------------------------------------
     ofSetColor(255, 255, 255);
     mainOut.draw(0,0,ofGetWidth(),ofGetHeight());
 //----------------------------------------------
-//----------------------------------------------
-    
-    
+
     // As it implies does alpha layering and draws mask to blur the edges of the projection
     if (drawMask)
     {
@@ -329,7 +287,6 @@ void ofApp::draw()
         masks[whichMask].draw(0,0,ofGetWidth(),ofGetHeight());
         ofDisableAlphaBlending();
     }
-//	openCV.draw();
     drawMisc();
     openCV.drawGui();
 
@@ -742,7 +699,8 @@ void ofApp::setupMasks()
 void ofApp::setupTimers()
 {
     statusTimer.setup(STATUS_TIMER); // Every 2 minutes 1000 millis * 60 seconds * 2
-    activityTimer.setup(15000);
+	//activity timer is dream timer
+	activityTimer.setup(30000);
     doCVBackgroundTimer.setup(5000);
     
     ofAddListener(activityTimer.TIMER_STARTED, this, &ofApp::activityTimerStarted);

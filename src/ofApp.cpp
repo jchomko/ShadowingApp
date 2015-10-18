@@ -260,10 +260,10 @@ void ofApp::draw()
 
     ofDisableBlendMode();
 
-    if (playbackMode == 0)
-    {
+//    if (playbackMode == 0)
+//    {
         ShadowingProductionModeA();
-    }
+//    }
 
     if (useShader)
     {

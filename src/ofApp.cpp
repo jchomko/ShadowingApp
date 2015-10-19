@@ -635,6 +635,7 @@ void ofApp::exit()
 #ifdef HAVE_WEB
     httpUtils.stop();
 #endif
+    openCV.exit();
     gui->saveSettings("GUI/Settings.xml");
     delete gui;
     projector.projectorOff();

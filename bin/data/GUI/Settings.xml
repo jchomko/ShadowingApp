@@ -11,7 +11,7 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Draw CV</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -41,7 +41,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>Mask_No</Name>
-    <Value>4.000000000</Value>
+    <Value>2.000000000</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -91,7 +91,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR</Name>
-    <Value>0.400000006</Value>
+    <Value>0.599999607</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -101,7 +101,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>ContrastV</Name>
-    <Value>0.160000056</Value>
+    <Value>0.309999943</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -131,7 +131,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR_RADIUS</Name>
-    <Value>0.020000000</Value>
+    <Value>0.240000054</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>

@@ -467,9 +467,12 @@ void ofApp::keyPressed(int key)
             ((ofxUILabelToggle *) gui->getWidget("Show Data"))->setValue(canDrawData);
             break;
         case 'v':
-            openCV.toggleGui();
+            //openCV.toggleGui();
 	    drawCV = !drawCV;
             ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
+            break;
+        case 'f':
+            openCV.toggleGui();
             break;
         case 'b':
             showPreviousBuffers = !showPreviousBuffers;
@@ -581,6 +584,7 @@ void ofApp::onDirectoryWatcherItemMovedFrom(const DirectoryWatcherManager::Direc
 //--------------------------------------------------------------------------------------------------
 void ofApp::onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::DirectoryEvent& evt)
 {
+
 #ifdef HAVE_WEB
 #ifdef NUC
     if (ofIsStringInString(evt.item.path(),".gif") && evt.item.getSize() > 5000)

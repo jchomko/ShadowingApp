@@ -91,7 +91,8 @@ void ofApp::update()
     }
     
     // Subtraction Plus Brightness and Contrast Settings
-    openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,fBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast);
+//    openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,fBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast);
+     openCV.progSubLoop(iMinBlobSize, iMaxBlobSize, threshold, fBlur, brightness, contrast);
     //was JsubtractionLoop
 
     learnBackground = false;
@@ -549,6 +550,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 void ofApp::newResponse(ofxHttpResponse & response)
 {
 	responseStr = ofToString(response.status) + ":" + (string)response.responseBody;
+	cout << responseStr << endl;
 }
 //--------------------------------------------------------------
 void ofApp::onDirectoryWatcherItemAdded(const DirectoryWatcherManager::DirectoryEvent& evt)
@@ -695,7 +697,7 @@ void ofApp::setupCV()
 void ofApp::setupVariables()
 {
     ofSetLogLevel(OF_LOG_WARNING);
-    imageCounter =0;
+    imageCounter = 0;
     playCounter = 0;
     dream = false;
     triggerDreamTimer = false;
@@ -710,6 +712,7 @@ void ofApp::setupVariables()
     bSwitch = false;
     firstLearn = true;
     noneDream == false;
+    drawCV = false;
 }
 //--------------------------------------------------------------
 //* Setup Directory Watcher
@@ -1003,6 +1006,7 @@ void ofApp::drawMisc()
         drawData();
     }
 }
+
 
 
 //--------------------------------------------------------------

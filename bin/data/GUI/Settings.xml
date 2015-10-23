@@ -11,7 +11,7 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Draw CV</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -61,12 +61,12 @@
 <Widget>
     <Kind>8</Kind>
     <Name>THRESHOLD</Name>
-    <Value>27.000000000</Value>
+    <Value>6.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>MIN_BLOB_SIZE</Name>
-    <Value>390.000000000</Value>
+    <Value>298.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -91,7 +91,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR</Name>
-    <Value>0.400000006</Value>
+    <Value>0.300000012</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -101,7 +101,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>ContrastV</Name>
-    <Value>0.179999948</Value>
+    <Value>0.489999920</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>

@@ -26,7 +26,6 @@ void ofApp::setup()
 {
     ofSetWindowShape(ofGetScreenWidth(), ofGetScreenHeight());
     ofSetFrameRate(FRAMERATE);
-    ofSetVerticalSync(true);
     loadConfig();
 
     // Setup the Projector
@@ -62,6 +61,10 @@ void ofApp::setup()
     setupShader();
     playBackLatch = false;
     lastPresentState = false;
+
+
+    ofSetVerticalSync(true);
+    ofSystem("v4l2-ctl -c power_line_frequency=1");
 }
 //--------------------------------------------------------------
 void ofApp::update()

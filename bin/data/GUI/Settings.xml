@@ -56,22 +56,22 @@
 <Widget>
     <Kind>8</Kind>
     <Name>TRACKING_BOUNDARY</Name>
-    <Value>25.000000000</Value>
+    <Value>48.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>IMAGE_THRESHOLD</Name>
-    <Value>26.000000000</Value>
+    <Value>86.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>MOVE_THRESHOLD</Name>
-    <Value>11.000000000</Value>
+    <Value>74.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>MIN_BLOB_SIZE</Name>
-    <Value>298.000000000</Value>
+    <Value>99.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -96,7 +96,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR</Name>
-    <Value>0.000000000</Value>
+    <Value>0.900000095</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -116,7 +116,7 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Dilate</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -136,12 +136,12 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR_RADIUS</Name>
-    <Value>0.139999971</Value>
+    <Value>0.119999968</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR_PASS</Name>
-    <Value>0.049999997</Value>
+    <Value>0.020000000</Value>
 </Widget>
 <Widget>
     <Kind>28</Kind>

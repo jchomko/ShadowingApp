@@ -94,8 +94,8 @@ void ofApp::update()
     }
     
     // Subtraction Plus Brightness and Contrast Settings
-//    openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,fBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast);
-     openCV.progSubLoop(iMinBlobSize, iMaxBlobSize, threshold, fBlur, brightness, contrast);
+    openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+//     openCV.progSubLoop(iMinBlobSize, iMaxBlobSize, threshold, fBlur, brightness, contrast);
     //was JsubtractionLoop
 
     learnBackground = false;
@@ -886,8 +886,10 @@ void ofApp::setupGUI()
     gui->addWidgetRight(new ofxUILabelToggle("Mirror V",false,255/2,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Tracking Boundaries", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, CAM_HEIGHT/2,5, 0, "TRACKING_BOUNDARY", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabel("Threshold", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "THRESHOLD", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Imaging Threshold", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "IMAGE_THRESHOLD", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Movement Threshold", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "MOVE_THRESHOLD", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Min Blob Size", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, (CAM_WIDTH*CAM_HEIGHT)/3, 20, 1, "MIN_BLOB_SIZE", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Max Blob Size", OFX_UI_FONT_MEDIUM));
@@ -1092,10 +1094,15 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
         showPreviousBuffers = toggle->getValue();
     }
-    else if(e.getName() == "THRESHOLD")
+    else if(e.getName() == "IMAGE_THRESHOLD")
     {
         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
         threshold = dial->getValue();
+    }
+     else if(e.getName() == "MOVE_THRESHOLD")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        moveThreshold = dial->getValue();
     }
     else if(e.getName() == "MIN_BLOB_SIZE")
     {

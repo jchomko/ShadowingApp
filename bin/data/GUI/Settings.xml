@@ -11,7 +11,7 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Draw CV</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -56,12 +56,17 @@
 <Widget>
     <Kind>8</Kind>
     <Name>TRACKING_BOUNDARY</Name>
-    <Value>31.000000000</Value>
+    <Value>25.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
-    <Name>THRESHOLD</Name>
-    <Value>6.000000000</Value>
+    <Name>IMAGE_THRESHOLD</Name>
+    <Value>26.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>MOVE_THRESHOLD</Name>
+    <Value>11.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -91,7 +96,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR</Name>
-    <Value>0.300000012</Value>
+    <Value>0.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -101,7 +106,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>ContrastV</Name>
-    <Value>0.489999920</Value>
+    <Value>0.000000000</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
@@ -126,17 +131,17 @@
 <Widget>
     <Kind>17</Kind>
     <Name>Use Shader</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR_RADIUS</Name>
-    <Value>0.649999797</Value>
+    <Value>0.139999971</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR_PASS</Name>
-    <Value>0.000000000</Value>
+    <Value>0.049999997</Value>
 </Widget>
 <Widget>
     <Kind>28</Kind>

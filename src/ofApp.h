@@ -79,7 +79,8 @@ class ofApp : public ofBaseApp{
         bool learnBackground;
         bool bProgressiveLearning;
         int  threshold;
-        float fProgressiveRate;
+        int  moveThreshold;
+	float fProgressiveRate;
         bool bUseApprox;
         bool bFillHoles;
         int iMinBlobSize;

@@ -1,11 +1,11 @@
 <panel>
 	<v4l2__dev_video0>
 		<Brightness>0</Brightness>
-		<Contrast>79</Contrast>
+		<Contrast>74</Contrast>
 		<Saturation>0</Saturation>
 		<Hue>-90</Hue>
 		<White_Balance__Automatic>0</White_Balance__Automatic>
-		<Exposure>139</Exposure>
+		<Exposure>208</Exposure>
 		<Gain__Automatic>0</Gain__Automatic>
 		<Gain>0</Gain>
 		<Horizontal_Flip>0</Horizontal_Flip>

@@ -94,7 +94,7 @@ void ofApp::update()
     }
     
     // Subtraction Plus Brightness and Contrast Settings
-    openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+    openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
 //     openCV.progSubLoop(iMinBlobSize, iMaxBlobSize, threshold, fBlur, brightness, contrast);
     //was JsubtractionLoop
 
@@ -900,6 +900,8 @@ void ofApp::setupGUI()
     gui->addWidgetRight(new ofxUILabelToggle("Use Approximation",false,255/2,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Blur", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "BLUR", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Gauss Blur", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "GAUSS_BLUR", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Brightness", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BrightnessV", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Contrast", OFX_UI_FONT_MEDIUM));
@@ -1143,6 +1145,11 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
     {
         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
         fBlur = dial->getValue();
+    }
+	else if(e.getName() == "GAUSS_BLUR")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        gaussBlur = dial->getValue();
     }
     else if (e.getName() == "Draw CV")
     {

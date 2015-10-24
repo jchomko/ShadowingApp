@@ -61,12 +61,12 @@
 <Widget>
     <Kind>8</Kind>
     <Name>IMAGE_THRESHOLD</Name>
-    <Value>86.000000000</Value>
+    <Value>11.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
     <Name>MOVE_THRESHOLD</Name>
-    <Value>92.000000000</Value>
+    <Value>87.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -96,7 +96,12 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR</Name>
-    <Value>0.900000095</Value>
+    <Value>8.899997711</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>GAUSS_BLUR</Name>
+    <Value>1.000000000</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>
@@ -136,7 +141,7 @@
 <Widget>
     <Kind>8</Kind>
     <Name>BLUR_RADIUS</Name>
-    <Value>0.119999968</Value>
+    <Value>0.149999976</Value>
 </Widget>
 <Widget>
     <Kind>8</Kind>

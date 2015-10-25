@@ -94,7 +94,7 @@ void ofApp::update()
     }
     
     // Subtraction Plus Brightness and Contrast Settings
-    openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+    openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
 //     openCV.progSubLoop(iMinBlobSize, iMaxBlobSize, threshold, fBlur, brightness, contrast);
     //was JsubtractionLoop
 
@@ -319,27 +319,22 @@ void ofApp::ShadowingProductionModeA()
     {
         // Nothing
     }
-    
-    if(openCV.isSomeoneThere() && openCV.isSomeoneThere() != lastPresentState && buffers.size() > 0 && buffers[0].isNearlyFinished())
+    // if someone enters the light quickly 
+    if(openCV.isSomeoneThere() && openCV.isSomeoneThere() != lastPresentState && buffers.size() > 0 && buffers[1].isNearlyFinished())
     {
-        
         playBackLatch = false;
-        
         modeString = "Shadowing Basic Mode";
-        
         buffers[1].reset();
         buffers[1].start();
-        
+
     }
     else if(!openCV.isSomeoneThere() && dream == false && playBackLatch == false)
     {
         bSwitch = true;
         modeString = "Shadowing Basic Mode Stage 2";
-        
         buffers[1].start();
         playBackLatch  = false;
 
-        
     }
     else if(dream == true)
     {
@@ -347,6 +342,7 @@ void ofApp::ShadowingProductionModeA()
             ShadowingDreamStateB();
             
     }
+
     lastPresentState = openCV.isSomeoneThere();
     ofDisableBlendMode(); 
 }
@@ -902,6 +898,10 @@ void ofApp::setupGUI()
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "BLUR", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Gauss Blur", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "GAUSS_BLUR", OFX_UI_FONT_MEDIUM));
+    
+    gui->addWidgetDown(new ofxUILabel("Median Blur", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "MEDIAN_BLUR", OFX_UI_FONT_MEDIUM));
+
     gui->addWidgetDown(new ofxUILabel("Brightness", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BrightnessV", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Contrast", OFX_UI_FONT_MEDIUM));
@@ -1146,10 +1146,15 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
         fBlur = dial->getValue();
     }
-	else if(e.getName() == "GAUSS_BLUR")
+    else if(e.getName() == "GAUSS_BLUR")
     {
         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
         gaussBlur = dial->getValue();
+    }
+    else if(e.getName() == "MEDIAN_BLUR")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        medianBlur = dial->getValue();
     }
     else if (e.getName() == "Draw CV")
     {

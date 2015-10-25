@@ -91,6 +91,7 @@ class ofApp : public ofBaseApp{
         bool bMirrorV;
         float fBlur;
         int gaussBlur;
+	int medianBlur;
 	bool erode;
         bool dilate;
         vector<ofVec2f> blobPath;

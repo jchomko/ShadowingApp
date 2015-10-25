@@ -24,7 +24,7 @@
 #define CAM_WIDTH 320
 #define CAM_HEIGHT 240
 #define FRAMERATE 30
-#define MIN_BUFFER_SIZE 30 //Frames
+#define MIN_BUFFER_SIZE 60 //Frames
 #define MAX_BUFFER_SIZE 900 //Frames
 #define STATUS_TIMER (1000*60)*5
 
@@ -91,6 +91,7 @@ class ofApp : public ofBaseApp{
         bool bMirrorV;
         float fBlur;
         int gaussBlur;
+	int medianBlur;
 	bool erode;
         bool dilate;
         vector<ofVec2f> blobPath;

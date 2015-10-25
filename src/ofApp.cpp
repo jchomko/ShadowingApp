@@ -150,6 +150,7 @@ void ofApp::update()
                 imageCounter = 0;
                 doCVBackgroundTimer.start(false);
             }
+	    //not long enough, trash that recording
             else if(imageCounter < MIN_BUFFER_SIZE)
             {
 		buffers.pop_front();
@@ -178,6 +179,7 @@ void ofApp::update()
             {
                 captureFrame();
             }
+		//Start new recording
                 if(imageCounter == 0){
 			buffers.push_front(b);
 			cout << "starting new videobuffer" << endl;
@@ -323,11 +325,13 @@ void ofApp::ShadowingProductionModeA()
     if(openCV.isSomeoneThere() && openCV.isSomeoneThere() != lastPresentState && buffers.size() > 0 && buffers[1].isNearlyFinished())
     {
         playBackLatch = false;
+
         modeString = "Shadowing Basic Mode";
         buffers[1].reset();
         buffers[1].start();
 
     }
+    //Just stepped out of the light
     else if(!openCV.isSomeoneThere() && dream == false && playBackLatch == false)
     {
         bSwitch = true;
@@ -958,7 +962,7 @@ void ofApp::CVTimerStarted(int &args)
 //--------------------------------------------------------------
 void ofApp::CVTimerComplete(int &args)
 {
-    openCV.relearnBackground();
+    //openCV.relearnBackground();
     CVstring = "CV Timer Done";
 }
 //--------------------------------------------------------------

@@ -3,6 +3,7 @@ ofxXmlSettings
 ofxIO
 ofxSimpleTimer
 ofxDaveVideoBuffers
+ofxVideoBuffer
 ofxGifEncoder
 ofxProjectorControl
 ofxHttpUtils

@@ -95,7 +95,8 @@ class ofApp : public ofBaseApp{
 	bool erode;
         bool dilate;
         vector<ofVec2f> blobPath;
-    
+  	long recTimer;
+  
         // GUI
         void setupGUI();
         void guiEvent(ofxUIEventArgs &e);

@@ -172,8 +172,10 @@ void ofApp::update()
     if(startRecording == true)
     {
         // If new frame
-        if (openCV.newFrame())
-        {
+        //if (openCV.newFrame())
+       if(ofGetElapsedTimeMillis() - recTimer > 33) 
+       {
+            recTimer = ofGetElapsedTimeMillis();
             // Capture Gif Image every 5 frames
             if (ofGetFrameNum() % 5 == 0)
             {
@@ -384,26 +386,26 @@ void ofApp::ShadowingDreamStateB()
             if (buffers[whichBufferAreWePlaying].isFinished() && randomWaitLatch == false)
             {
                 randomWaitTimer = ofGetElapsedTimeMillis() + ofRandom(1000,4000);
-        randomWaitLatch = true;
-        // Reset the Awaiting buffer otherwise nothing will happen
+	        randomWaitLatch = true;
+        	// Reset the Awaiting buffer otherwise nothing will happen
                 // buffers[whichBufferAreWePlaying+1].reset();
                 // Progress the Buffer Counter
                 // whichBufferAreWePlaying++;
                 // buffers[whichBufferAreWePlaying].start();
             }
         }
-    if (buffers.size() > 2)
-    {
+    	if (buffers.size() > 2)
+    	{
             if (randomWaitLatch && ofGetElapsedTimeMillis() > randomWaitTimer)
-        {
+        	{
             if (whichBufferAreWePlaying >= buffers.size())
                 {
                         // Reset the first Buffer
                         buffers[0].reset();
                         // Go back to the start and Await my instructions
                         whichBufferAreWePlaying = 0;
-                    buffers[whichBufferAreWePlaying].start();
-                randomWaitLatch = false;
+                        buffers[whichBufferAreWePlaying].start();
+                        randomWaitLatch = false;
                 }
             else
             {
@@ -716,6 +718,7 @@ void ofApp::setupVariables()
     firstLearn = true;
     noneDream == false;
     drawCV = false;
+	recTimer = ofGetElapsedTimeMillis();
 }
 //--------------------------------------------------------------
 //* Setup Directory Watcher

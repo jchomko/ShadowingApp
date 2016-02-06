@@ -385,6 +385,19 @@ obj/linux64/Release/src/main.o: src/main.cpp \
  ../../../addons/ofxGui/src/ofxButton.h \
  ../../../addons/ofxGui/src/ofxPanel.h \
  ../../../addons/ofxGui/src/ofxLabel.h \
+ ../../../addons/ofxFlyCapture/src/FlyCapture2.h \
+ ../../../addons/ofxFlyCapture/src/FlyCapture2Platform.h \
+ ../../../addons/ofxFlyCapture/src/FlyCapture2Defs.h \
+ ../../../addons/ofxFlyCapture/src/Error.h \
+ ../../../addons/ofxFlyCapture/src/BusManager.h \
+ ../../../addons/ofxFlyCapture/src/Camera.h \
+ ../../../addons/ofxFlyCapture/src/CameraBase.h \
+ ../../../addons/ofxFlyCapture/src/GigECamera.h \
+ ../../../addons/ofxFlyCapture/src/Image.h \
+ ../../../addons/ofxFlyCapture/src/Utilities.h \
+ ../../../addons/ofxFlyCapture/src/AVIRecorder.h \
+ ../../../addons/ofxFlyCapture/src/TopologyNode.h \
+ ../../../addons/ofxFlyCapture/src/ImageStatistics.h \
  ../../../addons/ofxSimpleTimer/src/ofxSimpleTimer.h \
  ../../../addons/ofxUI/src/ofxUI.h \
  ../../../addons/ofxUI/src/ofxUIDefines.h \
@@ -436,7 +449,7 @@ obj/linux64/Release/src/main.o: src/main.cpp \
  ../../../addons/ofxUI/src/ofxUIScrollableCanvas.h \
  ../../../addons/ofxUI/src/ofxUISuperCanvas.h \
  ../../../addons/ofxUI/src/ofxUITabBar.h \
- ../../../addons/ofxVideoBuffer/src/VideoBufferStorage.h \
+ ../../../addons/ofxDaveVideoBuffers/src/VideoBufferStorage.h \
  ../../../addons/ofxHttpUtils/src/ofxHttpUtils.h \
  ../../../libs/poco/include/Poco/Net/HTTPResponse.h \
  ../../../libs/poco/include/Poco/Net/Net.h \
@@ -1316,6 +1329,32 @@ src/ofApp.h:
 
 ../../../addons/ofxGui/src/ofxLabel.h:
 
+../../../addons/ofxFlyCapture/src/FlyCapture2.h:
+
+../../../addons/ofxFlyCapture/src/FlyCapture2Platform.h:
+
+../../../addons/ofxFlyCapture/src/FlyCapture2Defs.h:
+
+../../../addons/ofxFlyCapture/src/Error.h:
+
+../../../addons/ofxFlyCapture/src/BusManager.h:
+
+../../../addons/ofxFlyCapture/src/Camera.h:
+
+../../../addons/ofxFlyCapture/src/CameraBase.h:
+
+../../../addons/ofxFlyCapture/src/GigECamera.h:
+
+../../../addons/ofxFlyCapture/src/Image.h:
+
+../../../addons/ofxFlyCapture/src/Utilities.h:
+
+../../../addons/ofxFlyCapture/src/AVIRecorder.h:
+
+../../../addons/ofxFlyCapture/src/TopologyNode.h:
+
+../../../addons/ofxFlyCapture/src/ImageStatistics.h:
+
 ../../../addons/ofxSimpleTimer/src/ofxSimpleTimer.h:
 
 ../../../addons/ofxUI/src/ofxUI.h:
@@ -1418,7 +1457,7 @@ src/ofApp.h:
 
 ../../../addons/ofxUI/src/ofxUITabBar.h:
 
-../../../addons/ofxVideoBuffer/src/VideoBufferStorage.h:
+../../../addons/ofxDaveVideoBuffers/src/VideoBufferStorage.h:
 
 ../../../addons/ofxHttpUtils/src/ofxHttpUtils.h:
 

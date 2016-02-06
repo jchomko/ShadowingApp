@@ -801,9 +801,9 @@ void ofApp::setupProjector()
     projector.openConnection("/dev/ttyUSB0");
 
     projector.turnOffCamera();
-    ofSleepMillis(1000);
-    projector.turnOnCamera();
-    ofSleepMillis(3000);
+   // ofSleepMillis(1000);
+   // projector.turnOnCamera();
+   // ofSleepMillis(3000);
     
     // Wait while connection is established
     //ofSleepMillis(3000);

@@ -77,6 +77,7 @@
 # incorporated directly into the final executable application binary.
 ################################################################################
 # PROJECT_LDFLAGS=-Wl,-rpath=./libs,-/usr/lib/x86_64-linux-gnu/libv4l2.so
+PROJECT_LDFLAGS=-lflycapture$
 
 ################################################################################
 # PROJECT DEFINES

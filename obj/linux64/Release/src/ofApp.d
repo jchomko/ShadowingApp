@@ -375,7 +375,6 @@ obj/linux64/Release/src/ofApp.o: src/ofApp.cpp src/ofApp.h \
  ../../../addons/ofxXmlSettings/src/ofxXmlSettings.h \
  ../../../addons/ofxXmlSettings/libs/tinyxml.h \
  ../../../addons/ofxCalibrationUtils/src/baseGui.h \
- ../../../addons/ofxV4L2Settings/src/ofxV4L2Settings.h \
  ../../../addons/ofxGui/src/ofxGui.h \
  ../../../addons/ofxGui/src/ofxToggle.h \
  ../../../addons/ofxGui/src/ofxBaseGui.h \
@@ -1308,8 +1307,6 @@ src/ofApp.h:
 ../../../addons/ofxXmlSettings/libs/tinyxml.h:
 
 ../../../addons/ofxCalibrationUtils/src/baseGui.h:
-
-../../../addons/ofxV4L2Settings/src/ofxV4L2Settings.h:
 
 ../../../addons/ofxGui/src/ofxGui.h:
 

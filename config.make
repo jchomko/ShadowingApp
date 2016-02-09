@@ -141,5 +141,4 @@ PROJECT_LDFLAGS=-lflycapture$
 # PROJECT_CXX = 
 # PROJECT_CC = 
 
-USER_LDFLAGS = /usr/lib/x86_64-linux-gnu/libv4l2.so
 

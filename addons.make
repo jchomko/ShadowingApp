@@ -12,7 +12,6 @@ ofxDaveOpenCV
 ofxCalibrationUtils
 ofxBlur
 ofxKinect
-ofxV4L2Settings
 ofxGui
 ofxFlyCapture
 

@@ -175,7 +175,6 @@ void ofApp::update()
         //if (openCV.newFrame())
        if(ofGetElapsedTimeMillis() - recTimer > 33) 
        {
-            recTimer = ofGetElapsedTimeMillis();
             // Capture Gif Image every 5 frames
             if (ofGetFrameNum() % 5 == 0)
             {
@@ -186,13 +185,15 @@ void ofApp::update()
 			buffers.push_front(b);
 			cout << "starting new videobuffer" << endl;
 		}
+
 		// Capture the CV image
 		//videoBuffers.push_back(videoBuffer);
 		buffers[0].buffer.push_back(openCV.getRecordPixels());
 		//b.getNewImage(openCV.getRecordPixels());
                 //blobPath.push_back(openCV.getBlobPath());
                 imageCounter++;
-        }
+                recTimer = ofGetElapsedTimeMillis();
+	}
     }
 
     if(!openCV.isSomeoneThere())

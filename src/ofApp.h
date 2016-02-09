@@ -23,7 +23,7 @@
 
 #define CAM_WIDTH 320
 #define CAM_HEIGHT 240
-#define FRAMERATE 60
+#define FRAMERATE 50
 #define MIN_BUFFER_SIZE 60 //Frames
 #define MAX_BUFFER_SIZE 900 //Frames
 #define STATUS_TIMER (1000*60)*5

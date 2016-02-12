@@ -23,7 +23,7 @@
 
 #define CAM_WIDTH 320
 #define CAM_HEIGHT 240
-#define FRAMERATE 50
+#define FRAMERATE 60
 #define MIN_BUFFER_SIZE 60 //Frames
 #define MAX_BUFFER_SIZE 900 //Frames
 #define STATUS_TIMER (1000*60)*5
@@ -239,5 +239,10 @@ class ofApp : public ofBaseApp{
         string _secretKey;
         string _statusurl;
         string _uploadFileURL;
-
+	
+	//Tiger Videos
+	void playTiger();
+	ofVideoPlayer tiger1;
+	ofVideoPlayer tiger2;
+	bool		whichTiger;	
 };

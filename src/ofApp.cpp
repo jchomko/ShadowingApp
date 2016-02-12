@@ -26,8 +26,8 @@ void ofApp::setup()
 {
     ofSetWindowShape(ofGetScreenWidth(), ofGetScreenHeight());
     ofSetFrameRate(FRAMERATE);
+    ofSetLogLevel(OF_LOG_ERROR);
     loadConfig();
-
     // Setup the Projector
     setupProjector();
 
@@ -64,7 +64,11 @@ void ofApp::setup()
 
 
     ofSetVerticalSync(true);
-    ofSystem("v4l2-ctl -c power_line_frequency=1");
+   // ofSystem("v4l2-ctl -c power_line_frequency=1");
+   tiger1.loadMovie("videos/tiger2.mov");
+   tiger2.loadMovie("videos/tiger3.mov");
+   whichTiger = true;
+
 }
 //--------------------------------------------------------------
 void ofApp::update()
@@ -238,6 +242,10 @@ void ofApp::update()
     {
         ofHideCursor();
     }
+
+    tiger1.update();
+    tiger2.update();
+
 }
 //--------------------------------------------------------------
 void ofApp::draw()
@@ -259,6 +267,7 @@ void ofApp::draw()
     }
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);   
 
+
     if (!buffers.empty())
     {
         for (int i = 0; i < buffers.size(); i++)
@@ -266,6 +275,9 @@ void ofApp::draw()
             buffers[i].draw(255);
         }
     }
+
+    tiger1.draw(0,0,320,240);
+    tiger2.draw(0,0,320,240);
 
     ofDisableBlendMode();
 
@@ -280,7 +292,8 @@ void ofApp::draw()
         shader.draw();
     }
 
-
+    //tiger1.draw(0,0,ofGetWidth(), ofGetHeight());
+   
     mainOut.end();
 
 //-------------Main Drawing Mechanism-----------
@@ -324,7 +337,7 @@ void ofApp::ShadowingProductionModeA()
     {
         // Nothing
     }
-    // if someone enters the light quickly 
+    // if someone enters the light quickly
     if(openCV.isSomeoneThere() && openCV.isSomeoneThere() != lastPresentState && buffers.size() > 0 && buffers[1].isNearlyFinished())
     {
         playBackLatch = false;
@@ -332,8 +345,8 @@ void ofApp::ShadowingProductionModeA()
         modeString = "Shadowing Basic Mode";
         buffers[1].reset();
         buffers[1].start();
-
     }
+
     //Just stepped out of the light
     else if(!openCV.isSomeoneThere() && dream == false && playBackLatch == false)
     {
@@ -347,11 +360,11 @@ void ofApp::ShadowingProductionModeA()
     {
             // Dream Sequentially
             ShadowingDreamStateB();
-            
+
     }
 
     lastPresentState = openCV.isSomeoneThere();
-    ofDisableBlendMode(); 
+    ofDisableBlendMode();
 }
 
 //--------------------------------------------------------------
@@ -366,6 +379,7 @@ void ofApp::ShadowingDreamStateB()
     {
         buffers[whichBufferAreWePlaying].start();
         
+	
         // This will change the Blend Modes according to the brightness of FBO
         if (backColor.getBrightness() >=125)
         {
@@ -414,7 +428,7 @@ void ofApp::ShadowingDreamStateB()
                 whichBufferAreWePlaying++;
                 buffers[whichBufferAreWePlaying].start();
                 randomWaitLatch = false;
-            }   
+            }
         }
 
     }
@@ -428,6 +442,18 @@ void ofApp::ShadowingDreamStateB()
 }
 
 
+void ofApp::playTiger(){
+
+		whichTiger = !whichTiger;
+                if(whichTiger){
+                tiger1.setPosition(0);
+                tiger1.play();
+                }else{
+                tiger2.setPosition(0);
+                tiger2.play();
+                }
+
+}
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
@@ -485,8 +511,12 @@ void ofApp::keyPressed(int key)
             showPreviousBuffers = !showPreviousBuffers;
             ((ofxUILabelToggle *) gui->getWidget("Show Buffers"))->setValue(showPreviousBuffers);
             break;
+
+	case 'z':
+	    playTiger();
+	    break;
+
         case 't':
-      
 #ifdef HAVE_WEB      // Send the Gif to the Server
             ofxHttpForm form;
             form.action = _statusurl;
@@ -498,9 +528,10 @@ void ofApp::keyPressed(int key)
             form.addFormField("submit","1");
             httpUtils.addForm(form);
             break;
-#else
-break;
-#endif
+         #else
+            break;
+         #endif
+
     }
 }
 //--------------------------------------------------------------
@@ -845,8 +876,9 @@ void ofApp::setupTimers()
 {
     statusTimer.setup(STATUS_TIMER); // Every 2 minutes 1000 millis * 60 seconds * 2
 	//activity timer is dream timer
-	activityTimer.setup(30000);
-    doCVBackgroundTimer.setup(5000);
+	activityTimer.setup(20000); //set back to 30 secs
+	//using cvBackgroundTimer for Tigers
+    doCVBackgroundTimer.setup(10000);
     
     ofAddListener(activityTimer.TIMER_STARTED, this, &ofApp::activityTimerStarted);
     ofAddListener(activityTimer.TIMER_COMPLETE, this, &ofApp::activityTimerComplete);
@@ -966,15 +998,21 @@ void ofApp::CVTimerStarted(int &args)
 //--------------------------------------------------------------
 void ofApp::CVTimerComplete(int &args)
 {
+    if(ofRandom(0,10) < 3){
+    	playTiger();
+	CVstring = "CV Timer Done, Tiger playing";
+     }else{
     //openCV.relearnBackground();
     CVstring = "CV Timer Done";
+    }
 }
 //--------------------------------------------------------------
 void ofApp::activityTimerComplete(int &args)
 {
-    cout << "Timer Complete - dreaming starts now" << endl;
+    	cout << "Timer Complete - dreaming starts now" << endl;
 	noneDream = false;
 	dream = true;
+	//tiger1.play();
 }
 //--------------------------------------------------------------
 void ofApp::activityTimerStarted(int &args)

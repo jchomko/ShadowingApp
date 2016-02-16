@@ -668,7 +668,7 @@ void ofApp::exit()
 #endif
     cout << "Releasing Camera" << endl;
     openCV.releaseCamera();
-    //ofSleepMillis(1000);
+    ofSleepMillis(1000);
     cout << "Released Camera" << endl;
 #ifdef HAVE_WEB
     httpUtils.stop();

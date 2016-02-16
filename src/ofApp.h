@@ -245,4 +245,5 @@ class ofApp : public ofBaseApp{
 	ofVideoPlayer tiger1;
 	ofVideoPlayer tiger2;
 	bool		whichTiger;	
+	float 		tigerProbability;
 };

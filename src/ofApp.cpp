@@ -1,9 +1,9 @@
 //--------------------------------------------------
-//* Name: Shadowing.cpp
-//* Project: Playable City 2014 Award
-//* Author: David Haylock
-//* Creation Date: 30-07-2014
-//* Copyright: (c) 2014 by Watershed Arts Trust Ltd.
+// Name: Shadowing.cpp
+// Project: Playable City 2014 Award
+// Author: David Haylock
+// Creation Date: 30-07-2014
+// Copyright: (c) 2014 by Watershed Arts Trust Ltd.
 //--------------------------------------------------
 #include "ofApp.h"
 //--------------------------------------------------------------
@@ -314,12 +314,11 @@ void ofApp::draw()
 
 }
 
-
 //--------------------------------------------------------------
-//* Production BASIC A - Walking under light triggers the most recent recording
-//* Then playback the new recorded buffer
-//* Then playback the previous buffers sequentially
-//* If no users, Do the Dream State
+// Production BASIC A - Walking under light triggers the most recent recording
+// Then playback the new recorded buffer
+// Then playback the previous buffers sequentially
+// If no users, Do the Dream State
 //--------------------------------------------------------------
 //--------------------------------------------------------------
 void ofApp::ShadowingProductionModeA()
@@ -368,7 +367,7 @@ void ofApp::ShadowingProductionModeA()
 }
 
 //--------------------------------------------------------------
-//* Dream state - Play the buffers Sequentially
+// Dream state - Play the buffers Sequentially
 //--------------------------------------------------------------
 void ofApp::ShadowingDreamStateB()
 {
@@ -443,14 +442,14 @@ void ofApp::ShadowingDreamStateB()
 
 
 void ofApp::playTiger(){
-
 		whichTiger = !whichTiger;
+
                 if(whichTiger){
-                tiger1.setPosition(0);
-                tiger1.play();
+	                tiger1.setPosition(0);
+        	        tiger1.play();
                 }else{
-                tiger2.setPosition(0);
-                tiger2.play();
+               		tiger2.setPosition(0);
+               	 	tiger2.play();
                 }
 
 }
@@ -669,7 +668,7 @@ void ofApp::exit()
 #endif
     cout << "Releasing Camera" << endl;
     openCV.releaseCamera();
-    ofSleepMillis(5000);
+    //ofSleepMillis(1000);
     cout << "Released Camera" << endl;
 #ifdef HAVE_WEB
     httpUtils.stop();
@@ -680,7 +679,7 @@ void ofApp::exit()
     projector.projectorOff();
 }
 //--------------------------------------------------------------
-//* Other Stuff
+// Other Stuff
 //--------------------------------------------------------------
 //--------------------------------------------------------------
 void ofApp::onGifSaved(string &fileName)
@@ -689,7 +688,7 @@ void ofApp::onGifSaved(string &fileName)
     gifEncoder.reset();
 }
 //--------------------------------------------------------------
-//* Other Stuff
+// Other Stuff
 //--------------------------------------------------------------
 //--------------------------------------------------------------
 void ofApp::captureFrame()
@@ -698,7 +697,7 @@ void ofApp::captureFrame()
     gifEncoder.addFrame(openCV.getRecordPixels().getPixels(),CAM_WIDTH,CAM_HEIGHT,openCV.getRecordPixels().getBitsPerPixel(),0.1f);
 }
 //--------------------------------------------------------------
-//* Clear the gifFolder at the end of the cycle
+//Clear the gifFolder at the end of the cycle
 //--------------------------------------------------------------
 //--------------------------------------------------------------
 void ofApp::cleanGifFolder()
@@ -710,12 +709,12 @@ void ofApp::cleanGifFolder()
     #endif
 }
 //--------------------------------------------------------------
-//*-------------------------------------------------------------
-//* SETUP ROUTINES
-//*-------------------------------------------------------------
+//-------------------------------------------------------------
+// SETUP ROUTINES
+//-------------------------------------------------------------
 //--------------------------------------------------------------
 //--------------------------------------------------------------
-//* Setup OpenCV
+// Setup OpenCV
 //--------------------------------------------------------------
 void ofApp::setupCV()
 {
@@ -729,7 +728,7 @@ void ofApp::setupCV()
     openCV.setTrackingBoundaries(40, 40);
 }
 //--------------------------------------------------------------
-//* Setup Variables
+// Setup Variables
 //--------------------------------------------------------------
 void ofApp::setupVariables()
 {
@@ -753,7 +752,7 @@ void ofApp::setupVariables()
 	recTimer = ofGetElapsedTimeMillis();
 }
 //--------------------------------------------------------------
-//* Setup Directory Watcher
+// Setup Directory Watcher
 //--------------------------------------------------------------
 void ofApp::setupDirectoryWatcher()
 {
@@ -784,7 +783,7 @@ void ofApp::setupDirectoryWatcher()
 #endif
 }
 //--------------------------------------------------------------
-//* Setup HTTP Utils
+// Setup HTTP Utils
 //--------------------------------------------------------------
 void ofApp::setupHTTP()
 {
@@ -804,7 +803,7 @@ void ofApp::setupHTTP()
     httpUtils.addForm(form);
 }
 //--------------------------------------------------------------
-//* Setup Gif Encoder
+// Setup Gif Encoder
 //--------------------------------------------------------------
 void ofApp::setupGifEncoder()
 {
@@ -812,7 +811,7 @@ void ofApp::setupGifEncoder()
     ofAddListener(ofxGifEncoder::OFX_GIF_SAVE_FINISHED, this, &ofApp::onGifSaved);
 }
 //--------------------------------------------------------------
-//* Setup Shader
+// Setup Shader
 //--------------------------------------------------------------
 void ofApp::setupShader()
 {
@@ -825,7 +824,7 @@ void ofApp::setupShader()
     mainOut.end();
 }
 //--------------------------------------------------------------
-//* Setup Projector
+// Setup Projector
 //--------------------------------------------------------------
 void ofApp::setupProjector()
 {
@@ -844,7 +843,7 @@ void ofApp::setupProjector()
     projector.projectorOn();
 }
 //--------------------------------------------------------------
-//* Setup Masks
+//  Setup Masks
 //--------------------------------------------------------------
 void ofApp::setupMasks()
 {
@@ -870,29 +869,29 @@ void ofApp::setupMasks()
     }
 }
 //--------------------------------------------------------------
-//* Setup Timers
+// Setup Timers
 //--------------------------------------------------------------
 void ofApp::setupTimers()
 {
     statusTimer.setup(STATUS_TIMER); // Every 2 minutes 1000 millis * 60 seconds * 2
 	//activity timer is dream timer
-	activityTimer.setup(20000); //set back to 30 secs
+    activityTimer.setup(30000); //set back to 30 secs
 	//using cvBackgroundTimer for Tigers
-    doCVBackgroundTimer.setup(10000);
-    
+    doCVBackgroundTimer.setup(20000);
+
     ofAddListener(activityTimer.TIMER_STARTED, this, &ofApp::activityTimerStarted);
     ofAddListener(activityTimer.TIMER_COMPLETE, this, &ofApp::activityTimerComplete);
-    
+
     ofAddListener(doCVBackgroundTimer.TIMER_STARTED, this, &ofApp::CVTimerStarted);
     ofAddListener(doCVBackgroundTimer.TIMER_COMPLETE, this, &ofApp::CVTimerComplete);
-    
+
     ofAddListener(statusTimer.TIMER_STARTED, this, &ofApp::statusTimerStarted);
     ofAddListener(statusTimer.TIMER_COMPLETE, this, &ofApp::statusTimerComplete);
-    
+
     statusTimer.start(true);
 }
 //--------------------------------------------------------------
-//* Setup GUI
+// Setup GUI
 //--------------------------------------------------------------
 //--------------------------------------------------------------
 void ofApp::setupGUI()
@@ -902,9 +901,9 @@ void ofApp::setupGUI()
     
     gui = new ofxUICanvas(ofGetWidth()-260,0,600,600);
     gui->setColorBack(ofColor::black);
-    gui->addWidgetDown(new ofxUILabel("Shadowing", OFX_UI_FONT_MEDIUM));
-    gui->addSpacer(255,1);
-    gui->addWidgetDown(new ofxUILabelToggle("Fullscreen",true,255,30,OFX_UI_FONT_MEDIUM));
+ //   gui->addWidgetDown(new ofxUILabel("Shadowing", OFX_UI_FONT_MEDIUM));
+ //   gui->addSpacer(255,1);
+//    gui->addWidgetDown(new ofxUILabelToggle("Fullscreen",true,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Do Calibration",false,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Draw CV",false,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Show Buffers",false,255,30,OFX_UI_FONT_MEDIUM));
@@ -916,10 +915,10 @@ void ofApp::setupGUI()
     gui->addWidgetDown(new ofxUILabelToggle("Use Mask",true,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Mask Number", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 5, 1, 0, "Mask_No", OFX_UI_FONT_MEDIUM));
-    gui->addSpacer(255,1);
-    gui->addWidgetDown(new ofxUILabelButton("Learn Background",false,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabelToggle("Mirror H",false,255/2,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUILabelToggle("Mirror V",false,255/2,30,OFX_UI_FONT_MEDIUM));
+  //  gui->addSpacer(255,1);
+ //   gui->addWidgetDown(new ofxUILabelButton("Learn Background",false,255,30,OFX_UI_FONT_MEDIUM));
+//    gui->addWidgetDown(new ofxUILabelToggle("Mirror H",false,255/2,30,OFX_UI_FONT_MEDIUM));
+//    gui->addWidgetRight(new ofxUILabelToggle("Mirror V",false,255/2,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Tracking Boundaries", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, CAM_HEIGHT/2,5, 0, "TRACKING_BOUNDARY", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Imaging Threshold", OFX_UI_FONT_MEDIUM));
@@ -956,12 +955,15 @@ void ofApp::setupGUI()
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BLUR_RADIUS", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Blur Pass", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BLUR_PASS", OFX_UI_FONT_MEDIUM));
-    gui->addSpacer(255,1);
-    gui->addWidgetDown(new ofxUILabel("BGL","Background Color", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUIImageSampler(255/2, 255/2, colorSampler, "Background_Color"));
-    gui->addWidgetEastOf(new ofxUILabel("Shadow Color", OFX_UI_FONT_MEDIUM),"BGL");
-    gui->addWidgetEastOf(new ofxUIImageSampler(255/2, 255/2, colorSampler, "Shadow_Color"),"Background_Color");
-    gui->addWidgetDown(new ofxUINumberDialer(0,60000,18000,1,"DREAM_WAIT_TIME", OFX_UI_FONT_MEDIUM));
+    
+    //gui->addSpacer(255,1);
+ //   gui->addWidgetDown(new ofxUILabel("BGL","Background Color", OFX_UI_FONT_MEDIUM));
+ //   gui->addWidgetDown(new ofxUIImageSampler(255/2, 255/2, colorSampler, "Background_Color"));
+ //   gui->addWidgetEastOf(new ofxUILabel("Shadow Color", OFX_UI_FONT_MEDIUM),"BGL");
+ //   gui->addWidgetEastOf(new ofxUIImageSampler(255/2, 255/2, colorSampler, "Shadow_Color"),"Background_Color");
+//    gui->addWidgetDown(new ofxUINumberDialer(0,60000,18000,1,"DREAM_WAIT_TIME", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUINumberDialer(0,10,3,1,"TIGER_PROBABILITY", OFX_UI_FONT_MEDIUM));
+
     gui->autoSizeToFitWidgets();
     ofAddListener(gui->newGUIEvent,this, &ofApp::guiEvent);
 
@@ -998,7 +1000,7 @@ void ofApp::CVTimerStarted(int &args)
 //--------------------------------------------------------------
 void ofApp::CVTimerComplete(int &args)
 {
-    if(ofRandom(0,10) < 3){
+    if(ofRandom(0,10) < tigerProbability){
     	playTiger();
 	CVstring = "CV Timer Done, Tiger playing";
      }else{
@@ -1212,16 +1214,17 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
         drawLiveImage = toggle->getValue();
     }
-    else if(e.widget->getName() == "Background_Color")
-    {
-        ofxUIImageSampler *sampler = (ofxUIImageSampler *) e.widget;
-        backColor = sampler->getColor();
-    }
-    else if(e.widget->getName() == "Shadow_Color")
-    {
-        ofxUIImageSampler *sampler = (ofxUIImageSampler *) e.widget;
-        shadowColor = sampler->getColor();
-    }
+   // else if(e.widget->getName() == "Background_Color")
+   // {
+   //     ofxUIImageSampler *sampler = (ofxUIImageSampler *) e.widget;
+   //     backColor = sampler->getColor();
+   // }
+   // else if(e.widget->getName() == "Shadow_Color")
+   // {
+   //     ofxUIImageSampler *sampler = (ofxUIImageSampler *) e.widget;
+   //     shadowColor = sampler->getColor();
+   // }
+
     else if (e.getName() == "Show Data")
     {
         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
@@ -1243,15 +1246,21 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
         useShader = toggle->getValue();
     }
-    else if (e.getName() == "DREAM_WAIT_TIME")
+//    else if (e.getName() == "DREAM_WAIT_TIME")
+//     {
+//	ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+//	dreamWaitTime =  dial->getValue();
+//     }
+    else if (e.getName() == "TIGER_PROBABILITY")
      {
-	ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-	dreamWaitTime =  dial->getValue();
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        tigerProbability =  dial->getValue();
      }
+
 
 }
 //--------------------------------------------------------------
-//* Debug Data
+// Debug Data
 //--------------------------------------------------------------
 //--------------------------------------------------------------
 void ofApp::drawData()

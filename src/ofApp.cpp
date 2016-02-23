@@ -98,8 +98,8 @@ void ofApp::update()
     }
 
     // Subtraction Plus Brightness and Contrast Settings
-    //openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
-    openCV.PsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+    openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+//    openCV.PsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
 
 //     openCV.progSubLoop(iMinBlobSize, iMaxBlobSize, threshold, fBlur, brightness, contrast);
     //was JsubtractionLoop
@@ -944,9 +944,9 @@ void ofApp::setupGUI()
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "MEDIAN_BLUR", OFX_UI_FONT_MEDIUM));
 
     gui->addWidgetDown(new ofxUILabel("Brightness", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BrightnessV", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(-1, 1, 1, 0.1, "BrightnessV", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Contrast", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "ContrastV", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(-1, 1, -0.0499, 0.1, "ContrastV", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Erode",false,255/2,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUILabelToggle("Dilate",false,255/2,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Progressive Background",false,255,30,OFX_UI_FONT_MEDIUM));

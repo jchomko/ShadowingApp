@@ -24,7 +24,7 @@
 #define CAM_WIDTH 320
 #define CAM_HEIGHT 240
 #define FRAMERATE 60
-#define MIN_BUFFER_SIZE 60 //Frames
+#define MIN_BUFFER_SIZE 30 //Frames
 #define MAX_BUFFER_SIZE 900 //Frames
 #define STATUS_TIMER (1000*60)*5
 
@@ -61,17 +61,17 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-    
+
         void exit();
         void setupVariables();
 
         // Important
         bool isProductionMode;
-    
+
         // Projector Commands
         void setupProjector();
         ofxProjectorControl projector;
-    
+
         // OPEN CV
         void setupCV();
         CV openCV;
@@ -96,13 +96,13 @@ class ofApp : public ofBaseApp{
         bool dilate;
         vector<ofVec2f> blobPath;
   	long recTimer;
-  
+
         // GUI
         void setupGUI();
         void guiEvent(ofxUIEventArgs &e);
         ofxUICanvas *gui;
         ofImage *colorSampler;
-        
+
         // Masks
         void setupMasks();
         bool drawMask;
@@ -110,7 +110,7 @@ class ofApp : public ofBaseApp{
         ofImage masks[6];
         vector <string> maskString;
         ofColor backColor, shadowColor;
-    
+
         // GIF Stuff
         void setupGifEncoder();
         int progress;
@@ -119,21 +119,21 @@ class ofApp : public ofBaseApp{
         ofxGifEncoder gifEncoder;
         bool canSaveGif;
         void playSlowShadow();
-    
+
         // Shadowing Dream States
         void ShadowingDreamStateA();
         void ShadowingDreamStateB();
-    
+
         // Shadowing Modes
         bool dream;
         bool triggerDreamTimer;
-    
+
         // New Modes
         void ShadowingProductionModeA();
         void ShadowingProductionModeB();
         void ShadowingProductionModeG();
         void ShadowingProductionTest();
-    
+
         // Old Modes
         void ShadowingModeA();
         void ShadowingModeB();
@@ -146,13 +146,13 @@ class ofApp : public ofBaseApp{
         void ShadowingDefaultMode();
         void ShadowingDefaultModeNoLoop();
         void ShadowingDefaultMirroredMode();
-    
+
         std::deque<videoBuffer> buffers;
         std::deque<videoBuffer>livebuffer;
         videoBuffer b;
 
         vector<ofImage> videoImage;
-    
+
         string modeString;
         int playbackMode;
         int howManyBuffersToStore;
@@ -175,20 +175,20 @@ class ofApp : public ofBaseApp{
         ofxSimpleTimer activityTimer;
         void activityTimerComplete(int &args);
         void activityTimerStarted(int &args);
-    
+
         ofxSimpleTimer doCVBackgroundTimer;
         void CVTimerComplete(int &args);
         void CVTimerStarted(int &args);
-    
+
         ofxSimpleTimer statusTimer;
         void statusTimerComplete(int &args);
         void statusTimerStarted(int &args);
-    
+
         string CVstring;
         void drawMisc();
-	
+
         int dreamWaitTime;
-    
+
         // Directory Watcher
         void setupDirectoryWatcher();
         DirectoryWatcherManager gifWatcher;
@@ -209,10 +209,10 @@ class ofApp : public ofBaseApp{
         string responseStr;
         string requestStr;
         string action_url;
-    
+
         int imageCounter;
         int howmanyrecordings;
-    
+
         // Blur Shader
         void setupShader();
         ofxBlur shader;
@@ -230,8 +230,8 @@ class ofApp : public ofBaseApp{
         long randomWaitTimer;
         bool playBackLatch;
         bool lastPresentState;
-    
-    
+
+
         // New Loadconfig for AWS
         void loadConfig();
         ofxXmlSettings XML;
@@ -239,11 +239,11 @@ class ofApp : public ofBaseApp{
         string _secretKey;
         string _statusurl;
         string _uploadFileURL;
-	
+
 	//Tiger Videos
 	void playTiger();
 	ofVideoPlayer tiger1;
 	ofVideoPlayer tiger2;
-	bool		whichTiger;	
+	bool		whichTiger;
 	float 		tigerProbability;
 };

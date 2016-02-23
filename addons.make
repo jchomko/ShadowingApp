@@ -2,7 +2,6 @@ ofxOpenCv
 ofxXmlSettings
 ofxIO
 ofxSimpleTimer
-ofxDaveVideoBuffers
 ofxVideoBuffer
 ofxGifEncoder
 ofxProjectorControl

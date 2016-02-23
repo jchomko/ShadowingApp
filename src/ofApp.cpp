@@ -33,13 +33,13 @@ void ofApp::setup()
 
     // Setup Variables
     setupVariables();
-    
+
     // Setup Gif Encoder
     setupGifEncoder();
-    
+
     // Setup Directory Watcher
     setupDirectoryWatcher();
-#ifdef HAVE_WEB    
+#ifdef HAVE_WEB
     // Setup HTTP Stuff
     setupHTTP();
 #else
@@ -47,16 +47,16 @@ void ofApp::setup()
 #endif
     // Setup CV
     setupCV();
-    
+
     // Looks for masks inside of the Masks folder
     setupMasks();
-    
+
     // Setup the GUI
     setupGUI();
 
     // Setup the Timer
     setupTimers();
-    
+
     // Setup Shaders
     setupShader();
     playBackLatch = false;
@@ -76,18 +76,18 @@ void ofApp::update()
     // Set Window Title
     string title = "Shadowing: " + ofToString(ofGetTimestampString("%H:%M:%S  %d/%m/%Y"));
     ofSetWindowTitle(title);
-    
+
     //--------------------------------------------------------------
     // If we have %i buffers in the memory then release one
     if (buffers.size() > howManyBuffersToStore)
     {
         buffers.pop_back();
     }
-    
+
     if (livebuffer.size() > 2) {
         livebuffer.pop_back();
     }
-    
+
     //--------------------------------------------------------------
     // Custom CV mechanisms
     // Wait until we have a new frame before learning background
@@ -96,9 +96,11 @@ void ofApp::update()
         openCV.relearnBackground();
         firstLearn = false;
     }
-    
+
     // Subtraction Plus Brightness and Contrast Settings
-    openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+    //openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+    openCV.PsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+
 //     openCV.progSubLoop(iMinBlobSize, iMaxBlobSize, threshold, fBlur, brightness, contrast);
     //was JsubtractionLoop
 
@@ -164,7 +166,7 @@ void ofApp::update()
             }
             else
             {
-             
+
             }
         }
         else
@@ -177,7 +179,7 @@ void ofApp::update()
     {
         // If new frame
         //if (openCV.newFrame())
-       if(ofGetElapsedTimeMillis() - recTimer > 33) 
+       if(ofGetElapsedTimeMillis() - recTimer > 33)
        {
             // Capture Gif Image every 5 frames
             if (ofGetFrameNum() % 5 == 0)
@@ -265,7 +267,7 @@ void ofApp::draw()
         ofSetColor(255, 255);
         ofRect(0, 0, 320,240);
     }
-    ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);   
+    ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
 
 
     if (!buffers.empty())
@@ -293,7 +295,7 @@ void ofApp::draw()
     }
 
     //tiger1.draw(0,0,ofGetWidth(), ofGetHeight());
-   
+
     mainOut.end();
 
 //-------------Main Drawing Mechanism-----------
@@ -377,8 +379,8 @@ void ofApp::ShadowingDreamStateB()
     if (!buffers.empty())
     {
         buffers[whichBufferAreWePlaying].start();
-        
-	
+
+
         // This will change the Blend Modes according to the brightness of FBO
         if (backColor.getBrightness() >=125)
         {
@@ -394,7 +396,7 @@ void ofApp::ShadowingDreamStateB()
         }
         //buffers[whichBufferAreWePlaying].draw(255);
         ofDisableBlendMode();
-        
+
         if (buffers.size() > 2)
         {
             if (buffers[whichBufferAreWePlaying].isFinished() && randomWaitLatch == false)
@@ -597,7 +599,7 @@ void ofApp::onDirectoryWatcherItemAdded(const DirectoryWatcherManager::Directory
     {
         cout << "File: " <<  latestGifPath << " Size: " << evt.item.getSize() <<" bytes" << endl;
         latestGifPath = evt.item.path();
-        
+
         // Send the Gif to the Server
         ofxHttpForm form;
         form.action = _uploadFileURL;
@@ -629,7 +631,7 @@ void ofApp::onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::Directo
     {
         cout << "File: " <<  latestGifPath << evt.item.getSize() << endl;
         latestGifPath = evt.item.path();
-        
+
         // Send the Gif to the Server
         ofxHttpForm form;
         form.action = _uploadFileURL;
@@ -643,7 +645,7 @@ void ofApp::onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::Directo
         httpUtils.addForm(form);
     }
 #endif
-#endif  
+#endif
 }
 //--------------------------------------------------------------------------------------------------
 void ofApp::onDirectoryWatcherError(const Poco::Exception& exc){ }
@@ -651,7 +653,7 @@ void ofApp::onDirectoryWatcherError(const Poco::Exception& exc){ }
 void ofApp::exit()
 {
     gifWatcher.unregisterAllEvents(this);
-    
+
     // As it says
     cleanGifFolder();
     #ifdef HAVE_WEB
@@ -720,10 +722,10 @@ void ofApp::setupCV()
 {
     // Setup Custom openCV Class
     openCV.setup(CAM_WIDTH,CAM_HEIGHT,FRAMERATE);
-    
+
     // Its a Mystery
     openCV.relearnBackground();
-    
+
     // Sets the internal Tracking boundaries at 40px from each boundary
     openCV.setTrackingBoundaries(40, 40);
 }
@@ -759,25 +761,25 @@ void ofApp::setupDirectoryWatcher()
 #ifdef NUC
     // Add listener
     gifWatcher.registerAllEvents(this);
-    
+
     // Folder to Watch
     std::string gifFolderToWatch = SAVE_PATH_NUC;
-    
+
     // Do not list the existing files as there will be none
     bool listExistingItemsOnStart = false;
-    
+
     gifWatcher.addPath(gifFolderToWatch, listExistingItemsOnStart, &fileFilter);
-    
+
     latestGifPath = "";
 #else
     gifWatcher.registerAllEvents(this);
-    
+
     std::string gifFolderToWatch = SAVE_PATH_MAC;
-    
+
     bool listExistingItemsOnStart = false;
-    
+
     gifWatcher.addPath(gifFolderToWatch, listExistingItemsOnStart, &fileFilter);
-    
+
     latestGifPath = "";
 
 #endif
@@ -790,7 +792,7 @@ void ofApp::setupHTTP()
     // Setup HTTP POST Unit
     ofAddListener(httpUtils.newResponseEvent,this,&ofApp::newResponse);
 	httpUtils.start();
-    
+
     // Send Status
     ofxHttpForm form;
     form.action = _statusurl;
@@ -835,10 +837,10 @@ void ofApp::setupProjector()
    // ofSleepMillis(1000);
    // projector.turnOnCamera();
    // ofSleepMillis(3000);
-    
+
     // Wait while connection is established
     //ofSleepMillis(3000);
-    
+
     // Turn the projector On
     projector.projectorOn();
 }
@@ -850,10 +852,10 @@ void ofApp::setupMasks()
     // Look inside of the Masks folder
     ofDirectory maskDirectory;
     int nFiles = maskDirectory.listDir("Masks");
-    
+
     // Not sure why I've sorted them?
     maskDirectory.sort();
-    
+
     if(nFiles)
     {
         ofLog(OF_LOG_NOTICE, "Found Mask Folder");
@@ -898,7 +900,7 @@ void ofApp::setupGUI()
 {
     colorSampler = new ofImage();
     colorSampler->loadImage("GUI/colorSamplerImage.png");
-    
+
     gui = new ofxUICanvas(ofGetWidth()-260,0,600,600);
     gui->setColorBack(ofColor::black);
  //   gui->addWidgetDown(new ofxUILabel("Shadowing", OFX_UI_FONT_MEDIUM));
@@ -937,7 +939,7 @@ void ofApp::setupGUI()
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "BLUR", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Gauss Blur", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "GAUSS_BLUR", OFX_UI_FONT_MEDIUM));
-    
+
     gui->addWidgetDown(new ofxUILabel("Median Blur", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "MEDIAN_BLUR", OFX_UI_FONT_MEDIUM));
 
@@ -955,7 +957,7 @@ void ofApp::setupGUI()
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BLUR_RADIUS", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Blur Pass", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BLUR_PASS", OFX_UI_FONT_MEDIUM));
-    
+
     //gui->addSpacer(255,1);
  //   gui->addWidgetDown(new ofxUILabel("BGL","Background Color", OFX_UI_FONT_MEDIUM));
  //   gui->addWidgetDown(new ofxUIImageSampler(255/2, 255/2, colorSampler, "Background_Color"));
@@ -990,7 +992,7 @@ void ofApp::statusTimerComplete(int &args)
 //--------------------------------------------------------------
 void ofApp::statusTimerStarted(int &args)
 {
-    
+
 }
 //--------------------------------------------------------------
 void ofApp::CVTimerStarted(int &args)
@@ -1031,7 +1033,7 @@ void ofApp::drawMisc()
         openCV.draw();
     }
     ofPopStyle();
-    
+
     // Show the previous Buffers
     ofPushStyle();
      if (showPreviousBuffers)
@@ -1054,7 +1056,7 @@ void ofApp::drawMisc()
         }
     }
     ofPopStyle();
-    
+
     // Debug for information about the buffers, openCV HTTP Posts
     if (canDrawData == true)
     {
@@ -1271,7 +1273,7 @@ void ofApp::drawData()
     debugData << title << endl;
     debugData << "Unit " << _locationID << endl;
     debugData << "FrameRate: " << ofGetFrameRate() << endl;
-    
+
     debugData << endl;
     debugData << "BUFFERS" << endl;
     debugData << "We have recorded: " << howmanyrecordings << " actions" << endl;
@@ -1280,7 +1282,7 @@ void ofApp::drawData()
     debugData << "Current Buffer Size: " << buffers.size() << endl;
     debugData << "Currently Playing Buffer: " << whichBufferAreWePlaying << endl;
     debugData << endl;
-    
+
     if (!buffers.empty())
     {
         for (int i = 0; i < buffers.size(); i++)
@@ -1294,13 +1296,13 @@ void ofApp::drawData()
     debugData << "Timer: " << CVstring << endl;
     debugData << endl;
     debugData << "FBO Current Brightness " << backColor.getBrightness() << endl;
-    
+
     debugData << endl;
     debugData << "Current Mode: " << modeString << endl;
 
     debugData << endl;
     debugData << endl;
-    
+
     debugData << "HTTP Status" << endl;
     debugData << responseStr << endl;
     debugData << requestStr << endl;
@@ -1308,8 +1310,8 @@ void ofApp::drawData()
 
     debugData << endl;
     debugData << latestGifPath << endl;
-    
-   
+
+
     ofDrawBitmapStringHighlight(debugData.str(), 5,ofGetHeight()/2);
 
 }
@@ -1327,7 +1329,7 @@ void ofApp::ShadowingDreamStateA()
             buffers[i].start();
         }
     }
-    
+
     if (!buffers.empty())
     {
         for (int i = 0; i < buffers.size(); i++)
@@ -1338,7 +1340,7 @@ void ofApp::ShadowingDreamStateA()
             }
         }
     }
-    
+
     if (!buffers.empty())
     {
         for (int i = 0; i < buffers.size(); i++)
@@ -1356,11 +1358,9 @@ void ofApp::ShadowingDreamStateA()
             {
                 // Nothing
             }
-            
+
             buffers[i].draw(255);
             ofDisableBlendMode();
         }
     }
 }
-
-

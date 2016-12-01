@@ -48,8 +48,12 @@ void ofApp::setup()
     // Setup CV
     setupCV();
 
+    cout << "after setup cv"<< endl;
+
     // Looks for masks inside of the Masks folder
     setupMasks();
+
+	cout << "after setup masks"<< endl;
 
     // Setup the GUI
     setupGUI();
@@ -849,26 +853,32 @@ void ofApp::setupProjector()
 //--------------------------------------------------------------
 void ofApp::setupMasks()
 {
-    // Look inside of the Masks folder
-    ofDirectory maskDirectory;
+    
+	// Look inside of the Masks folder
+    	cout << "before opening directory" << endl;
+
+	ofDirectory maskDirectory;
     int nFiles = maskDirectory.listDir("Masks");
 
     // Not sure why I've sorted them?
     maskDirectory.sort();
-
+	cout << "after opening director"<< endl;
     if(nFiles)
     {
         ofLog(OF_LOG_NOTICE, "Found Mask Folder");
         for(int i = 0; i< maskDirectory.numFiles(); i++)
         {
             string filePath = maskDirectory.getPath(i);
-            masks[i].loadImage(filePath);
+            cout << filePath << endl;
+		masks[i].loadImage(filePath);
         }
     }
     else
     {
         ofLog(OF_LOG_ERROR, "Can't Find Mask Folder");
     }
+
+	cout << "done loading masks" <<endl;
 }
 //--------------------------------------------------------------
 // Setup Timers

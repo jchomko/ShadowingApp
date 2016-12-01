@@ -448,7 +448,7 @@ obj/linux64/Release/src/main.o: src/main.cpp \
  ../../../addons/ofxUI/src/ofxUIScrollableCanvas.h \
  ../../../addons/ofxUI/src/ofxUISuperCanvas.h \
  ../../../addons/ofxUI/src/ofxUITabBar.h \
- ../../../addons/ofxVideoBuffer/src/VideoBufferStorage.h \
+ ../../../addons/ofxDaveVideoBuffers/src/VideoBufferStorage.h \
  ../../../addons/ofxHttpUtils/src/ofxHttpUtils.h \
  ../../../libs/poco/include/Poco/Net/HTTPResponse.h \
  ../../../libs/poco/include/Poco/Net/Net.h \
@@ -1454,7 +1454,7 @@ src/ofApp.h:
 
 ../../../addons/ofxUI/src/ofxUITabBar.h:
 
-../../../addons/ofxVideoBuffer/src/VideoBufferStorage.h:
+../../../addons/ofxDaveVideoBuffers/src/VideoBufferStorage.h:
 
 ../../../addons/ofxHttpUtils/src/ofxHttpUtils.h:
 

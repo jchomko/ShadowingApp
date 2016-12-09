@@ -1,3 +1,5 @@
 /bin/data/gifs
 *Settings.xml
 *camera_settings.xml
+*.mov
+*.mkv

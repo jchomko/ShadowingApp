@@ -26,7 +26,7 @@ void ofApp::setup()
 {
     ofSetWindowShape(ofGetScreenWidth(), ofGetScreenHeight());
     ofSetFrameRate(FRAMERATE);
-    ofSetLogLevel(OF_LOG_ERROR);
+    ofSetLogLevel(OF_LOG_VERBOSE);
     loadConfig();
     // Setup the Projector
     setupProjector();
@@ -103,7 +103,7 @@ void ofApp::update()
 
     // Subtraction Plus Brightness and Contrast Settings
     openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
-//    openCV.PsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+   // openCV.PsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
 
 //     openCV.progSubLoop(iMinBlobSize, iMaxBlobSize, threshold, fBlur, brightness, contrast);
     //was JsubtractionLoop
@@ -448,15 +448,15 @@ void ofApp::ShadowingDreamStateB()
 
 
 void ofApp::playTiger(){
-		whichTiger = !whichTiger;
+		// whichTiger = !whichTiger;
 
-                if(whichTiger){
-	                tiger1.setPosition(0);
-        	        tiger1.play();
-                }else{
-               		tiger2.setPosition(0);
-               	 	tiger2.play();
-                }
+  //               if(whichTiger){
+	 //                tiger1.setPosition(0);
+  //       	        tiger1.play();
+  //               }else{
+  //              		tiger2.setPosition(0);
+  //              	 	tiger2.play();
+  //               }
 
 }
 //--------------------------------------------------------------
@@ -1023,7 +1023,7 @@ void ofApp::CVTimerComplete(int &args)
 //--------------------------------------------------------------
 void ofApp::activityTimerComplete(int &args)
 {
-    	cout << "Timer Complete - dreaming starts now" << endl;
+    cout << "Timer Complete - dreaming starts now" << endl;
 	noneDream = false;
 	dream = true;
 	//tiger1.play();

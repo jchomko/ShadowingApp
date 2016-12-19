@@ -43,6 +43,7 @@
 #define SAVE_PATH_NUC "/root/of_v0.8.3_linux64_release/apps/myApps/ShadowingApp/bin/data/gifs/"
 #define HAVE_WEB
 #define NUC
+#define DEBUG
 
 using namespace ofx::IO;
 class ofApp : public ofBaseApp{

@@ -682,7 +682,11 @@ void ofApp::exit()
     openCV.exit();
     gui->saveSettings("GUI/Settings.xml");
     delete gui;
-    projector.projectorOff();
+    
+    #ifndef DEBUG
+        projector.projectorOff();
+    #endif
+
 }
 //--------------------------------------------------------------
 // Other Stuff
@@ -835,18 +839,22 @@ void ofApp::setupShader()
 void ofApp::setupProjector()
 {
     // Connect to the projector
-    projector.openConnection("/dev/ttyUSB0");
+    #ifndef DEBUG
 
-    projector.turnOffCamera();
-   // ofSleepMillis(1000);
-   // projector.turnOnCamera();
-   // ofSleepMillis(3000);
+        projector.openConnection("/dev/ttyUSB0");
 
-    // Wait while connection is established
-    //ofSleepMillis(3000);
+        projector.turnOffCamera();
+       // ofSleepMillis(1000);
+       // projector.turnOnCamera();
+       // ofSleepMillis(3000);
 
-    // Turn the projector On
-    projector.projectorOn();
+        // Wait while connection is established
+        //ofSleepMillis(3000);
+
+        // Turn the projector On
+        projector.projectorOn();
+
+    #endif
 }
 //--------------------------------------------------------------
 //  Setup Masks
@@ -855,7 +863,7 @@ void ofApp::setupMasks()
 {
     
 	// Look inside of the Masks folder
-    	cout << "before opening directory" << endl;
+    cout << "before opening directory" << endl;
 
 	ofDirectory maskDirectory;
     int nFiles = maskDirectory.listDir("Masks");

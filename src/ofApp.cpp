@@ -678,13 +678,16 @@ void ofApp::exit()
     cout << "Released Camera" << endl;
 #ifdef HAVE_WEB
     httpUtils.stop();
+	cout << "Stopped Web" << endl;
 #endif
-    openCV.exit();
-    gui->saveSettings("GUI/Settings.xml");
-    delete gui;
-    
+    	openCV.exit();
+	cout << "Exited Gui" << endl;
+    	gui->saveSettings("GUI/Settings.xml");
+	delete gui;
+    	cout << "Saved Gui" << endl;
     #ifndef DEBUG
         projector.projectorOff();
+    	cout << "Projector Off" << endl;
     #endif
 
 }
@@ -923,23 +926,23 @@ void ofApp::setupGUI()
 
     gui = new ofxUICanvas(ofGetWidth()-260,0,600,600);
     gui->setColorBack(ofColor::black);
- //   gui->addWidgetDown(new ofxUILabel("Shadowing", OFX_UI_FONT_MEDIUM));
- //   gui->addSpacer(255,1);
+    gui->addWidgetDown(new ofxUILabel("Shadowing", OFX_UI_FONT_MEDIUM));
+    gui->addSpacer(255,1);
 //    gui->addWidgetDown(new ofxUILabelToggle("Fullscreen",true,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Do Calibration",false,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabelToggle("Draw CV",false,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabelToggle("Show Buffers",false,255,30,OFX_UI_FONT_MEDIUM));
+   gui->addWidgetDown(new ofxUILabelToggle("Draw CV",false,255,30,OFX_UI_FONT_MEDIUM));
+   gui->addWidgetDown(new ofxUILabelToggle("Show Buffers",false,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Show Data",false,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Playback Mode", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "PLAYBACK_MODE", OFX_UI_FONT_MEDIUM));
+   gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "PLAYBACK_MODE", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Number of Buffers", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 15,5, 0, "BUFFER_NUMBER", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Use Mask",true,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Mask Number", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 5, 1, 0, "Mask_No", OFX_UI_FONT_MEDIUM));
-  //  gui->addSpacer(255,1);
- //   gui->addWidgetDown(new ofxUILabelButton("Learn Background",false,255,30,OFX_UI_FONT_MEDIUM));
-//    gui->addWidgetDown(new ofxUILabelToggle("Mirror H",false,255/2,30,OFX_UI_FONT_MEDIUM));
+    gui->addSpacer(255,1);
+    gui->addWidgetDown(new ofxUILabelButton("Learn Background",false,255,30,OFX_UI_FONT_MEDIUM));
+  //  gui->addWidgetDown(new ofxUILabelToggle("Mirror H",false,255/2,30,OFX_UI_FONT_MEDIUM));
 //    gui->addWidgetRight(new ofxUILabelToggle("Mirror V",false,255/2,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Tracking Boundaries", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, CAM_HEIGHT/2,5, 0, "TRACKING_BOUNDARY", OFX_UI_FONT_MEDIUM));
@@ -979,12 +982,12 @@ void ofApp::setupGUI()
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BLUR_PASS", OFX_UI_FONT_MEDIUM));
 
     //gui->addSpacer(255,1);
- //   gui->addWidgetDown(new ofxUILabel("BGL","Background Color", OFX_UI_FONT_MEDIUM));
+ //  gui->addWidgetDown(new ofxUILabel("BGL","Background Color", OFX_UI_FONT_MEDIUM));
  //   gui->addWidgetDown(new ofxUIImageSampler(255/2, 255/2, colorSampler, "Background_Color"));
  //   gui->addWidgetEastOf(new ofxUILabel("Shadow Color", OFX_UI_FONT_MEDIUM),"BGL");
  //   gui->addWidgetEastOf(new ofxUIImageSampler(255/2, 255/2, colorSampler, "Shadow_Color"),"Background_Color");
 //    gui->addWidgetDown(new ofxUINumberDialer(0,60000,18000,1,"DREAM_WAIT_TIME", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUINumberDialer(0,10,3,1,"TIGER_PROBABILITY", OFX_UI_FONT_MEDIUM));
+    //gui->addWidgetDown(new ofxUINumberDialer(0,10,3,1,"TIGER_PROBABILITY", OFX_UI_FONT_MEDIUM));
 
     gui->autoSizeToFitWidgets();
     ofAddListener(gui->newGUIEvent,this, &ofApp::guiEvent);

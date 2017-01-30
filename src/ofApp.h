@@ -100,7 +100,8 @@ class ofApp : public ofBaseApp{
 
         // GUI
         void setupGUI();
-        void guiEvent(ofxUIEventArgs &e);
+        void setupSimpleGUI();
+	void guiEvent(ofxUIEventArgs &e);
         ofxUICanvas *gui;
         ofImage *colorSampler;
 

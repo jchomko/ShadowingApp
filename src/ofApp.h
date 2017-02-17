@@ -157,6 +157,7 @@ class ofApp : public ofBaseApp{
 
         string modeString;
         int playbackMode;
+	int imagingMode;
         int howManyBuffersToStore;
         bool showPreviousBuffers;
         int whichBufferAreWePlaying;

@@ -103,11 +103,18 @@ void ofApp::update()
     }
 
     // Subtraction Plus Brightness and Contrast Settings
-//    openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
-    openCV.PsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+    if(imagingMode == 0){
 
-//     openCV.progSubLoop(iMinBlobSize, iMaxBlobSize, threshold, fBlur, brightness, contrast);
-    //was JsubtractionLoop
+	openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+
+	}else if(imagingMode == 1){
+
+	openCV.DsubtractionLoop(false,false);
+
+     }
+
+//    	openCV.PsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+//    	openCV.progSubLoop(iMinBlobSize, iMaxBlobSize, threshold, fBlur, brightness, contrast);
 
     learnBackground = false;
     // Do Blob Assembly
@@ -288,10 +295,9 @@ void ofApp::draw()
 
     ofDisableBlendMode();
 
-//    if (playbackMode == 0)
-//    {
-        ShadowingProductionModeA();
-//    }
+
+    ShadowingProductionModeA();
+
 
     if (useShader)
     {
@@ -466,10 +472,10 @@ void ofApp::keyPressed(int key)
     switch(key)
     {
         case '1':
-	    playbackMode = 0;
+	    imagingMode = 0;
 	    break;
 	case '2':
-	    playbackMode = 1;
+	    imagingMode = 1;
 	    break;
 	case '3':
 	    playbackMode = 3;
@@ -755,6 +761,7 @@ void ofApp::setupVariables()
     playbackMode = 0;
     howmanyrecordings = 0;
     whichBufferAreWePlaying = 0;
+    imagingMode = 0;
     hasBeenPushedFlag = true;
     learnBackground = true;
     canSaveGif = false;
@@ -934,8 +941,9 @@ void ofApp::setupGUI()
    gui->addWidgetDown(new ofxUILabelToggle("Draw CV",false,255,30,OFX_UI_FONT_MEDIUM));
    gui->addWidgetDown(new ofxUILabelToggle("Show Buffers",false,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Show Data",false,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabel("Playback Mode", OFX_UI_FONT_MEDIUM));
-   gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "PLAYBACK_MODE", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Imaging Mode", OFX_UI_FONT_MEDIUM));
+   gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "IMAGING_MODE", OFX_UI_FONT_MEDIUM));
+
     gui->addWidgetDown(new ofxUILabel("Number of Buffers", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 15,5, 0, "BUFFER_NUMBER", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Use Mask",true,255,30,OFX_UI_FONT_MEDIUM));
@@ -1034,8 +1042,8 @@ void ofApp::setupSimpleGUI()
     gui->addWidgetDown(new ofxUILabelToggle("Draw CV",false,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Show Buffers",false,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Show Data",false,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabel("Playback Mode", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "PLAYBACK_MODE", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Imaging Mode", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "IMAGING_MODE", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Number of Buffers", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 15,5, 0, "BUFFER_NUMBER", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Use Mask",true,255,30,OFX_UI_FONT_MEDIUM));
@@ -1192,10 +1200,10 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
         drawMask = toggle->getValue();
     }
-    else if(e.getName() == "PLAYBACK_MODE")
+    else if(e.getName() == "IMAGING_MODE")
     {
         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-        //playbackMode = dial->getValue();
+        imagingMode = dial->getValue();
     }
     else if(e.getName() == "Mask_No")
     {

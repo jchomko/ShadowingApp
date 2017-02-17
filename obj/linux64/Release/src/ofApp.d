@@ -397,6 +397,16 @@ obj/linux64/Release/src/ofApp.o: src/ofApp.cpp src/ofApp.h \
  ../../../addons/ofxFlyCapture/src/AVIRecorder.h \
  ../../../addons/ofxFlyCapture/src/TopologyNode.h \
  ../../../addons/ofxFlyCapture/src/ImageStatistics.h \
+ ../../../addons/ofxCv/libs/ofxCv/include/ofxCv/Utilities.h \
+ ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/opencv.hpp \
+ ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/video/video.hpp \
+ ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/video/background_segm.hpp \
+ ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/ml/ml.hpp \
+ ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/highgui/highgui_c.h \
+ ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/highgui/highgui.hpp \
+ ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/contrib.hpp \
+ ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/retina.hpp \
+ ../../../addons/ofxCv/libs/ofxCv/include/ofxCv/Helpers.h \
  ../../../addons/ofxSimpleTimer/src/ofxSimpleTimer.h \
  ../../../addons/ofxUI/src/ofxUI.h \
  ../../../addons/ofxUI/src/ofxUIDefines.h \
@@ -1351,6 +1361,26 @@ src/ofApp.h:
 ../../../addons/ofxFlyCapture/src/TopologyNode.h:
 
 ../../../addons/ofxFlyCapture/src/ImageStatistics.h:
+
+../../../addons/ofxCv/libs/ofxCv/include/ofxCv/Utilities.h:
+
+../../../addons/ofxOpenCv/libs/opencv/include/opencv2/opencv.hpp:
+
+../../../addons/ofxOpenCv/libs/opencv/include/opencv2/video/video.hpp:
+
+../../../addons/ofxOpenCv/libs/opencv/include/opencv2/video/background_segm.hpp:
+
+../../../addons/ofxOpenCv/libs/opencv/include/opencv2/ml/ml.hpp:
+
+../../../addons/ofxOpenCv/libs/opencv/include/opencv2/highgui/highgui_c.h:
+
+../../../addons/ofxOpenCv/libs/opencv/include/opencv2/highgui/highgui.hpp:
+
+../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/contrib.hpp:
+
+../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/retina.hpp:
+
+../../../addons/ofxCv/libs/ofxCv/include/ofxCv/Helpers.h:
 
 ../../../addons/ofxSimpleTimer/src/ofxSimpleTimer.h:
 

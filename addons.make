@@ -1,4 +1,5 @@
 ofxOpenCv
+ofxCv
 ofxXmlSettings
 ofxIO
 ofxSimpleTimer
@@ -12,4 +13,5 @@ ofxCalibrationUtils
 ofxBlur
 ofxGui
 ofxFlyCapture
+
 

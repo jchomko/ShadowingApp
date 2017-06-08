@@ -607,7 +607,7 @@ void ofApp::onDirectoryWatcherItemAdded(const DirectoryWatcherManager::Directory
 #ifndef NUC
     if (ofIsStringInString(evt.item.path(),".gif") && evt.item.getSize() > 5000)
     {
-        cout << "File: " <<  latestGifPath << " Size: " << evt.item.getSize() <<" bytes" << endl;
+        cout << "Uploading File: " <<  latestGifPath << " Size: " << evt.item.getSize() <<" bytes " << endl;
         latestGifPath = evt.item.path();
 
         // Send the Gif to the Server
@@ -639,8 +639,8 @@ void ofApp::onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::Directo
 #ifdef NUC
     if (ofIsStringInString(evt.item.path(),".gif") && evt.item.getSize() > 5000)
     {
-        cout << "File: " <<  latestGifPath << evt.item.getSize() << endl;
         latestGifPath = evt.item.path();
+        cout << "File: " <<  latestGifPath << " Size : " <<  evt.item.getSize() << endl;
 
         // Send the Gif to the Server
         ofxHttpForm form;

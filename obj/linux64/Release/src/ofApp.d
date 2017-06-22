@@ -375,15 +375,6 @@ obj/linux64/Release/src/ofApp.o: src/ofApp.cpp src/ofApp.h \
  ../../../addons/ofxXmlSettings/src/ofxXmlSettings.h \
  ../../../addons/ofxXmlSettings/libs/tinyxml.h \
  ../../../addons/ofxCalibrationUtils/src/baseGui.h \
- ../../../addons/ofxGui/src/ofxGui.h \
- ../../../addons/ofxGui/src/ofxToggle.h \
- ../../../addons/ofxGui/src/ofxBaseGui.h \
- ../../../addons/ofxGui/src/ofxSlider.h \
- ../../../addons/ofxGui/src/ofxSliderGroup.h \
- ../../../addons/ofxGui/src/ofxGuiGroup.h \
- ../../../addons/ofxGui/src/ofxButton.h \
- ../../../addons/ofxGui/src/ofxPanel.h \
- ../../../addons/ofxGui/src/ofxLabel.h \
  ../../../addons/ofxFlyCapture/src/FlyCapture2.h \
  ../../../addons/ofxFlyCapture/src/FlyCapture2Platform.h \
  ../../../addons/ofxFlyCapture/src/FlyCapture2Defs.h \
@@ -407,7 +398,6 @@ obj/linux64/Release/src/ofApp.o: src/ofApp.cpp src/ofApp.h \
  ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/contrib.hpp \
  ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/retina.hpp \
  ../../../addons/ofxCv/libs/ofxCv/include/ofxCv/Helpers.h \
- ../../../addons/ofxSimpleTimer/src/ofxSimpleTimer.h \
  ../../../addons/ofxUI/src/ofxUI.h \
  ../../../addons/ofxUI/src/ofxUIDefines.h \
  ../../../addons/ofxUI/src/ofxUIWidget.h \
@@ -458,6 +448,7 @@ obj/linux64/Release/src/ofApp.o: src/ofApp.cpp src/ofApp.h \
  ../../../addons/ofxUI/src/ofxUIScrollableCanvas.h \
  ../../../addons/ofxUI/src/ofxUISuperCanvas.h \
  ../../../addons/ofxUI/src/ofxUITabBar.h \
+ ../../../addons/ofxSimpleTimer/src/ofxSimpleTimer.h \
  ../../../addons/ofxVideoBuffer/src/VideoBufferStorage.h \
  ../../../addons/ofxHttpUtils/src/ofxHttpUtils.h \
  ../../../libs/poco/include/Poco/Net/HTTPResponse.h \
@@ -1318,24 +1309,6 @@ src/ofApp.h:
 
 ../../../addons/ofxCalibrationUtils/src/baseGui.h:
 
-../../../addons/ofxGui/src/ofxGui.h:
-
-../../../addons/ofxGui/src/ofxToggle.h:
-
-../../../addons/ofxGui/src/ofxBaseGui.h:
-
-../../../addons/ofxGui/src/ofxSlider.h:
-
-../../../addons/ofxGui/src/ofxSliderGroup.h:
-
-../../../addons/ofxGui/src/ofxGuiGroup.h:
-
-../../../addons/ofxGui/src/ofxButton.h:
-
-../../../addons/ofxGui/src/ofxPanel.h:
-
-../../../addons/ofxGui/src/ofxLabel.h:
-
 ../../../addons/ofxFlyCapture/src/FlyCapture2.h:
 
 ../../../addons/ofxFlyCapture/src/FlyCapture2Platform.h:
@@ -1381,8 +1354,6 @@ src/ofApp.h:
 ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/retina.hpp:
 
 ../../../addons/ofxCv/libs/ofxCv/include/ofxCv/Helpers.h:
-
-../../../addons/ofxSimpleTimer/src/ofxSimpleTimer.h:
 
 ../../../addons/ofxUI/src/ofxUI.h:
 
@@ -1483,6 +1454,8 @@ src/ofApp.h:
 ../../../addons/ofxUI/src/ofxUISuperCanvas.h:
 
 ../../../addons/ofxUI/src/ofxUITabBar.h:
+
+../../../addons/ofxSimpleTimer/src/ofxSimpleTimer.h:
 
 ../../../addons/ofxVideoBuffer/src/VideoBufferStorage.h:
 

@@ -69,10 +69,11 @@ void ofApp::setup()
 
 
     ofSetVerticalSync(true);
+    cout << "setup done"<< endl;
    // ofSystem("v4l2-ctl -c power_line_frequency=1");
-   tiger1.loadMovie("videos/tiger2.mov");
-   tiger2.loadMovie("videos/tiger3.mov");
-   whichTiger = true;
+   //tiger1.loadMovie("videos/tiger2.mov");
+   //tiger2.loadMovie("videos/tiger3.mov");
+   //whichTiger = true;
 
 }
 //--------------------------------------------------------------
@@ -109,11 +110,13 @@ void ofApp::update()
 
 	}else if(imagingMode == 1){
 
-	openCV.DsubtractionLoop(false,false);
+    openCV.DsubtractionLoop(false,false);
+        //openCV.PsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
 
      }
 
-//    	openCV.PsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+  // 	openCV.PsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+
 //    	openCV.progSubLoop(iMinBlobSize, iMaxBlobSize, threshold, fBlur, brightness, contrast);
 
     learnBackground = false;
@@ -257,8 +260,8 @@ void ofApp::update()
         ofHideCursor();
     }
 
-    tiger1.update();
-    tiger2.update();
+    //tiger1.update();
+    //tiger2.update();
 
 }
 //--------------------------------------------------------------
@@ -290,8 +293,8 @@ void ofApp::draw()
         }
     }
 
-    tiger1.draw(0,0,320,240);
-    tiger2.draw(0,0,320,240);
+    //tiger1.draw(0,0,320,240);
+    //tiger2.draw(0,0,320,240);
 
     ofDisableBlendMode();
 
@@ -485,18 +488,18 @@ void ofApp::keyPressed(int key)
 	    drawCV = !drawCV;
             ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
             break;
-        case OF_KEY_UP:
-            projector.up();
-            break;
-        case OF_KEY_DOWN:
-            projector.down();
-            break;
-        case OF_KEY_LEFT:
-            projector.left();
-            break;
-        case OF_KEY_RIGHT:
-            projector.right();
-            break;
+        // case OF_KEY_UP:
+        //     projector.up();
+        //     break;
+        // case OF_KEY_DOWN:
+        //     projector.down();
+        //     break;
+        // case OF_KEY_LEFT:
+        //     projector.left();
+        //     break;
+        // case OF_KEY_RIGHT:
+        //     projector.right();
+        //     break;
         case 'i':
             projector.projectorOn();
             break;
@@ -686,15 +689,18 @@ void ofApp::exit()
     httpUtils.stop();
 	cout << "Stopped Web" << endl;
 #endif
-    	openCV.exit();
+    openCV.exit();
 	cout << "Exited Gui" << endl;
-    	gui->saveSettings("GUI/Settings.xml");
-	delete gui;
-    	cout << "Saved Gui" << endl;
+    gui->saveSettings("GUI/Settings.xml");
+	//delete gui;
+
+    cout << "Saved Gui" << endl;
+
     #ifndef DEBUG
         projector.projectorOff();
     	cout << "Projector Off" << endl;
     #endif
+
 	cout << "Finished Exit" << endl;
 
 }
@@ -932,7 +938,7 @@ void ofApp::setupGUI()
     colorSampler = new ofImage();
     colorSampler->loadImage("GUI/colorSamplerImage.png");
 
-    gui = new ofxUICanvas(ofGetWidth()-260,0,600,600);
+    gui = new ofxUICanvas(0,0,600,600);
     gui->setColorBack(ofColor::black);
     gui->addWidgetDown(new ofxUILabel("Shadowing", OFX_UI_FONT_MEDIUM));
     gui->addSpacer(255,1);

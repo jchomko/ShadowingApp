@@ -167,7 +167,7 @@ void ofApp::update()
                 //buffers.push_front(b);
                 //b.clear();
                 buffers[0].start();
-		hasBeenPushedFlag = true;
+		        hasBeenPushedFlag = true;
                 imageCounter = 0;
                 doCVBackgroundTimer.start(false);
             }

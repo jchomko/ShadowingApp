@@ -25,7 +25,7 @@ void ofApp::loadConfig()
 void ofApp::setup()
 {
     ofSetWindowShape(ofGetScreenWidth(), ofGetScreenHeight());
-    ofSetFrameRate(FRAMERATE);
+    ofSetFrameRate(FRAMERATE*2);
     ofSetLogLevel(OF_LOG_VERBOSE);
     loadConfig();
     // Setup the Projector
@@ -70,6 +70,9 @@ void ofApp::setup()
 
     ofSetVerticalSync(true);
     cout << "setup done"<< endl;
+
+    ofSystem("sh /root/openusbrelay.sh");
+
    // ofSystem("v4l2-ctl -c power_line_frequency=1");
    //tiger1.loadMovie("videos/tiger2.mov");
    //tiger2.loadMovie("videos/tiger3.mov");
@@ -194,7 +197,8 @@ void ofApp::update()
     {
         // If new frame
         //if (openCV.newFrame())
-       if(ofGetElapsedTimeMillis() - recTimer > 33)
+
+       if(ofGetElapsedTimeMillis() - recTimer > 1000/FRAMERATE)
        {
             // Capture Gif Image every 5 frames
             if (ofGetFrameNum() % 5 == 0)
@@ -202,9 +206,10 @@ void ofApp::update()
                 captureFrame();
             }
 		//Start new recording
-                if(imageCounter == 0){
-			buffers.push_front(b);
-			cout << "starting new videobuffer" << endl;
+            if(imageCounter == 0){
+               
+		      	buffers.push_front(b);
+			    cout << "starting new videobuffer" << endl;
 		}
 
 		// Capture the CV image
@@ -667,6 +672,8 @@ void ofApp::exit()
 {
     gifWatcher.unregisterAllEvents(this);
 
+    ofSystem("sh /root/closeusbrelay.sh");
+    
     // As it says
     cleanGifFolder();
     #ifdef HAVE_WEB

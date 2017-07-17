@@ -73,10 +73,7 @@ void ofApp::setup()
 
     ofSystem("sh /root/openusbrelay.sh");
 
-   // ofSystem("v4l2-ctl -c power_line_frequency=1");
-   //tiger1.loadMovie("videos/tiger2.mov");
-   //tiger2.loadMovie("videos/tiger3.mov");
-   //whichTiger = true;
+    drawCamFull = false;
 
 }
 //--------------------------------------------------------------
@@ -333,6 +330,9 @@ void ofApp::draw()
     drawMisc();
     openCV.drawGui();
 
+	if(drawCamFull){
+		openCV.drawCameraFullScreen();
+	}
 }
 
 //--------------------------------------------------------------
@@ -524,8 +524,9 @@ void ofApp::keyPressed(int key)
             ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
             break;
         case 'f':
-            openCV.toggleGui();
-            break;
+            //openCV.toggleGui();
+		drawCamFull = !drawCamFull;
+		break;
         case 'b':
             showPreviousBuffers = !showPreviousBuffers;
             ((ofxUILabelToggle *) gui->getWidget("Show Buffers"))->setValue(showPreviousBuffers);

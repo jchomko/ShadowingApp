@@ -172,6 +172,7 @@ class ofApp : public ofBaseApp{
         void drawData();
         bool canDrawData;
         bool cursorDisplay;
+	bool drawCamFull;
         // Activity,Timers and Modes
         void setupTimers();
         bool inactive;

@@ -336,7 +336,11 @@ void ofApp::draw()
     openCV.drawGui();
 
 	if(drawCamFull){
-		openCV.drawCameraFullScreen();
+	ofPushMatrix();
+	ofTranslate(0,playbackOffsetY);
+	openCV.drawCameraFullScreen();
+	ofPopMatrix();
+
 	}
 }
 

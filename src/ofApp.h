@@ -250,4 +250,8 @@ class ofApp : public ofBaseApp{
 	ofVideoPlayer tiger2;
 	bool		whichTiger;
 	float 		tigerProbability;
+
+	//Playback Offset
+	int playbackOffsetY;
+
 };

@@ -59,6 +59,7 @@ void ofApp::setup()
     //setupGUI();
     setupSimpleGUI();
 
+
     // Setup the Timer
     setupTimers();
 
@@ -278,14 +279,15 @@ void ofApp::draw()
 	ofDrawBitmapString(ofGetTimestampString(),300,300);
     	ofPopStyle();
 
-	if (useShader)
-    {
+	if (useShader){
         shader.begin();
         ofSetColor(255, 255);
         ofRect(0, 0, 320,240);
     }
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
 
+   ofPushMatrix();
+   ofTranslate(0,playbackOffsetY);
 
     if (!buffers.empty())
     {
@@ -294,6 +296,9 @@ void ofApp::draw()
             buffers[i].draw(255);
         }
     }
+
+   ofPopMatrix();
+
 
     //tiger1.draw(0,0,320,240);
     //tiger2.draw(0,0,320,240);
@@ -511,9 +516,9 @@ void ofApp::keyPressed(int key)
         case 'o':
             projector.projectorOff();
             break;
-        case 'c':
-            cursorDisplay = !cursorDisplay; // NULL on the ubuntu system
-            break;
+        //case 'c':
+        //    cursorDisplay = !cursorDisplay; // NULL on the ubuntu system
+        //    break;
         case 'd':
             canDrawData = !canDrawData;
             ((ofxUILabelToggle *) gui->getWidget("Show Data"))->setValue(canDrawData);
@@ -523,11 +528,13 @@ void ofApp::keyPressed(int key)
 	    drawCV = !drawCV;
             ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
             break;
-        case 'f':
-            //openCV.toggleGui();
+        case 'c':
+            	openCV.toggleGui();
+		break;
+	case 'f':
 		drawCamFull = !drawCamFull;
 		break;
-        case 'b':
+	case 'b':
             showPreviousBuffers = !showPreviousBuffers;
             ((ofxUILabelToggle *) gui->getWidget("Show Buffers"))->setValue(showPreviousBuffers);
             break;
@@ -1021,16 +1028,17 @@ void ofApp::setupGUI()
 
 void ofApp::setupSimpleGUI()
 {
-    gui = new ofxUICanvas(ofGetWidth()-260,0,600,600);
+    gui = new ofxUICanvas(ofGetWidth()/2,0,600,600);
     gui->setColorBack(ofColor::black);
 
     gui->addWidgetDown(new ofxUILabel("Basic Settings", OFX_UI_FONT_MEDIUM));
     gui->addSpacer(255,1);
     gui->addSpacer(0,10);
   
-  gui->addWidgetDown(new ofxUILabel("Imaging Threshold", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Imaging Threshold", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "IMAGE_THRESHOLD", OFX_UI_FONT_MEDIUM));
-
+    gui->addWidgetDown(new ofxUILabel("Playback Offset", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(-1000, 1000, 80, 0, "PLAYBACK_OFFSET_Y", OFX_UI_FONT_MEDIUM));
     gui->addSpacer(0,30);
     gui->addWidgetDown(new ofxUILabel("Advanced Settings", OFX_UI_FONT_MEDIUM));
     gui->addSpacer(255,1);  
@@ -1280,6 +1288,12 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
         threshold = dial->getValue();
     }
+     else if(e.getName() == "PLAYBACK_OFFSET_Y")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        playbackOffsetY = dial->getValue();
+   	cout << "playback offset " << playbackOffsetY << endl;
+    }
      else if(e.getName() == "MOVE_THRESHOLD")
     {
         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
@@ -1441,7 +1455,7 @@ void ofApp::drawData()
     debugData << latestGifPath << endl;
 
 
-    ofDrawBitmapStringHighlight(debugData.str(), 5,ofGetHeight()/2);
+    ofDrawBitmapStringHighlight(debugData.str(), ofGetWidth()/2,0);
 
 }
 

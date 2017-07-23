@@ -158,9 +158,9 @@ void ofApp::update()
                 if (canSaveGif == true)
                 {
                     #ifdef NUC
-                    //gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
+                    gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
                     #else
-                    //gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
+                    gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
                     #endif
                     howmanyrecordings++;
                     canSaveGif = false;
@@ -229,9 +229,9 @@ void ofApp::update()
         if (canSaveGif == true)
         {
             #ifdef NUC
-                gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
+//                gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
             #else
-                gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
+//                gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
             #endif
             howmanyrecordings++;
             canSaveGif = false;

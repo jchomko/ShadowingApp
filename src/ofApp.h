@@ -253,5 +253,8 @@ class ofApp : public ofBaseApp{
 
 	//Playback Offset
 	int playbackOffsetY;
+	
+	//Video Playback Delay
+	int delayFramesBeforePlayback;
 
 };

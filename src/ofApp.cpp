@@ -158,16 +158,17 @@ void ofApp::update()
                 if (canSaveGif == true)
                 {
                     #ifdef NUC
-                    gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
+                    //gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
                     #else
-                    gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
+                    //gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
                     #endif
                     howmanyrecordings++;
                     canSaveGif = false;
                 }
                 //buffers.push_front(b);
                 //b.clear();
-                buffers[0].start();
+              	//Playing after a certain amount of frames have been recorded, instead of waiting for recording to end
+		//buffers[0].start();
 		        hasBeenPushedFlag = true;
                 imageCounter = 0;
                 doCVBackgroundTimer.start(false);
@@ -205,18 +206,21 @@ void ofApp::update()
             }
 		//Start new recording
             if(imageCounter == 0){
-               
-		      	buffers.push_front(b);
-			    cout << "starting new videobuffer" << endl;
+		buffers.push_front(b);
+		cout << "starting new videobuffer" << endl;
+	    }
+		//Playing recording before it has ended - put this frame number into settings
+		if(imageCounter == delayFramesBeforePlayback){
+			 buffers[0].start();
 		}
 
 		// Capture the CV image
 		//videoBuffers.push_back(videoBuffer);
-		buffers[0].buffer.push_back(openCV.getRecordPixels());
+	     buffers[0].buffer.push_back(openCV.getRecordPixels());
 		//b.getNewImage(openCV.getRecordPixels());
                 //blobPath.push_back(openCV.getBlobPath());
-                imageCounter++;
-                recTimer = ofGetElapsedTimeMillis();
+             imageCounter++;
+             recTimer = ofGetElapsedTimeMillis();
 	}
     }
 
@@ -1043,7 +1047,9 @@ void ofApp::setupSimpleGUI()
     gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "IMAGE_THRESHOLD", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Playback Offset", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(-1000, 1000, 80, 0, "PLAYBACK_OFFSET_Y", OFX_UI_FONT_MEDIUM));
-    gui->addSpacer(0,30);
+   gui->addWidgetDown(new ofxUILabel("Delay Before Playback", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 400, 30, 0, "DELAY_BEFORE_PLAYBACK", OFX_UI_FONT_MEDIUM));
+	gui->addSpacer(0,30);
     gui->addWidgetDown(new ofxUILabel("Advanced Settings", OFX_UI_FONT_MEDIUM));
     gui->addSpacer(255,1);  
 	gui->addSpacer(0,10);  
@@ -1296,7 +1302,11 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
     {
         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
         playbackOffsetY = dial->getValue();
-   	cout << "playback offset " << playbackOffsetY << endl;
+    }
+    else if(e.getName() == "DELAY_BEFORE_PLAYBACK")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        delayFramesBeforePlayback = dial->getValue();
     }
      else if(e.getName() == "MOVE_THRESHOLD")
     {

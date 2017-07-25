@@ -72,6 +72,7 @@ void ofApp::setup()
     ofSetVerticalSync(true);
     cout << "setup done"<< endl;
 
+	//open usb relay
     ofSystem("sh /root/openusbrelay.sh");
 
     drawCamFull = false;
@@ -895,7 +896,7 @@ void ofApp::setupProjector()
 
         // Turn the projector On
         projector.projectorOn();
-
+	
     #endif
 }
 //--------------------------------------------------------------
@@ -1135,6 +1136,12 @@ void ofApp::statusTimerComplete(int &args)
 
     // Pulse the Projector
     projector.projectorOn();
+
+    //Make sure relay is open!
+    //open usb relay
+    ofSystem("sh /root/openusbrelay.sh");
+
+
 }
 //--------------------------------------------------------------
 void ofApp::statusTimerStarted(int &args)

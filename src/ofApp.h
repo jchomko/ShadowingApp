@@ -258,4 +258,12 @@ class ofApp : public ofBaseApp{
 	//Video Playback Delay
 	int delayFramesBeforePlayback;
 
+	//Mask Scale
+	int maskScale;
+	int maskCenterX;
+	int maskCenterY;
+
+	//Logging
+	std::ofstream outfile;
+
 };

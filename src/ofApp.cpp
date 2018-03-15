@@ -76,7 +76,9 @@ void ofApp::setup()
     ofSystem("sh /root/openusbrelay.sh");
 
     drawCamFull = false;
-
+	
+	//open logging file // and append
+	outfile.open("activity.txt", std::ios::app);
 }
 //--------------------------------------------------------------
 void ofApp::update()
@@ -156,6 +158,8 @@ void ofApp::update()
         {
             if (imageCounter >= MIN_BUFFER_SIZE)
             {
+
+		/* //Stops saving gifs to see if that keeps us online at all
                 if (canSaveGif == true)
                 {
                     #ifdef NUC
@@ -166,11 +170,15 @@ void ofApp::update()
                     howmanyrecordings++;
                     canSaveGif = false;
                 }
+		*/
+
                 //buffers.push_front(b);
                 //b.clear();
               	//Playing after a certain amount of frames have been recorded, instead of waiting for recording to end
 		//buffers[0].start();
-		        hasBeenPushedFlag = true;
+		//log activity to logfile
+		outfile << "rec length," << imageCounter << ", timestamp;," << ofGetTimestampString("%m/%d,%H:%M") << endl;
+		hasBeenPushedFlag = true;
                 imageCounter = 0;
                 doCVBackgroundTimer.start(false);
             }
@@ -202,8 +210,9 @@ void ofApp::update()
        {
             // Capture Gif Image every 5 frames
             if (ofGetFrameNum() % 5 == 0)
-            {
-                captureFrame();
+            {	
+		//Turn off gif recording to see if that helps the internet situation
+                //captureFrame();
             }
 		//Start new recording
             if(imageCounter == 0){
@@ -334,7 +343,7 @@ void ofApp::draw()
     {
         ofEnableAlphaBlending();
         ofSetColor(255, 255);
-        masks[whichMask].draw(0,0,ofGetWidth(),ofGetHeight());
+        masks[whichMask].draw(-maskScale+maskCenterX,-maskScale+maskCenterY,ofGetWidth()+maskScale,ofGetHeight()+maskScale);
         ofDisableAlphaBlending();
     }
     drawMisc();
@@ -547,7 +556,6 @@ void ofApp::keyPressed(int key)
             showPreviousBuffers = !showPreviousBuffers;
             ((ofxUILabelToggle *) gui->getWidget("Show Buffers"))->setValue(showPreviousBuffers);
             break;
-
 	case 'z':
 	    playTiger();
 	    break;
@@ -1048,7 +1056,16 @@ void ofApp::setupSimpleGUI()
     gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "IMAGE_THRESHOLD", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Playback Offset", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(-1000, 1000, 80, 0, "PLAYBACK_OFFSET_Y", OFX_UI_FONT_MEDIUM));
-   gui->addWidgetDown(new ofxUILabel("Delay Before Playback", OFX_UI_FONT_MEDIUM));
+    
+    gui->addWidgetDown(new ofxUILabel("Mask Scaler", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 1000, 1, 0, "MASK_SCALE", OFX_UI_FONT_MEDIUM));
+   
+	 gui->addWidgetDown(new ofxUILabel("Mask Center X ", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(-500, 500, 1, 0, "MASK_CENTER_X", OFX_UI_FONT_MEDIUM));
+ gui->addWidgetDown(new ofxUILabel("Mask Center Y", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(-500, 500, 1, 0, "MASK_CENTER_Y", OFX_UI_FONT_MEDIUM));
+
+    gui->addWidgetDown(new ofxUILabel("Delay Before Playback", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 400, 30, 0, "DELAY_BEFORE_PLAYBACK", OFX_UI_FONT_MEDIUM));
 	gui->addSpacer(0,30);
     gui->addWidgetDown(new ofxUILabel("Advanced Settings", OFX_UI_FONT_MEDIUM));
@@ -1310,6 +1327,22 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
         playbackOffsetY = dial->getValue();
     }
+	 else if(e.getName() == "MASK_SCALE")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        maskScale = dial->getValue();
+    }
+  else if(e.getName() == "MASK_CENTER_X")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        maskCenterX = dial->getValue();
+    }
+  else if(e.getName() == "MASK_CENTER_Y")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        maskCenterY = dial->getValue();
+    }
+
     else if(e.getName() == "DELAY_BEFORE_PLAYBACK")
     {
         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;

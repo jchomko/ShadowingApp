@@ -125,7 +125,7 @@ void ofApp::update()
 
     learnBackground = false;
     // Do Blob Assembly
-    openCV.readAndWriteBlobData(ofColor::white,ofColor::black);
+//    openCV.readAndWriteBlobData(ofColor::white,ofColor::black);
 
     // If blob detected Start Recording
     if(openCV.isSomeoneThere() && imageCounter < MAX_BUFFER_SIZE)
@@ -219,6 +219,7 @@ void ofApp::update()
 		buffers.push_front(b);
 		cout << "starting new videobuffer" << endl;
 	    }
+		//This makes it so the video plays back immediately, we don't wait for movement to stop
 		//Playing recording before it has ended - put this frame number into settings
 		if(imageCounter == delayFramesBeforePlayback){
 			 buffers[0].start();
@@ -543,23 +544,22 @@ void ofApp::keyPressed(int key)
             break;
         case 'v':
             //openCV.toggleGui();
-	    drawCV = !drawCV;
+            drawCV = !drawCV;
             ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
             break;
         case 'c':
-            	openCV.toggleGui();
+            openCV.toggleGui();
 		break;
-	case 'f':
-		drawCamFull = !drawCamFull;
-		break;
-	case 'b':
+        case 'f':
+            drawCamFull = !drawCamFull;
+            break;
+        case 'b':
             showPreviousBuffers = !showPreviousBuffers;
             ((ofxUILabelToggle *) gui->getWidget("Show Buffers"))->setValue(showPreviousBuffers);
             break;
-	case 'z':
-	    playTiger();
+        case 'z':
+            openCV.resetDebugVideo();
 	    break;
-
         case 't':
 #ifdef HAVE_WEB      // Send the Gif to the Server
             ofxHttpForm form;
@@ -1045,7 +1045,7 @@ void ofApp::setupGUI()
 
 void ofApp::setupSimpleGUI()
 {
-    gui = new ofxUICanvas(ofGetWidth()/2,0,600,600);
+    gui = new ofxUICanvas(300,180,600,600);
     gui->setColorBack(ofColor::black);
 
     gui->addWidgetDown(new ofxUILabel("Basic Settings", OFX_UI_FONT_MEDIUM));

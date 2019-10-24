@@ -35,7 +35,7 @@ void ofApp::setup()
     setupVariables();
 
     // Setup Gif Encoder
-    // setupGifEncoder();
+    setupGifEncoder();
 
     // Setup Directory Watcher
     setupDirectoryWatcher();
@@ -700,7 +700,7 @@ void ofApp::exit()
 
     //Stop encoder
     gifEncoder.stop();
-    cout << "stopped gif encoder" << endl;
+    cout << "stopped encoder : " << endl;
     //Close Relay
     cout << "Closing Relay" << endl;
     ofSystem("sh /root/closeusbrelay.sh");
@@ -1517,7 +1517,7 @@ void ofApp::drawData()
     debugData << latestGifPath << endl;
 
 
-    ofDrawBitmapStringHighlight(debugData.str(), 0,250);
+    ofDrawBitmapStringHighlight(debugData.str(), ofGetWidth()/2,0);
 
 }
 

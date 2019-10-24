@@ -82,7 +82,7 @@ class ofApp : public ofBaseApp{
         bool bProgressiveLearning;
         int  threshold;
         int  moveThreshold;
-	   float fProgressiveRate;
+	float fProgressiveRate;
         bool bUseApprox;
         bool bFillHoles;
         int iMinBlobSize;
@@ -93,11 +93,11 @@ class ofApp : public ofBaseApp{
         bool bMirrorV;
         float fBlur;
         int gaussBlur;
-	    int medianBlur;
-	    bool erode;
+	int medianBlur;
+	bool erode;
         bool dilate;
         vector<ofVec2f> blobPath;
-  	 long recTimer;
+  	long recTimer;
 
         // GUI
         void setupGUI();

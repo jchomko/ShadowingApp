@@ -35,7 +35,7 @@ void ofApp::setup()
     setupVariables();
 
     // Setup Gif Encoder
-    setupGifEncoder();
+    // setupGifEncoder();
 
     // Setup Directory Watcher
     setupDirectoryWatcher();
@@ -514,69 +514,69 @@ void ofApp::keyPressed(int key)
 	    break;
 	case 'm':
             gui->toggleVisible();
-	    drawCV = !drawCV;
-            ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
-            break;
-        // case OF_KEY_UP:
-        //     projector.up();
-        //     break;
-        // case OF_KEY_DOWN:
-        //     projector.down();
-        //     break;
-        // case OF_KEY_LEFT:
-        //     projector.left();
-        //     break;
-        // case OF_KEY_RIGHT:
-        //     projector.right();
-        //     break;
-        case 'i':
-            projector.projectorOn();
-            break;
-        case 'o':
-            projector.projectorOff();
-            break;
-        //case 'c':
-        //    cursorDisplay = !cursorDisplay; // NULL on the ubuntu system
-        //    break;
-        case 'd':
-            canDrawData = !canDrawData;
-            ((ofxUILabelToggle *) gui->getWidget("Show Data"))->setValue(canDrawData);
-            break;
-        case 'v':
-            //openCV.toggleGui();
-            drawCV = !drawCV;
-            ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
-            break;
-        case 'c':
-            openCV.toggleGui();
-		break;
-        case 'f':
-            drawCamFull = !drawCamFull;
-            break;
-        case 'b':
-            showPreviousBuffers = !showPreviousBuffers;
-            ((ofxUILabelToggle *) gui->getWidget("Show Buffers"))->setValue(showPreviousBuffers);
-            break;
-        case 'z':
-            openCV.resetDebugVideo();
-	    break;
-        case 't':
+	         //drawCV = !drawCV;
+            //((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
+        break;
+    // case OF_KEY_UP:
+    //     projector.up();
+    //     break;
+    // case OF_KEY_DOWN:
+    //     projector.down();
+    //     break;
+    // case OF_KEY_LEFT:
+    //     projector.left();
+    //     break;
+    // case OF_KEY_RIGHT:
+    //     projector.right();
+    //     break;
+    case 'i':
+        projector.projectorOn();
+        break;
+    case 'o':
+        projector.projectorOff();
+        break;
+    //case 'c':
+    //    cursorDisplay = !cursorDisplay; // NULL on the ubuntu system
+    //    break;
+    case 'd':
+        canDrawData = !canDrawData;
+        ((ofxUILabelToggle *) gui->getWidget("Show Data"))->setValue(canDrawData);
+        break;
+    case 'v':
+        //openCV.toggleGui();
+        drawCV = !drawCV;
+        ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
+        break;
+    case 'c':
+        openCV.toggleGui();
+	break;
+    case 'f':
+        drawCamFull = !drawCamFull;
+        break;
+    case 'b':
+        showPreviousBuffers = !showPreviousBuffers;
+        ((ofxUILabelToggle *) gui->getWidget("Show Buffers"))->setValue(showPreviousBuffers);
+        break;
+    case 'z':
+        openCV.resetDebugVideo();
+    break;
+    case 't':
 #ifdef HAVE_WEB      // Send the Gif to the Server
-            ofxHttpForm form;
-            form.action = _statusurl;
-            form.method = OFX_HTTP_POST;
-            form.addFormField("secret", _secretKey);
-            form.addFormField("location", _locationID);
-            form.addFormField("status", "TESTEVENT");
-            form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
-            form.addFormField("submit","1");
-            httpUtils.addForm(form);
-            break;
-         #else
-            break;
-         #endif
-
+    ofxHttpForm form;
+    form.action = _statusurl;
+    form.method = OFX_HTTP_POST;
+    form.addFormField("secret", _secretKey);
+    form.addFormField("location", _locationID);
+    form.addFormField("status", "TESTEVENT");
+    form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
+    form.addFormField("submit","1");
+    httpUtils.addForm(form);
+    break;
+ #else
+    break;
+ #endif
     }
+
 }
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
@@ -695,10 +695,16 @@ void ofApp::onDirectoryWatcherError(const Poco::Exception& exc){ }
 //--------------------------------------------------------------
 void ofApp::exit()
 {
+    //Stop Gif stuff
     gifWatcher.unregisterAllEvents(this);
 
+    //Stop encoder
+    gifEncoder.stop();
+    cout << "stopped gif encoder" << endl;
+    //Close Relay
+    cout << "Closing Relay" << endl;
     ofSystem("sh /root/closeusbrelay.sh");
-    
+
     // As it says
     cleanGifFolder();
     #ifdef HAVE_WEB
@@ -715,7 +721,7 @@ void ofApp::exit()
 #endif
     cout << "Releasing Camera" << endl;
     openCV.releaseCamera();
-    ofSleepMillis(1000);
+    // ofSleepMillis(1000);
     cout << "Released Camera" << endl;
 #ifdef HAVE_WEB
     httpUtils.stop();
@@ -779,11 +785,12 @@ void ofApp::setupCV()
     // Setup Custom openCV Class
     openCV.setup(CAM_WIDTH,CAM_HEIGHT,FRAMERATE);
 
-    // Its a Mystery
+    //This is probably not needed
     openCV.relearnBackground();
 
     // Sets the internal Tracking boundaries at 40px from each boundary
-    openCV.setTrackingBoundaries(40, 40);
+    // this should be just set by loading the gui -
+    // openCV.setTrackingBoundaries(40, 40);
 }
 //--------------------------------------------------------------
 // Setup Variables
@@ -965,6 +972,7 @@ void ofApp::setupTimers()
 // Setup GUI
 //--------------------------------------------------------------
 //--------------------------------------------------------------
+//This should be DELETED
 void ofApp::setupGUI()
 {
     colorSampler = new ofImage();
@@ -976,11 +984,11 @@ void ofApp::setupGUI()
     gui->addSpacer(255,1);
 //    gui->addWidgetDown(new ofxUILabelToggle("Fullscreen",true,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Do Calibration",false,255,30,OFX_UI_FONT_MEDIUM));
-   gui->addWidgetDown(new ofxUILabelToggle("Draw CV",false,255,30,OFX_UI_FONT_MEDIUM));
-   gui->addWidgetDown(new ofxUILabelToggle("Show Buffers",false,255,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Draw CV",false,255,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Show Buffers",false,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Show Data",false,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Imaging Mode", OFX_UI_FONT_MEDIUM));
-   gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "IMAGING_MODE", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "IMAGING_MODE", OFX_UI_FONT_MEDIUM));
 
     gui->addWidgetDown(new ofxUILabel("Number of Buffers", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 15,5, 0, "BUFFER_NUMBER", OFX_UI_FONT_MEDIUM));
@@ -1060,9 +1068,9 @@ void ofApp::setupSimpleGUI()
     gui->addWidgetDown(new ofxUILabel("Mask Scaler", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 1000, 1, 0, "MASK_SCALE", OFX_UI_FONT_MEDIUM));
    
-	 gui->addWidgetDown(new ofxUILabel("Mask Center X ", OFX_UI_FONT_MEDIUM));
+	gui->addWidgetDown(new ofxUILabel("Mask Center X ", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(-500, 500, 1, 0, "MASK_CENTER_X", OFX_UI_FONT_MEDIUM));
- gui->addWidgetDown(new ofxUILabel("Mask Center Y", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Mask Center Y", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(-500, 500, 1, 0, "MASK_CENTER_Y", OFX_UI_FONT_MEDIUM));
 
     gui->addWidgetDown(new ofxUILabel("Delay Before Playback", OFX_UI_FONT_MEDIUM));
@@ -1072,7 +1080,7 @@ void ofApp::setupSimpleGUI()
     gui->addSpacer(255,1);  
 	gui->addSpacer(0,10);  
 
-     gui->addWidgetDown(new ofxUILabel("Blur", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Blur", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "BLUR", OFX_UI_FONT_MEDIUM));
 
     gui->addWidgetDown(new ofxUILabel("Tracking Boundaries", OFX_UI_FONT_MEDIUM));
@@ -1509,7 +1517,7 @@ void ofApp::drawData()
     debugData << latestGifPath << endl;
 
 
-    ofDrawBitmapStringHighlight(debugData.str(), ofGetWidth()/2,0);
+    ofDrawBitmapStringHighlight(debugData.str(), 0,250);
 
 }
 

@@ -6,6 +6,7 @@
 // Copyright: (c) 2014 by Watershed Arts Trust Ltd.
 //--------------------------------------------------
 #include "ofApp.h"
+
 //--------------------------------------------------------------
 void ofApp::loadConfig()
 {
@@ -59,7 +60,6 @@ void ofApp::setup()
     //setupGUI();
     setupSimpleGUI();
 
-
     // Setup the Timer
     setupTimers();
 
@@ -68,18 +68,18 @@ void ofApp::setup()
     playBackLatch = false;
     lastPresentState = false;
 
-
     ofSetVerticalSync(true);
-    cout << "setup done"<< endl;
-
 	//open usb relay
     ofSystem("sh /root/openusbrelay.sh");
 
     drawCamFull = false;
 	
-	//open logging file // and append
-	outfile.open("activity.txt", std::ios::app);
+	//open logging file for stats
+    outfile.open("activity.txt", std::ios::app);
+    
+    cout << "setup done"<< endl;
 }
+
 //--------------------------------------------------------------
 void ofApp::update()
 {
@@ -87,199 +87,166 @@ void ofApp::update()
     string title = "Shadowing: " + ofToString(ofGetTimestampString("%H:%M:%S  %d/%m/%Y"));
     ofSetWindowTitle(title);
 
-    //--------------------------------------------------------------
-    // If we have %i buffers in the memory then release one
-    if (buffers.size() > howManyBuffersToStore)
-    {
-        buffers.pop_back();
-    }
+    
 
-    if (livebuffer.size() > 2) {
-        livebuffer.pop_back();
-    }
+    // if (livebuffer.size() > 2) {
+    //     livebuffer.pop_back();
+    // }
 
-    //--------------------------------------------------------------
-    // Custom CV mechanisms
-    // Wait until we have a new frame before learning background
-    if ( openCV.newFrame() && firstLearn == true)
-    {
-        openCV.relearnBackground();
-        firstLearn = false;
-    }
-
-    // Subtraction Plus Brightness and Contrast Settings
+  //Select Subtraction Method
     if(imagingMode == 0){
+            openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
+            learnBackground = false;
 
-	openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
-
-	}else if(imagingMode == 1){
-
-    openCV.DsubtractionLoop(false,false);
-    //openCV.PsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
-
+        }else if(imagingMode == 1){
+            openCV.DsubtractionLoop(false,false);
      }
+    
+    //Recording logic
+    if(openCV.isSomeoneThere() && imageCounter < MAX_BUFFER_SIZE){
 
-  // 	openCV.PsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
-
-//    	openCV.progSubLoop(iMinBlobSize, iMaxBlobSize, threshold, fBlur, brightness, contrast);
-
-    learnBackground = false;
-    // Do Blob Assembly
-//    openCV.readAndWriteBlobData(ofColor::white,ofColor::black);
-
-    // If blob detected Start Recording
-    if(openCV.isSomeoneThere() && imageCounter < MAX_BUFFER_SIZE)
-    {
-
-	if (buffers.size() > 3)
-	{
-		whichBufferAreWePlaying = 2;
-	}
-	else
-	{
-		whichBufferAreWePlaying = 0;
-	}
-
-        canSaveGif = true;
-        activityTimer.stop();
-        doCVBackgroundTimer.stop();
+        //Record Settings 
         startRecording = true;
         hasBeenPushedFlag = false;
+        canSaveGif = true;        
+
+        //Dream settings
+        if (buffers.size() > 3){
+            whichBufferAreWePlaying = 2;
+        }else{
+            whichBufferAreWePlaying = 0;
+        }
         dream = false;
-        noneDream = false;
+        activityTimer.stop();
         triggerDreamTimer = true;
-    }
+    
+    //No-one is there   
+    }else{
 
-    else
-    {
-        bSwitch = true;
-        startRecording = false;
-        if (hasBeenPushedFlag == false)
-        {
-            if (imageCounter >= MIN_BUFFER_SIZE)
-            {
+        // bSwitch = true;
 
-		/* //Stops saving gifs to see if that keeps us online at all
-                if (canSaveGif == true)
-                {
-                    #ifdef NUC
-                    gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
-                    #else
-                    gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
-                    #endif
-                    howmanyrecordings++;
-                    canSaveGif = false;
-                }
-		*/
+        //Reset Recording Flag
+        if(startRecording = true){
+            startRecording = false;
+        }
 
-                //buffers.push_front(b);
-                //b.clear();
-              	//Playing after a certain amount of frames have been recorded, instead of waiting for recording to end
-		//buffers[0].start();
-		//log activity to logfile
-		outfile << "rec length," << imageCounter << ", timestamp;," << ofGetTimestampString("%m/%d,%H:%M") << endl;
-		hasBeenPushedFlag = true;
-                imageCounter = 0;
-                doCVBackgroundTimer.start(false);
-            }
-	    //not long enough, trash that recording
-            else if(imageCounter < MIN_BUFFER_SIZE)
-            {
-		buffers.pop_front();
-                //b.clear();
+        if (hasBeenPushedFlag == false){
+                
+                if(imageCounter >= MIN_BUFFER_SIZE){
+                // /* //Stops saving gifs to see if that keeps us online at all
+  //               if (canSaveGif == true)
+  //               {
+  //                   #ifdef NUC
+  //                   gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
+  //                   #else
+  //                   gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
+  //                   #endif
+  //                   howmanyrecordings++;
+  //                   canSaveGif = false;
+  //               }
+                    // */
+
+                    // buffers.push_front(b);
+  //                b.clear();
+                    //Playing after a certain amount of frames have been recorded, instead of waiting for recording to end
+		//         //buffers[0].start();
+		//         //log activity to logfile
+		           outfile << "rec length," << imageCounter << ", timestamp;," << ofGetTimestampString("%m/%d,%H:%M") << endl;
+		           hasBeenPushedFlag = true;
+                   imageCounter = 0;
+  //               // doCVBackgroundTimer.start(false);
+
+  //           // if the recording is not long enought    
+            }else if(imageCounter < MIN_BUFFER_SIZE){
+		        //delete recording
+                buffers.pop_front();
                 imageCounter = 0;
                 hasBeenPushedFlag = true;
             }
-            else
-            {
 
-            }
-        }
-        else
-        {
-            //Do nothing
         }
     }
 
-    if(startRecording == true)
-    {
-        // If new frame
-        //if (openCV.newFrame())
-
-       if(ofGetElapsedTimeMillis() - recTimer > 1000/FRAMERATE)
-       {
+    if(startRecording == true){
+   
+       if(ofGetElapsedTimeMillis() - recTimer > 1000/FRAMERATE){
             // Capture Gif Image every 5 frames
-            if (ofGetFrameNum() % 5 == 0)
-            {	
-		//Turn off gif recording to see if that helps the internet situation
+            //Turned off gif recording to see if that helps the internet situation
+            if (ofGetFrameNum() % 5 == 0){	
                 //captureFrame();
             }
-		//Start new recording
+		    
+            //Add new videobuffer to our list
             if(imageCounter == 0){
-		buffers.push_front(b);
-		cout << "starting new videobuffer" << endl;
-	    }
-		//This makes it so the video plays back immediately, we don't wait for movement to stop
-		//Playing recording before it has ended - put this frame number into settings
-		if(imageCounter == delayFramesBeforePlayback){
-			 buffers[0].start();
-		}
+		      buffers.push_front(b);
+		      cout << "starting new videobuffer" << endl;
 
-		// Capture the CV image
-		//videoBuffers.push_back(videoBuffer);
-	     buffers[0].buffer.push_back(openCV.getRecordPixels());
-		//b.getNewImage(openCV.getRecordPixels());
-                //blobPath.push_back(openCV.getBlobPath());
-             imageCounter++;
+              // If we have check if we need to release buffer
+                if (buffers.size() > howManyBuffersToStore){
+                    // buffers.pop_back();
+                    // int i = buffers.size()-1;
+                    buffers.pop_back();
+                    cout << "removing buffer" << endl;
+                }
+	        }
+    		// Capture the CV image
+    		 buffers[0].buffer.push_back(openCV.getRecordPixels());
+		     imageCounter++;
+             
+             //Reset the frame timer
+             //But why is this there? It should be dictated by the camera
+             //I guess it's not because we have variable processing framerates an this keeps thing smoother
+
              recTimer = ofGetElapsedTimeMillis();
-	}
-    }
 
-    if(!openCV.isSomeoneThere())
-    {
-        if (canSaveGif == true)
-        {
-            #ifdef NUC
-//                gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
-            #else
-//                gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
-            #endif
-            howmanyrecordings++;
-            canSaveGif = false;
+            //Start playback after a certain number of frames have been played
+            //Can be adjusted in the menu 
+            if(imageCounter == delayFramesBeforePlayback){
+                 buffers[0].start();
+            }
         }
-        stopLoop = true;
     }
 
-    if (!openCV.isSomeoneThere() && triggerDreamTimer == true)
-    {
+//Gif Saving Stuff 
+//     if(!openCV.isSomeoneThere()){
+//         if (canSaveGif == true){
+//             #ifdef NUC
+// //                gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
+//             #else
+// //                gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
+//             #endif
+//             howmanyrecordings++;
+//             canSaveGif = false;
+//         }
+//         stopLoop = true;
+//     }
+
+    //Start the dreaming timer
+    if (!openCV.isSomeoneThere() && triggerDreamTimer == true){
+        //ActivityTimer is dream timer
         activityTimer.start(false);
         triggerDreamTimer = false;
     }
 
     // Update the buffer progressors
-    if (!buffers.empty())
-    {
-        for (int i = 0; i < buffers.size(); i++)
-        {
+    // This probaby doesn't need to happen for all buffers
+    if (!buffers.empty()){
+
+        for (int i = 0; i < buffers.size(); i++){
             buffers[i].update();
         }
+
     }
 
-    doCVBackgroundTimer.update();
+    // doCVBackgroundTimer.update();
     statusTimer.update();
     activityTimer.update();
 
-    if (cursorDisplay == true)
-    {
+    if (cursorDisplay == true){
         ofShowCursor();
-    }
-    else
-    {
+    }else{
         ofHideCursor();
     }
-
-    //tiger1.update();
-    //tiger2.update();
 
 }
 //--------------------------------------------------------------
@@ -394,7 +361,7 @@ void ofApp::ShadowingProductionModeA()
     //Just stepped out of the light
     else if(!openCV.isSomeoneThere() && dream == false && playBackLatch == false)
     {
-        bSwitch = true;
+        // bSwitch = true;
         modeString = "Shadowing Basic Mode Stage 2";
         buffers[1].start();
         playBackLatch  = false;
@@ -440,12 +407,11 @@ void ofApp::ShadowingDreamStateB()
         //buffers[whichBufferAreWePlaying].draw(255);
         ofDisableBlendMode();
 
-        if (buffers.size() > 2)
-        {
+        if (buffers.size() > 2){
             if (buffers[whichBufferAreWePlaying].isFinished() && randomWaitLatch == false)
             {
                 randomWaitTimer = ofGetElapsedTimeMillis() + ofRandom(1000,4000);
-	        randomWaitLatch = true;
+	            randomWaitLatch = true;
         	// Reset the Awaiting buffer otherwise nothing will happen
                 // buffers[whichBufferAreWePlaying+1].reset();
                 // Progress the Buffer Counter
@@ -453,8 +419,8 @@ void ofApp::ShadowingDreamStateB()
                 // buffers[whichBufferAreWePlaying].start();
             }
         }
-    	if (buffers.size() > 2)
-    	{
+
+    	if (buffers.size() > 2){
             if (randomWaitLatch && ofGetElapsedTimeMillis() > randomWaitTimer)
         	{
             if (whichBufferAreWePlaying >= buffers.size())
@@ -811,9 +777,9 @@ void ofApp::setupVariables()
     learnBackground = true;
     canSaveGif = false;
     stopLoop = false;
-    bSwitch = false;
+    // bSwitch = false;
     firstLearn = true;
-    noneDream == false;
+    // noneDream == false;
     drawCV = false;
 	recTimer = ofGetElapsedTimeMillis();
 }
@@ -1166,7 +1132,6 @@ void ofApp::statusTimerComplete(int &args)
     //open usb relay
     ofSystem("sh /root/openusbrelay.sh");
 
-
 }
 //--------------------------------------------------------------
 void ofApp::statusTimerStarted(int &args)
@@ -1176,24 +1141,24 @@ void ofApp::statusTimerStarted(int &args)
 //--------------------------------------------------------------
 void ofApp::CVTimerStarted(int &args)
 {
-    CVstring = "CV Timer Started";
+    CVstring = "CV Timer Started - doesn't do anything";
 }
 //--------------------------------------------------------------
 void ofApp::CVTimerComplete(int &args)
 {
-    if(ofRandom(0,10) < tigerProbability){
-    	playTiger();
-	CVstring = "CV Timer Done, Tiger playing";
-     }else{
+    // if(ofRandom(0,10) < tigerProbability){
+    	// playTiger();
+	// CVstring = "CV Timer Done, Tiger playing";
+     // }else{
     //openCV.relearnBackground();
-    CVstring = "CV Timer Done";
-    }
+    CVstring = "CV Timer Done - doesn't do anything";
+    // }
 }
 //--------------------------------------------------------------
 void ofApp::activityTimerComplete(int &args)
 {
     cout << "Timer Complete - dreaming starts now" << endl;
-	noneDream = false;
+	// noneDream = false;
 	dream = true;
 	//tiger1.play();
 }
@@ -1225,14 +1190,14 @@ void ofApp::drawMisc()
                 // buffers[i].drawMini(640, 0+(i*240/4));
             }
         }
-        if (!livebuffer.empty())
-        {
-            for (int i = 0; i < livebuffer.size(); i++)
-            {
-                // Draw the Mini Buffers
-                // livebuffer[i].drawMini(640+80, 0+(i*240/4));
-            }
-        }
+        // if (!livebuffer.empty())
+        // {
+        //     for (int i = 0; i < livebuffer.size(); i++)
+        //     {
+        //         // Draw the Mini Buffers
+        //         // livebuffer[i].drawMini(640+80, 0+(i*240/4));
+        //     }
+        // }
     }
     ofPopStyle();
 

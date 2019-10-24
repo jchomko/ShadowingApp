@@ -44,7 +44,7 @@
 #define SAVE_PATH_NUC "/root/of_v0.8.3_linux64_release/apps/myApps/ShadowingApp/bin/data/gifs/"
 #define HAVE_WEB
 #define NUC
-//#define DEBUG
+#define DEBUG
 
 using namespace ofx::IO;
 class ofApp : public ofBaseApp{
@@ -82,7 +82,7 @@ class ofApp : public ofBaseApp{
         bool bProgressiveLearning;
         int  threshold;
         int  moveThreshold;
-	float fProgressiveRate;
+	    float fProgressiveRate;
         bool bUseApprox;
         bool bFillHoles;
         int iMinBlobSize;
@@ -93,16 +93,16 @@ class ofApp : public ofBaseApp{
         bool bMirrorV;
         float fBlur;
         int gaussBlur;
-	int medianBlur;
-	bool erode;
+	    int medianBlur;
+	    bool erode;
         bool dilate;
         vector<ofVec2f> blobPath;
-  	long recTimer;
+  	    long recTimer;
 
         // GUI
         void setupGUI();
         void setupSimpleGUI();
-	void guiEvent(ofxUIEventArgs &e);
+	    void guiEvent(ofxUIEventArgs &e);
         ofxUICanvas *gui;
         ofImage *colorSampler;
 
@@ -158,7 +158,7 @@ class ofApp : public ofBaseApp{
 
         string modeString;
         int playbackMode;
-	int imagingMode;
+	    int imagingMode;
         int howManyBuffersToStore;
         bool showPreviousBuffers;
         int whichBufferAreWePlaying;
@@ -230,7 +230,7 @@ class ofApp : public ofBaseApp{
         bool bSwitch;
         int playCounter;
         bool firstLearn;
-        bool noneDream;
+        // bool noneDream;
         bool randomWaitLatch;
         long randomWaitTimer;
         bool playBackLatch;

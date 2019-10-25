@@ -1,0 +1,159 @@
+
+
+--------------------------------------- 2019-10-25-18-07-27-638
+[notice ] ofSerial: [0] = ttyS31
+[notice ] ofSerial: [1] = ttyS30
+[notice ] ofSerial: [2] = ttyS29
+[notice ] ofSerial: [3] = ttyS28
+[notice ] ofSerial: [4] = ttyS27
+[notice ] ofSerial: [5] = ttyS26
+[notice ] ofSerial: [6] = ttyS25
+[notice ] ofSerial: [7] = ttyS24
+[notice ] ofSerial: [8] = ttyS23
+[notice ] ofSerial: [9] = ttyS22
+[notice ] ofSerial: [10] = ttyS21
+[notice ] ofSerial: [11] = ttyS20
+[notice ] ofSerial: [12] = ttyS19
+[notice ] ofSerial: [13] = ttyS18
+[notice ] ofSerial: [14] = ttyS17
+[notice ] ofSerial: [15] = ttyS16
+[notice ] ofSerial: [16] = ttyS15
+[notice ] ofSerial: [17] = ttyS14
+[notice ] ofSerial: [18] = ttyS13
+[notice ] ofSerial: [19] = ttyS12
+[notice ] ofSerial: [20] = ttyS11
+[notice ] ofSerial: [21] = ttyS10
+[notice ] ofSerial: [22] = ttyS9
+[notice ] ofSerial: [23] = ttyS8
+[notice ] ofSerial: [24] = ttyS7
+[notice ] ofSerial: [25] = ttyS6
+[notice ] ofSerial: [26] = ttyS5
+[notice ] ofSerial: [27] = ttyS4
+[notice ] ofSerial: [28] = ttyS3
+[notice ] ofSerial: [29] = ttyS2
+[notice ] ofSerial: [30] = ttyS1
+[notice ] ofSerial: [31] = ttyS0
+[notice ] ofSerial: opening /dev/ttyUSB0 @ 9600 bps
+[ error ] ofSerial: unable to open /dev/ttyUSB0
+[ error ] ofSerial: writeBytes(): serial not inited
+[warning] ofThread: - name: Thread 2 - Calling startThread with verbose is deprecated.
+[ error ] ofImage: loadImage(): couldn't load image from "Masks/unused masks"
+
+
+--------------------------------------- 2019-10-25-18-07-41-417
+[notice ] ofSerial: [0] = ttyS31
+[notice ] ofSerial: [1] = ttyS30
+[notice ] ofSerial: [2] = ttyS29
+[notice ] ofSerial: [3] = ttyS28
+[notice ] ofSerial: [4] = ttyS27
+[notice ] ofSerial: [5] = ttyS26
+[notice ] ofSerial: [6] = ttyS25
+[notice ] ofSerial: [7] = ttyS24
+[notice ] ofSerial: [8] = ttyS23
+[notice ] ofSerial: [9] = ttyS22
+[notice ] ofSerial: [10] = ttyS21
+[notice ] ofSerial: [11] = ttyS20
+[notice ] ofSerial: [12] = ttyS19
+[notice ] ofSerial: [13] = ttyS18
+[notice ] ofSerial: [14] = ttyS17
+[notice ] ofSerial: [15] = ttyS16
+[notice ] ofSerial: [16] = ttyS15
+[notice ] ofSerial: [17] = ttyS14
+[notice ] ofSerial: [18] = ttyS13
+[notice ] ofSerial: [19] = ttyS12
+[notice ] ofSerial: [20] = ttyS11
+[notice ] ofSerial: [21] = ttyS10
+[notice ] ofSerial: [22] = ttyS9
+[notice ] ofSerial: [23] = ttyS8
+[notice ] ofSerial: [24] = ttyS7
+[notice ] ofSerial: [25] = ttyS6
+[notice ] ofSerial: [26] = ttyS5
+[notice ] ofSerial: [27] = ttyS4
+[notice ] ofSerial: [28] = ttyS3
+[notice ] ofSerial: [29] = ttyS2
+[notice ] ofSerial: [30] = ttyS1
+[notice ] ofSerial: [31] = ttyS0
+[notice ] ofSerial: opening /dev/ttyUSB0 @ 9600 bps
+[ error ] ofSerial: unable to open /dev/ttyUSB0
+[ error ] ofSerial: writeBytes(): serial not inited
+[warning] ofThread: - name: Thread 2 - Calling startThread with verbose is deprecated.
+[ error ] ofImage: loadImage(): couldn't load image from "Masks/unused masks"
+
+
+--------------------------------------- 2019-10-25-18-07-43-538
+[notice ] ofSerial: [0] = ttyS31
+[notice ] ofSerial: [1] = ttyS30
+[notice ] ofSerial: [2] = ttyS29
+[notice ] ofSerial: [3] = ttyS28
+[notice ] ofSerial: [4] = ttyS27
+[notice ] ofSerial: [5] = ttyS26
+[notice ] ofSerial: [6] = ttyS25
+[notice ] ofSerial: [7] = ttyS24
+[notice ] ofSerial: [8] = ttyS23
+[notice ] ofSerial: [9] = ttyS22
+[notice ] ofSerial: [10] = ttyS21
+[notice ] ofSerial: [11] = ttyS20
+[notice ] ofSerial: [12] = ttyS19
+[notice ] ofSerial: [13] = ttyS18
+[notice ] ofSerial: [14] = ttyS17
+[notice ] ofSerial: [15] = ttyS16
+[notice ] ofSerial: [16] = ttyS15
+[notice ] ofSerial: [17] = ttyS14
+[notice ] ofSerial: [18] = ttyS13
+[notice ] ofSerial: [19] = ttyS12
+[notice ] ofSerial: [20] = ttyS11
+[notice ] ofSerial: [21] = ttyS10
+[notice ] ofSerial: [22] = ttyS9
+[notice ] ofSerial: [23] = ttyS8
+[notice ] ofSerial: [24] = ttyS7
+[notice ] ofSerial: [25] = ttyS6
+[notice ] ofSerial: [26] = ttyS5
+[notice ] ofSerial: [27] = ttyS4
+[notice ] ofSerial: [28] = ttyS3
+[notice ] ofSerial: [29] = ttyS2
+[notice ] ofSerial: [30] = ttyS1
+[notice ] ofSerial: [31] = ttyS0
+[notice ] ofSerial: opening /dev/ttyUSB0 @ 9600 bps
+[ error ] ofSerial: unable to open /dev/ttyUSB0
+[ error ] ofSerial: writeBytes(): serial not inited
+[warning] ofThread: - name: Thread 2 - Calling startThread with verbose is deprecated.
+[ error ] ofImage: loadImage(): couldn't load image from "Masks/unused masks"
+
+
+--------------------------------------- 2019-10-25-20-01-07-048
+[notice ] ofSerial: [0] = ttyS31
+[notice ] ofSerial: [1] = ttyS30
+[notice ] ofSerial: [2] = ttyS29
+[notice ] ofSerial: [3] = ttyS28
+[notice ] ofSerial: [4] = ttyS27
+[notice ] ofSerial: [5] = ttyS26
+[notice ] ofSerial: [6] = ttyS25
+[notice ] ofSerial: [7] = ttyS24
+[notice ] ofSerial: [8] = ttyS23
+[notice ] ofSerial: [9] = ttyS22
+[notice ] ofSerial: [10] = ttyS21
+[notice ] ofSerial: [11] = ttyS20
+[notice ] ofSerial: [12] = ttyS19
+[notice ] ofSerial: [13] = ttyS18
+[notice ] ofSerial: [14] = ttyS17
+[notice ] ofSerial: [15] = ttyS16
+[notice ] ofSerial: [16] = ttyS15
+[notice ] ofSerial: [17] = ttyS14
+[notice ] ofSerial: [18] = ttyS13
+[notice ] ofSerial: [19] = ttyS12
+[notice ] ofSerial: [20] = ttyS11
+[notice ] ofSerial: [21] = ttyS10
+[notice ] ofSerial: [22] = ttyS9
+[notice ] ofSerial: [23] = ttyS8
+[notice ] ofSerial: [24] = ttyS7
+[notice ] ofSerial: [25] = ttyS6
+[notice ] ofSerial: [26] = ttyS5
+[notice ] ofSerial: [27] = ttyS4
+[notice ] ofSerial: [28] = ttyS3
+[notice ] ofSerial: [29] = ttyS2
+[notice ] ofSerial: [30] = ttyS1
+[notice ] ofSerial: [31] = ttyS0
+[notice ] ofSerial: opening /dev/ttyUSB0 @ 9600 bps
+[ error ] ofSerial: unable to open /dev/ttyUSB0
+[warning] ofThread: - name: Thread 2 - Calling startThread with verbose is deprecated.
+[ error ] ofImage: loadImage(): couldn't load image from "Masks/unused masks"

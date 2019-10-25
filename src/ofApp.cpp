@@ -25,6 +25,14 @@ void ofApp::loadConfig()
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+ 
+    //Write cout logs to text file  
+    // std::ofstream out("cout-out.txt");
+    // std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
+    // std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+    //Write OF logs to text
+    // ofLogToFile("of-out.txt", true);
+ 
     ofSetWindowShape(ofGetScreenWidth(), ofGetScreenHeight());
     ofSetFrameRate(FRAMERATE*2);
     ofSetLogLevel(OF_LOG_VERBOSE);
@@ -36,7 +44,7 @@ void ofApp::setup()
     setupVariables();
 
     // Setup Gif Encoder
-    setupGifEncoder();
+    // setupGifEncoder();
 
     // Setup Directory Watcher
     setupDirectoryWatcher();
@@ -48,6 +56,8 @@ void ofApp::setup()
 #endif
     // Setup CV
     setupCV();
+
+    openCV.releaseCamera();
 
     cout << "after setup cv"<< endl;
 
@@ -87,13 +97,7 @@ void ofApp::update()
     string title = "Shadowing: " + ofToString(ofGetTimestampString("%H:%M:%S  %d/%m/%Y"));
     ofSetWindowTitle(title);
 
-    
-
-    // if (livebuffer.size() > 2) {
-    //     livebuffer.pop_back();
-    // }
-
-  //Select Subtraction Method
+   //Subtraction Method Selection
     if(imagingMode == 0){
             openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
             learnBackground = false;
@@ -120,56 +124,60 @@ void ofApp::update()
         activityTimer.stop();
         triggerDreamTimer = true;
     
-    //No-one is there   
+    //If no-one is in the light
     }else{
-
-        // bSwitch = true;
-
-        //Reset Recording Flag
+        
+         //Reset Recording Flag
         if(startRecording = true){
             startRecording = false;
         }
-
-        if (hasBeenPushedFlag == false){
+        
+        //Cannot be combined with the other one above or it crashes
+        if(hasBeenPushedFlag == false){
                 
+                //If the recording is big enough
                 if(imageCounter >= MIN_BUFFER_SIZE){
-                // /* //Stops saving gifs to see if that keeps us online at all
-  //               if (canSaveGif == true)
-  //               {
-  //                   #ifdef NUC
-  //                   gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
-  //                   #else
-  //                   gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
-  //                   #endif
-  //                   howmanyrecordings++;
-  //                   canSaveGif = false;
-  //               }
-                    // */
+                    
+                    //Reset the image counter and the push flag
+                    //the push flag is named like this because we used to record to an old buffer and then push it to storage
+                    hasBeenPushedFlag = true;
+                    imageCounter = 0;
 
-                    // buffers.push_front(b);
-  //                b.clear();
-                    //Playing after a certain amount of frames have been recorded, instead of waiting for recording to end
-		//         //buffers[0].start();
-		//         //log activity to logfile
-		           outfile << "rec length," << imageCounter << ", timestamp;," << ofGetTimestampString("%m/%d,%H:%M") << endl;
-		           hasBeenPushedFlag = true;
-                   imageCounter = 0;
-  //               // doCVBackgroundTimer.start(false);
+                    //Old way of trigger last recording
+                    //buffers[0].start();
+                    //log activity to logfile
+                    outfile << "rec length," << imageCounter << ", timestamp;," << ofGetTimestampString("%m/%d,%H:%M") << endl;
+              
+                    //Gif saving code
+                    // if (canSaveGif == true)
+                    // {
+                    //     #ifdef NUC
+                    //     gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
+                    //     #else
+                    //     gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
+                    //     #endif
+                    //     howmanyrecordings++;
+                    //     canSaveGif = false;
+                    // }
 
-  //           // if the recording is not long enought    
+            // if the recording is not long enought    
             }else if(imageCounter < MIN_BUFFER_SIZE){
-		        //delete recording
+
+		        //delete the first recording
                 buffers.pop_front();
+
+                //reset the image counter
                 imageCounter = 0;
                 hasBeenPushedFlag = true;
-            }
 
+            }
         }
     }
 
     if(startRecording == true){
    
        if(ofGetElapsedTimeMillis() - recTimer > 1000/FRAMERATE){
+
             // Capture Gif Image every 5 frames
             //Turned off gif recording to see if that helps the internet situation
             if (ofGetFrameNum() % 5 == 0){	
@@ -178,70 +186,56 @@ void ofApp::update()
 		    
             //Add new videobuffer to our list
             if(imageCounter == 0){
-		      buffers.push_front(b);
-		      cout << "starting new videobuffer" << endl;
+                
+                buffers.push_front(b);
+                cout << "starting new videobuffer" << endl;
 
-              // If we have check if we need to release buffer
+                //Release oldest buffer 
                 if (buffers.size() > howManyBuffersToStore){
-                    // buffers.pop_back();
-                    // int i = buffers.size()-1;
                     buffers.pop_back();
                     cout << "removing buffer" << endl;
                 }
 	        }
-    		// Capture the CV image
-    		 buffers[0].buffer.push_back(openCV.getRecordPixels());
-		     imageCounter++;
-             
-             //Reset the frame timer
-             //But why is this there? It should be dictated by the camera
-             //I guess it's not because we have variable processing framerates an this keeps thing smoother
 
-             recTimer = ofGetElapsedTimeMillis();
+    		//Push the processing image into our current buffer
+            buffers[0].buffer.push_back(openCV.getRecordPixels());
+            imageCounter++;
+             
+            //Reset the frame timer
+            //Because we have variable processing framerates this timer keeps thing smoother
+            recTimer = ofGetElapsedTimeMillis();
 
             //Start playback after a certain number of frames have been played
             //Can be adjusted in the menu 
             if(imageCounter == delayFramesBeforePlayback){
                  buffers[0].start();
             }
+
         }
     }
 
-//Gif Saving Stuff 
-//     if(!openCV.isSomeoneThere()){
-//         if (canSaveGif == true){
-//             #ifdef NUC
-// //                gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
-//             #else
-// //                gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
-//             #endif
-//             howmanyrecordings++;
-//             canSaveGif = false;
-//         }
-//         stopLoop = true;
-//     }
-
     //Start the dreaming timer
     if (!openCV.isSomeoneThere() && triggerDreamTimer == true){
+    
         //ActivityTimer is dream timer
         activityTimer.start(false);
         triggerDreamTimer = false;
     }
 
     // Update the buffer progressors
-    // This probaby doesn't need to happen for all buffers
     if (!buffers.empty()){
-
         for (int i = 0; i < buffers.size(); i++){
             buffers[i].update();
         }
-
     }
 
-    // doCVBackgroundTimer.update();
+    //Status timer sends the lamp status to the server
     statusTimer.update();
+
+    //Activity timer is for dreamingi
     activityTimer.update();
 
+    //Show cursor or not 
     if (cursorDisplay == true){
         ofShowCursor();
     }else{
@@ -253,51 +247,47 @@ void ofApp::update()
 void ofApp::draw()
 {
     ofBackground(backColor);
+
+    //Draw to FBO
     mainOut.begin();
-    ofClear(backColor);
 
-    	ofPushStyle();
-	ofSetColor(0);
-	ofDrawBitmapString(ofGetTimestampString(),300,300);
-    	ofPopStyle();
+        ofClear(backColor);
+        ofPushStyle();
+    	ofSetColor(0);
+    	ofDrawBitmapString(ofGetTimestampString(),300,300);
+        ofPopStyle();
 
-	if (useShader){
-        shader.begin();
-        ofSetColor(255, 255);
-        ofRect(0, 0, 320,240);
-    }
-    ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-
-   ofPushMatrix();
-   ofTranslate(0,playbackOffsetY);
-
-    if (!buffers.empty())
-    {
-        for (int i = 0; i < buffers.size(); i++)
-        {
-            buffers[i].draw(255);
+    	if (useShader){
+            shader.begin();
+            ofSetColor(255, 255);
+            ofRect(0, 0, 320,240);
         }
-    }
 
-   ofPopMatrix();
+        ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+        ofPushMatrix();
+
+            ofTranslate(0,playbackOffsetY);
+            //Draw Videos
+            if (!buffers.empty()){
+                for (int i = 0; i < buffers.size(); i++)
+                {
+                    buffers[i].draw(255);
+                }
+            }
+            
+        ofPopMatrix();
+        ofDisableBlendMode();
+        
+        ShadowingProductionModeA();
 
 
-    //tiger1.draw(0,0,320,240);
-    //tiger2.draw(0,0,320,240);
+        if (useShader)
+        {
+            shader.end();
+            shader.draw();
+        }
 
-    ofDisableBlendMode();
-
-
-    ShadowingProductionModeA();
-
-
-    if (useShader)
-    {
-        shader.end();
-        shader.draw();
-    }
-
-    //tiger1.draw(0,0,ofGetWidth(), ofGetHeight());
+        //tiger1.draw(0,0,ofGetWidth(), ofGetHeight());
 
     mainOut.end();
 
@@ -660,7 +650,20 @@ void ofApp::onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::Directo
 void ofApp::onDirectoryWatcherError(const Poco::Exception& exc){ }
 //--------------------------------------------------------------
 void ofApp::exit()
-{
+{   
+    //Remove listeners
+    ofRemoveListener(activityTimer.TIMER_STARTED, this, &ofApp::activityTimerStarted);
+    ofRemoveListener(activityTimer.TIMER_COMPLETE, this, &ofApp::activityTimerComplete);
+
+    ofRemoveListener(doCVBackgroundTimer.TIMER_STARTED, this, &ofApp::CVTimerStarted);
+    ofRemoveListener(doCVBackgroundTimer.TIMER_COMPLETE, this, &ofApp::CVTimerComplete);
+
+    ofRemoveListener(statusTimer.TIMER_STARTED, this, &ofApp::statusTimerStarted);
+    ofRemoveListener(statusTimer.TIMER_COMPLETE, this, &ofApp::statusTimerComplete);
+
+    ofRemoveListener(httpUtils.newResponseEvent,this,&ofApp::newResponse);
+    ofRemoveListener(gui->newGUIEvent,this, &ofApp::guiEvent);
+
     //Stop Gif stuff
     gifWatcher.unregisterAllEvents(this);
 
@@ -684,24 +687,30 @@ void ofApp::exit()
     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
     form.addFormField("submit","1");
     httpUtils.addForm(form);
+
+    httpUtils.stop();
+
 #endif
+
     cout << "Releasing Camera" << endl;
     openCV.releaseCamera();
-    // ofSleepMillis(1000);
+    // ofSleepMillis(500);
     cout << "Released Camera" << endl;
 #ifdef HAVE_WEB
     httpUtils.stop();
 	cout << "Stopped Web" << endl;
 #endif
+
     openCV.exit();
 	cout << "Exited Gui" << endl;
     gui->saveSettings("GUI/Settings.xml");
 	//delete gui;
-
     cout << "Saved Gui" << endl;
 
     #ifndef DEBUG
-        projector.projectorOff();
+        if(projector.isConnected()){
+            projector.projectorOff();
+        }
     	cout << "Projector Off" << endl;
     #endif
 
@@ -865,9 +874,10 @@ void ofApp::setupProjector()
 
         projector.openConnection("/dev/ttyUSB0",9600);
 	
-	cout << "after opening projector"<< endl;
+	   cout << "after opening projector"<< endl;
 
-        projector.turnOffCamera();
+
+        // projector.turnOffCamera();
        // ofSleepMillis(1000);
        // projector.turnOnCamera();
        // ofSleepMillis(3000);
@@ -876,8 +886,9 @@ void ofApp::setupProjector()
         //ofSleepMillis(3000);
 
         // Turn the projector On
-        projector.projectorOn();
-	
+        if(projector.isConnected()){
+            projector.projectorOn();
+        }	
     #endif
 }
 //--------------------------------------------------------------
@@ -931,6 +942,7 @@ void ofApp::setupTimers()
 
     ofAddListener(statusTimer.TIMER_STARTED, this, &ofApp::statusTimerStarted);
     ofAddListener(statusTimer.TIMER_COMPLETE, this, &ofApp::statusTimerComplete);
+
 
     statusTimer.start(true);
 }
@@ -1126,7 +1138,9 @@ void ofApp::statusTimerComplete(int &args)
     httpUtils.addForm(form);
 
     // Pulse the Projector
-    projector.projectorOn();
+    if(projector.isConnected()){
+        projector.projectorOn();
+    }
 
     //Make sure relay is open!
     //open usb relay

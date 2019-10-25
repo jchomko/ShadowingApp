@@ -1,0 +1,88 @@
+Loading Settings
+Loaded Settings!
+after opening projector
+FlyCapture2 library version: 0.0.0.0
+Application build date: Oct 25 2019 19:36:02
+
+200:Status: 5 STARTED 0<br>
+Number of cameras detected: 1
+Attempting to connect to cam 
+Cam connection result 
+Number of videomodes : 1
+camera model name Firefly MV FMVU-03MTM
+WE HAVE FIREFLY
+
+*** CAMERA INFORMATION ***
+Serial number -16294700
+Camera model - Firefly MV FMVU-03MTM
+Camera vendor - Point Grey Research
+Sensor - Micron MT9V022177ATM (1/3" 640x480 CMOS)
+Resolution - 752x480
+Firmware version - 1.8.3.0
+Firmware build time - Thu Feb  9 21:18:06 2012
+
+Frame rate is : 30
+Setting Framerate : 
+Frame rate is : 30
+capture started
+Allocating Color Image
+Allocating Gray Image
+Allocating Back Image
+Allocating Float Image
+Allocating Diff Image
+Allocating Warped Image
+Allocating Last Image
+Allocating Diff Image
+Allocating Frame Diff Image
+Allocating Thresh Image
+Allocating VirginGray Image
+width : 320 height: 240
+got event from: threshold_min1
+191
+threshold value :191
+got event from: pre_blur
+5
+got event from: erosion_size
+0
+got event from: dilation_size
+4
+got event from: morph_size
+3
+got event from: morph_iterations
+2
+got event from: post_blur
+0
+got event from: post_erosion_size
+0
+got event from: expand_size
+0
+got event from: expand_sigma1
+0
+got event from: smooth_size
+10
+got event from: smooth_sigma1
+10
+got event from: learningRate
+-1
+got event from: frameDiffThresh
+20
+got event from: presenceTimeoutMillis
+1200
+got event from: T1
+7.27108e-39
+value: 0
+toggeling exposure 
+capture stopped 
+cam disconnected 
+after setup cv
+before opening directory
+after opening director
+Masks/HandMask1.png
+Masks/HandMask2.png
+Masks/HandMask6.png
+Masks/OffsetMask.png
+Masks/maskImageCircle.png
+Masks/unused masks
+done loading masks
+after setup masks
+setup done

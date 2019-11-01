@@ -1,17 +1,16 @@
-ofxOpenCv
-ofxCv
+# ofxOpenCv
 ofxXmlSettings
-ofxIO
-ofxSimpleTimer
+# ofxIO
+# ofxSimpleTimer
 ofxVideoBuffer
-ofxGifEncoder
 ofxProjectorControl
-ofxHttpUtils
+# ofxHttpUtils
 ofxUI
 ofxDaveOpenCV
-ofxCalibrationUtils
+# ofxCalibrationUtils
 ofxBlur
-ofxGui
+#ofxGui
 ofxFlyCapture
+ofxPoco
 
 

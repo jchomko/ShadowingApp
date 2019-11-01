@@ -8,17 +8,17 @@
 
 #pragma once
 
-
+#include "ofxXmlPoco.h"
 #include "ofMain.h"
 #include "OCV.h"
-#include "ofxSimpleTimer.h"
-#include "ofxUI.h"
+// #include "ofxSimpleTimer.h"
+// #include "ofxUI.h"
 #include "VideoBufferStorage.h"
-#include "ofxHttpUtils.h"
+// #include "ofxHttpUtils.h"
 #include "ofxProjectorControl.h"
-#include "ofxGifEncoder.h"
-#include "ofxIO.h"
-#include "ofxHttpUtils.h"
+// #include "ofxGifEncoder.h"
+// #include "ofxIO.h"
+// #include "ofxHttpUtils.h"
 #include "ofxBlur.h"
 
 
@@ -42,11 +42,11 @@
 //--------------------------------------------------------------
 
 #define SAVE_PATH_NUC "/root/of_v0.8.3_linux64_release/apps/myApps/ShadowingApp/bin/data/gifs/"
-#define HAVE_WEB
+// #define HAVE_WEB
 #define NUC
 //#define DEBUG
 
-using namespace ofx::IO;
+// using namespace ofx::IO;
 class ofApp : public ofBaseApp{
 
 	public:
@@ -102,8 +102,8 @@ class ofApp : public ofBaseApp{
         // GUI
         void setupGUI();
         void setupSimpleGUI();
-	void guiEvent(ofxUIEventArgs &e);
-        ofxUICanvas *gui;
+	    // void guiEvent(ofxUIEventArgs &e);
+     //    ofxUICanvas *gui;
         ofImage *colorSampler;
 
         // Masks
@@ -115,13 +115,13 @@ class ofApp : public ofBaseApp{
         ofColor backColor, shadowColor;
 
         // GIF Stuff
-        void setupGifEncoder();
-        int progress;
-        void onGifSaved(string & fileName);
-        void captureFrame();
-        ofxGifEncoder gifEncoder;
-        bool canSaveGif;
-        void playSlowShadow();
+        // void setupGifEncoder();
+        // int progress;
+        // void onGifSaved(string & fileName);
+        // void captureFrame();
+        // ofxGifEncoder gifEncoder;
+        // bool canSaveGif;
+        // void playSlowShadow();
 
         // Shadowing Dream States
         void ShadowingDreamStateA();
@@ -158,7 +158,7 @@ class ofApp : public ofBaseApp{
 
         string modeString;
         int playbackMode;
-	int imagingMode;
+	    int imagingMode;
         int howManyBuffersToStore;
         bool showPreviousBuffers;
         int whichBufferAreWePlaying;
@@ -177,15 +177,15 @@ class ofApp : public ofBaseApp{
         // Activity,Timers and Modes
         void setupTimers();
         bool inactive;
-        ofxSimpleTimer activityTimer;
+        // ofxSimpleTimer activityTimer;
         void activityTimerComplete(int &args);
         void activityTimerStarted(int &args);
 
-        ofxSimpleTimer doCVBackgroundTimer;
+        // ofxSimpleTimer doCVBackgroundTimer;
         void CVTimerComplete(int &args);
         void CVTimerStarted(int &args);
 
-        ofxSimpleTimer statusTimer;
+        // ofxSimpleTimer statusTimer;
         void statusTimerComplete(int &args);
         void statusTimerStarted(int &args);
 
@@ -196,21 +196,22 @@ class ofApp : public ofBaseApp{
 
         // Directory Watcher
         void setupDirectoryWatcher();
-        DirectoryWatcherManager gifWatcher;
-        HiddenFileFilter fileFilter;
+        // DirectoryWatcherManager gifWatcher;
+        // HiddenFileFilter fileFilter;
         string latestGifPath;
-        void onDirectoryWatcherItemAdded(const DirectoryWatcherManager::DirectoryEvent& evt);
-        void onDirectoryWatcherItemRemoved(const DirectoryWatcherManager::DirectoryEvent& evt);
-        void onDirectoryWatcherItemModified(const DirectoryWatcherManager::DirectoryEvent& evt);
-        void onDirectoryWatcherItemMovedFrom(const DirectoryWatcherManager::DirectoryEvent& evt);
-        void onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::DirectoryEvent& evt);
-        void onDirectoryWatcherError(const Poco::Exception& exc);
+        // void onDirectoryWatcherItemAdded(const DirectoryWatcherManager::DirectoryEvent& evt);
+        // void onDirectoryWatcherItemRemoved(const DirectoryWatcherManager::DirectoryEvent& evt);
+        // void onDirectoryWatcherItemModified(const DirectoryWatcherManager::DirectoryEvent& evt);
+        // void onDirectoryWatcherItemMovedFrom(const DirectoryWatcherManager::DirectoryEvent& evt);
+        // void onDirectoryWatcherItemMovedTo(const DirectoryWatcherManager::DirectoryEvent& evt);
+        // void onDirectoryWatcherError(const Poco::Exception& exc);
         void cleanGifFolder();
 
         // HTTP
-        void setupHTTP();
-        void newResponse(ofxHttpResponse & response);
-        ofxHttpUtils httpUtils;
+        // void setupHTTP();
+        // void newResponse(ofxHttpResponse & response);
+     
+        // ofxHttpUtils httpUtils;
         string responseStr;
         string requestStr;
         string action_url;

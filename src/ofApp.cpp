@@ -21,6 +21,7 @@ void ofApp::loadConfig()
         cout << "Not Loaded Settings!" << endl;
     }
 }
+
 //--------------------------------------------------------------
 void ofApp::setup()
 {
@@ -99,30 +100,9 @@ void ofApp::update()
     }
 
     //--------------------------------------------------------------
-    // Custom CV mechanisms
-    // Wait until we have a new frame before learning background
-    // if ( openCV.newFrame() && firstLearn == true)
-    // {
-    //     openCV.relearnBackground();
-    //     firstLearn = false;
-    // }
-
     // Subtraction Plus Brightness and Contrast Settings
-    if(imagingMode == 0){
-
-	// openCV.JsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
-
-	}else if(imagingMode == 1){
-
-    openCV.DsubtractionLoop(false,false);
-    //openCV.PsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
-
-     }
-
-  // 	openCV.PsubtractionLoop(learnBackground, bMirrorH,bMirrorV,threshold,moveThreshold,fBlur,gaussBlur,medianBlur,iMinBlobSize, iMaxBlobSize,iMaxBlobNum,bFillHoles,bUseApprox,brightness,contrast,erode,dilate);
-
-//    	openCV.progSubLoop(iMinBlobSize, iMaxBlobSize, threshold, fBlur, brightness, contrast);
-
+     openCV.DsubtractionLoop(false,false);
+   
     learnBackground = false;
     // Do Blob Assembly
     // openCV.readAndWriteBlobData(ofColor::white,ofColor::black);
@@ -284,14 +264,15 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+    
     ofBackground(backColor);
     mainOut.begin();
     ofClear(backColor);
 
-    	ofPushStyle();
+    ofPushStyle();
 	ofSetColor(0);
 	ofDrawBitmapString(ofGetTimestampString(),300,300);
-    	ofPopStyle();
+    ofPopStyle();
 
 	if (useShader){
         shader.begin();
@@ -346,6 +327,8 @@ void ofApp::draw()
         masks[whichMask].draw(-maskScale+maskCenterX,-maskScale+maskCenterY,ofGetWidth()+maskScale,ofGetHeight()+maskScale);
         ofDisableAlphaBlending();
     }
+
+
     drawMisc();
     openCV.drawGui();
 
@@ -512,7 +495,7 @@ void ofApp::keyPressed(int key)
 	    playbackMode = 3;
 	    break;
 	case 'm':
-            // gui->toggleVisible();
+            gui->toggleVisible();
 	    drawCV = !drawCV;
             // ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
             break;
@@ -539,25 +522,25 @@ void ofApp::keyPressed(int key)
         //    break;
         case 'd':
             canDrawData = !canDrawData;
-            // ((ofxUILabelToggle *) gui->getWidget("Show Data"))->setValue(canDrawData);
+            ((ofxUILabelToggle *) gui->getWidget("Show Data"))->setValue(canDrawData);
             break;
         case 'v':
-            //openCV.toggleGui();
-	    drawCV = !drawCV;
-            // ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
+            openCV.toggleGui();
+	        drawCV = !drawCV;
+            ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
             break;
         case 'c':
             	openCV.toggleGui();
 		break;
-	case 'f':
-		drawCamFull = !drawCamFull;
+	    case 'f':
+		      drawCamFull = !drawCamFull;
 		break;
-	case 'b':
+	    case 'b':
             showPreviousBuffers = !showPreviousBuffers;
             // ((ofxUILabelToggle *) gui->getWidget("Show Buffers"))->setValue(showPreviousBuffers);
             break;
-	case 'z':
-	    playTiger();
+	    case 'z':
+	       playTiger();
 	    break;
 
         case 't':
@@ -723,8 +706,8 @@ void ofApp::exit()
 #endif
     openCV.exit();
 	cout << "Exited Gui" << endl;
-    // gui->saveSettings("GUI/Settings.xml");
-	//delete gui;
+    gui->saveSettings("GUI/Settings.xml");
+	delete gui;
 
     cout << "Saved Gui" << endl;
 
@@ -807,7 +790,7 @@ void ofApp::setupVariables()
     bSwitch = false;
     firstLearn = true;
     noneDream == false;
-    drawCV = false;
+    drawCV = true;
 	recTimer = ofGetElapsedTimeMillis();
 }
 //--------------------------------------------------------------
@@ -965,176 +948,100 @@ void ofApp::setupTimers()
 // Setup GUI
 //--------------------------------------------------------------
 //--------------------------------------------------------------
-void ofApp::setupGUI()
-{
-//     colorSampler = new ofImage();
-//     colorSampler->loadImage("GUI/colorSamplerImage.png");
-
-//     gui = new ofxUICanvas(0,0,600,600);
-//     gui->setColorBack(ofColor::black);
-//     gui->addWidgetDown(new ofxUILabel("Shadowing", OFX_UI_FONT_MEDIUM));
-//     gui->addSpacer(255,1);
-// //    gui->addWidgetDown(new ofxUILabelToggle("Fullscreen",true,255,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Do Calibration",false,255,30,OFX_UI_FONT_MEDIUM));
-//    gui->addWidgetDown(new ofxUILabelToggle("Draw CV",false,255,30,OFX_UI_FONT_MEDIUM));
-//    gui->addWidgetDown(new ofxUILabelToggle("Show Buffers",false,255,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Show Data",false,255,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Imaging Mode", OFX_UI_FONT_MEDIUM));
-//    gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "IMAGING_MODE", OFX_UI_FONT_MEDIUM));
-
-//     gui->addWidgetDown(new ofxUILabel("Number of Buffers", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 15,5, 0, "BUFFER_NUMBER", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Use Mask",true,255,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Mask Number", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 5, 1, 0, "Mask_No", OFX_UI_FONT_MEDIUM));
-//     gui->addSpacer(255,1);
-//     gui->addWidgetDown(new ofxUILabelButton("Learn Background",false,255,30,OFX_UI_FONT_MEDIUM));
-//   //  gui->addWidgetDown(new ofxUILabelToggle("Mirror H",false,255/2,30,OFX_UI_FONT_MEDIUM));
-// //    gui->addWidgetRight(new ofxUILabelToggle("Mirror V",false,255/2,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Tracking Boundaries", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, CAM_HEIGHT/2,5, 0, "TRACKING_BOUNDARY", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Imaging Threshold", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "IMAGE_THRESHOLD", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Movement Threshold", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "MOVE_THRESHOLD", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Min Blob Size", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, (CAM_WIDTH*CAM_HEIGHT)/3, 20, 1, "MIN_BLOB_SIZE", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Max Blob Size", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, (CAM_WIDTH*CAM_HEIGHT), (CAM_WIDTH*CAM_HEIGHT)/3, 1, "MAX_BLOB_SIZE", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Max Num Blob", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 10, 2, 0, "MAX_BLOB_NUM", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Fill Holes",false,255/2,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUILabelToggle("Use Approximation",false,255/2,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Blur", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "BLUR", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Gauss Blur", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "GAUSS_BLUR", OFX_UI_FONT_MEDIUM));
-
-//     gui->addWidgetDown(new ofxUILabel("Median Blur", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "MEDIAN_BLUR", OFX_UI_FONT_MEDIUM));
-
-//     gui->addWidgetDown(new ofxUILabel("Brightness", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "BrightnessV", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Contrast", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "ContrastV", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Erode",false,255/2,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUILabelToggle("Dilate",false,255/2,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Progressive Background",false,255,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Progression Rate", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0.00f, 1.00f, 0.01f, 4, "PROGRESSIVE_RATE", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Use Shader",false,255/2,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Blur Radius", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BLUR_RADIUS", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Blur Pass", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BLUR_PASS", OFX_UI_FONT_MEDIUM));
-
-//     //gui->addSpacer(255,1);
-//  //  gui->addWidgetDown(new ofxUILabel("BGL","Background Color", OFX_UI_FONT_MEDIUM));
-//  //   gui->addWidgetDown(new ofxUIImageSampler(255/2, 255/2, colorSampler, "Background_Color"));
-//  //   gui->addWidgetEastOf(new ofxUILabel("Shadow Color", OFX_UI_FONT_MEDIUM),"BGL");
-//  //   gui->addWidgetEastOf(new ofxUIImageSampler(255/2, 255/2, colorSampler, "Shadow_Color"),"Background_Color");
-// //    gui->addWidgetDown(new ofxUINumberDialer(0,60000,18000,1,"DREAM_WAIT_TIME", OFX_UI_FONT_MEDIUM));
-//     //gui->addWidgetDown(new ofxUINumberDialer(0,10,3,1,"TIGER_PROBABILITY", OFX_UI_FONT_MEDIUM));
-
-//     gui->autoSizeToFitWidgets();
-//     ofAddListener(gui->newGUIEvent,this, &ofApp::guiEvent);
-
-//     gui->loadSettings("GUI/Settings.xml");
-//     gui->setVisible(false);
-}
 
 void ofApp::setupSimpleGUI()
 {
-//     gui = new ofxUICanvas(ofGetWidth()/2,0,600,600);
-//     gui->setColorBack(ofColor::black);
+    gui = new ofxUICanvas(ofGetWidth()/2,0,600,600);
+    gui->setColorBack(ofColor::black);
 
-//     gui->addWidgetDown(new ofxUILabel("Basic Settings", OFX_UI_FONT_MEDIUM));
-//     gui->addSpacer(255,1);
-//     gui->addSpacer(0,10);
+    gui->addWidgetDown(new ofxUILabel("Basic Settings", OFX_UI_FONT_MEDIUM));
+    gui->addSpacer(255,1);
+    gui->addSpacer(0,10);
   
-//     gui->addWidgetDown(new ofxUILabel("Imaging Threshold", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "IMAGE_THRESHOLD", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Playback Offset", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(-1000, 1000, 80, 0, "PLAYBACK_OFFSET_Y", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Imaging Threshold", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "IMAGE_THRESHOLD", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Playback Offset", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(-1000, 1000, 80, 0, "PLAYBACK_OFFSET_Y", OFX_UI_FONT_MEDIUM));
     
-//     gui->addWidgetDown(new ofxUILabel("Mask Scaler", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 1000, 1, 0, "MASK_SCALE", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Mask Scaler", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 1000, 1, 0, "MASK_SCALE", OFX_UI_FONT_MEDIUM));
    
-// 	 gui->addWidgetDown(new ofxUILabel("Mask Center X ", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(-500, 500, 1, 0, "MASK_CENTER_X", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Mask Center Y", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(-500, 500, 1, 0, "MASK_CENTER_Y", OFX_UI_FONT_MEDIUM));
+	 gui->addWidgetDown(new ofxUILabel("Mask Center X ", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(-500, 500, 1, 0, "MASK_CENTER_X", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Mask Center Y", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(-500, 500, 1, 0, "MASK_CENTER_Y", OFX_UI_FONT_MEDIUM));
 
-//     gui->addWidgetDown(new ofxUILabel("Delay Before Playback", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 400, 30, 0, "DELAY_BEFORE_PLAYBACK", OFX_UI_FONT_MEDIUM));
-// 	gui->addSpacer(0,30);
-//     gui->addWidgetDown(new ofxUILabel("Advanced Settings", OFX_UI_FONT_MEDIUM));
-//     gui->addSpacer(255,1);  
-// 	gui->addSpacer(0,10);  
+    gui->addWidgetDown(new ofxUILabel("Delay Before Playback", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 400, 30, 0, "DELAY_BEFORE_PLAYBACK", OFX_UI_FONT_MEDIUM));
+	gui->addSpacer(0,30);
+    gui->addWidgetDown(new ofxUILabel("Advanced Settings", OFX_UI_FONT_MEDIUM));
+    gui->addSpacer(255,1);  
+	gui->addSpacer(0,10);  
 
-//      gui->addWidgetDown(new ofxUILabel("Blur", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "BLUR", OFX_UI_FONT_MEDIUM));
+     gui->addWidgetDown(new ofxUILabel("Blur", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "BLUR", OFX_UI_FONT_MEDIUM));
 
-//     gui->addWidgetDown(new ofxUILabel("Tracking Boundaries", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, CAM_HEIGHT/2,5, 0, "TRACKING_BOUNDARY", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Tracking Boundaries", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, CAM_HEIGHT/2,5, 0, "TRACKING_BOUNDARY", OFX_UI_FONT_MEDIUM));
    
-//     gui->addWidgetDown(new ofxUILabel("Movement Threshold", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "MOVE_THRESHOLD", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Movement Threshold", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "MOVE_THRESHOLD", OFX_UI_FONT_MEDIUM));
 
-//     gui->addWidgetDown(new ofxUILabel("Brightness", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "BrightnessV", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Contrast", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "ContrastV", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Brightness", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "BrightnessV", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Contrast", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "ContrastV", OFX_UI_FONT_MEDIUM));
 
 
-// //    gui->addWidgetDown(new ofxUILabelToggle("Fullscreen",true,255,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Set Warp",false,255,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Draw CV",false,255,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Show Buffers",false,255,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Show Data",false,255,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Imaging Mode", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "IMAGING_MODE", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Number of Buffers", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 15,5, 0, "BUFFER_NUMBER", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Use Mask",true,255,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Mask Number", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 5, 1, 0, "Mask_No", OFX_UI_FONT_MEDIUM));
+//    gui->addWidgetDown(new ofxUILabelToggle("Fullscreen",true,255,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Set Warp",false,255,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Draw CV",false,255,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Show Buffers",false,255,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Show Data",false,255,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Imaging Mode", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "IMAGING_MODE", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Number of Buffers", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 15,5, 0, "BUFFER_NUMBER", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Use Mask",true,255,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Mask Number", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 5, 1, 0, "Mask_No", OFX_UI_FONT_MEDIUM));
   
-//     gui->addWidgetDown(new ofxUILabel("Min Blob Size", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, (CAM_WIDTH*CAM_HEIGHT)/3, 20, 1, "MIN_BLOB_SIZE", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Max Blob Size", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, (CAM_WIDTH*CAM_HEIGHT), (CAM_WIDTH*CAM_HEIGHT)/3, 1, "MAX_BLOB_SIZE", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Max Num Blob", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 10, 2, 0, "MAX_BLOB_NUM", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Fill Holes",false,255/2,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUILabelToggle("Use Approximation",false,255/2,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Min Blob Size", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, (CAM_WIDTH*CAM_HEIGHT)/3, 20, 1, "MIN_BLOB_SIZE", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Max Blob Size", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, (CAM_WIDTH*CAM_HEIGHT), (CAM_WIDTH*CAM_HEIGHT)/3, 1, "MAX_BLOB_SIZE", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Max Num Blob", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 10, 2, 0, "MAX_BLOB_NUM", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Fill Holes",false,255/2,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUILabelToggle("Use Approximation",false,255/2,30,OFX_UI_FONT_MEDIUM));
  
-//     gui->addWidgetDown(new ofxUILabel("Gauss Blur", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "GAUSS_BLUR", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Gauss Blur", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "GAUSS_BLUR", OFX_UI_FONT_MEDIUM));
 
-//     gui->addWidgetDown(new ofxUILabel("Median Blur", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "MEDIAN_BLUR", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Median Blur", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "MEDIAN_BLUR", OFX_UI_FONT_MEDIUM));
 
  
-//     gui->addWidgetDown(new ofxUILabelToggle("Erode",false,255/2,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUILabelToggle("Dilate",false,255/2,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Progressive Background",false,255,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Progression Rate", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0.00f, 1.00f, 0.01f, 4, "PROGRESSIVE_RATE", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabelToggle("Use Shader",false,255/2,30,OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Blur Radius", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BLUR_RADIUS", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetDown(new ofxUILabel("Blur Pass", OFX_UI_FONT_MEDIUM));
-//     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BLUR_PASS", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Erode",false,255/2,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUILabelToggle("Dilate",false,255/2,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Progressive Background",false,255,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Progression Rate", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0.00f, 1.00f, 0.01f, 4, "PROGRESSIVE_RATE", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Use Shader",false,255/2,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Blur Radius", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BLUR_RADIUS", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Blur Pass", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BLUR_PASS", OFX_UI_FONT_MEDIUM));
 
 
-//     //gui->addWidgetDown(new ofxUINumberDialer(0,10,3,1,"TIGER_PROBABILITY", OFX_UI_FONT_MEDIUM));
+    //gui->addWidgetDown(new ofxUINumberDialer(0,10,3,1,"TIGER_PROBABILITY", OFX_UI_FONT_MEDIUM));
 
-//     gui->autoSizeToFitWidgets();
-//     ofAddListener(gui->newGUIEvent,this, &ofApp::guiEvent);
+    gui->autoSizeToFitWidgets();
+    ofAddListener(gui->newGUIEvent,this, &ofApp::guiEvent);
 
-//     gui->loadSettings("GUI/Settings.xml");
-//     gui->setVisible(false);
+    gui->loadSettings("GUI/Settings.xml");
+    gui->setVisible(false);
+
 }
 
 //--------------------------------------------------------------
@@ -1238,226 +1145,226 @@ void ofApp::drawMisc()
 
 
 // //--------------------------------------------------------------
-// void ofApp::guiEvent(ofxUIEventArgs &e)
-// {
-//     if (e.getName() == "Progressive Background")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         bProgressiveLearning = toggle->getValue();
-//     }
-//     else if (e.getName() == "Do Calibration")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         doCalibration = toggle->getValue();
-//         openCV.setCalibration(toggle->getValue());
-//     }
-//     else if(e.getName() == "Use Mask")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         drawMask = toggle->getValue();
-//     }
-//     else if(e.getName() == "IMAGING_MODE")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         imagingMode = dial->getValue();
-//     }
-//     else if(e.getName() == "Mask_No")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         whichMask = dial->getValue();
-//     }
-//     else if(e.getName() == "Learn Background")
-//     {
-//         ofxUILabelButton * button = (ofxUILabelButton *) e.widget;
-//         openCV.relearnBackground();
-//         //learnBackground = button->getValue();
-//     }
-//     else if(e.getName() == "PROGRESSIVE_RATE")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         fProgressiveRate = dial->getValue();
-//     }
-//     else if(e.getName() == "BUFFER_NUMBER")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         howManyBuffersToStore = dial->getValue();
-//     }
-//     else if(e.getName() == "TRACKING_BOUNDARY")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         openCV.setTrackingBoundaries(dial->getValue(),dial->getValue());
-//     }
-//     else if(e.getName() == "BrightnessV")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         brightness = dial->getValue();
-//     }
-//     else if(e.getName() == "ContrastV")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         contrast = dial->getValue();
-//     }
-//     else if(e.getName() == "Fullscreen")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         ofSetFullscreen(toggle->getValue());
-//     }
-//     else if(e.getName() == "Erode")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         erode = toggle->getValue();
-//     }
-//     else if(e.getName() == "Dilate")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         dilate = toggle->getValue();
-//     }
-//     else if(e.getName() == "Show Buffers")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         showPreviousBuffers = toggle->getValue();
-//     }
-//     else if(e.getName() == "IMAGE_THRESHOLD")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         threshold = dial->getValue();
-//     }
-//      else if(e.getName() == "PLAYBACK_OFFSET_Y")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         playbackOffsetY = dial->getValue();
-//     }
-// 	 else if(e.getName() == "MASK_SCALE")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         maskScale = dial->getValue();
-//     }
-//   else if(e.getName() == "MASK_CENTER_X")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         maskCenterX = dial->getValue();
-//     }
-//   else if(e.getName() == "MASK_CENTER_Y")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         maskCenterY = dial->getValue();
-//     }
+void ofApp::guiEvent(ofxUIEventArgs &e)
+{
+    if (e.getName() == "Progressive Background")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        bProgressiveLearning = toggle->getValue();
+    }
+    else if (e.getName() == "Do Calibration")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        doCalibration = toggle->getValue();
+        openCV.setCalibration(toggle->getValue());
+    }
+    else if(e.getName() == "Use Mask")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        drawMask = toggle->getValue();
+    }
+    else if(e.getName() == "IMAGING_MODE")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        imagingMode = dial->getValue();
+    }
+    else if(e.getName() == "Mask_No")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        whichMask = dial->getValue();
+    }
+    else if(e.getName() == "Learn Background")
+    {
+        ofxUILabelButton * button = (ofxUILabelButton *) e.widget;
+        openCV.relearnBackground();
+        //learnBackground = button->getValue();
+    }
+    else if(e.getName() == "PROGRESSIVE_RATE")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        fProgressiveRate = dial->getValue();
+    }
+    else if(e.getName() == "BUFFER_NUMBER")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        howManyBuffersToStore = dial->getValue();
+    }
+    else if(e.getName() == "TRACKING_BOUNDARY")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        openCV.setTrackingBoundaries(dial->getValue(),dial->getValue());
+    }
+    else if(e.getName() == "BrightnessV")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        brightness = dial->getValue();
+    }
+    else if(e.getName() == "ContrastV")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        contrast = dial->getValue();
+    }
+    else if(e.getName() == "Fullscreen")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        ofSetFullscreen(toggle->getValue());
+    }
+    else if(e.getName() == "Erode")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        erode = toggle->getValue();
+    }
+    else if(e.getName() == "Dilate")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        dilate = toggle->getValue();
+    }
+    else if(e.getName() == "Show Buffers")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        showPreviousBuffers = toggle->getValue();
+    }
+    else if(e.getName() == "IMAGE_THRESHOLD")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        threshold = dial->getValue();
+    }
+     else if(e.getName() == "PLAYBACK_OFFSET_Y")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        playbackOffsetY = dial->getValue();
+    }
+	 else if(e.getName() == "MASK_SCALE")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        maskScale = dial->getValue();
+    }
+  else if(e.getName() == "MASK_CENTER_X")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        maskCenterX = dial->getValue();
+    }
+  else if(e.getName() == "MASK_CENTER_Y")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        maskCenterY = dial->getValue();
+    }
 
-//     else if(e.getName() == "DELAY_BEFORE_PLAYBACK")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         delayFramesBeforePlayback = dial->getValue();
-//     }
-//      else if(e.getName() == "MOVE_THRESHOLD")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         moveThreshold = dial->getValue();
-//     }
-//     else if(e.getName() == "MIN_BLOB_SIZE")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         iMinBlobSize = dial->getValue();
-//     }
-//     else if(e.getName() == "MAX_BLOB_SIZE")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         iMaxBlobSize = dial->getValue();
-//     }
-//     else if(e.getName() == "MAX_BLOB_NUM")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         iMaxBlobNum = dial->getValue();
-//     }
-//     else if (e.getName() == "Mirror H")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         bMirrorH = toggle->getValue();
-//     }
-//     else if (e.getName() == "Mirror V")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         bMirrorV = toggle->getValue();
-//     }
-//     else if (e.getName() == "Use Approximation")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         bUseApprox = toggle->getValue();
-//     }
-//     else if (e.getName() == "Fill Holes")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         bFillHoles = toggle->getValue();
-//     }
-//     else if(e.getName() == "BLUR")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         fBlur = dial->getValue();
-//     }
-//     else if(e.getName() == "GAUSS_BLUR")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         gaussBlur = dial->getValue();
-//     }
-//     else if(e.getName() == "MEDIAN_BLUR")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         medianBlur = dial->getValue();
-//     }
-//     else if (e.getName() == "Draw CV")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         drawCV = toggle->getValue();
-//     }
-//     else if (e.getName() == "Draw Live")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         drawLiveImage = toggle->getValue();
-//     }
-//    // else if(e.widget->getName() == "Background_Color")
-//    // {
-//    //     ofxUIImageSampler *sampler = (ofxUIImageSampler *) e.widget;
-//    //     backColor = sampler->getColor();
-//    // }
-//    // else if(e.widget->getName() == "Shadow_Color")
-//    // {
-//    //     ofxUIImageSampler *sampler = (ofxUIImageSampler *) e.widget;
-//    //     shadowColor = sampler->getColor();
-//    // }
+    else if(e.getName() == "DELAY_BEFORE_PLAYBACK")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        delayFramesBeforePlayback = dial->getValue();
+    }
+     else if(e.getName() == "MOVE_THRESHOLD")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        moveThreshold = dial->getValue();
+    }
+    else if(e.getName() == "MIN_BLOB_SIZE")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        iMinBlobSize = dial->getValue();
+    }
+    else if(e.getName() == "MAX_BLOB_SIZE")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        iMaxBlobSize = dial->getValue();
+    }
+    else if(e.getName() == "MAX_BLOB_NUM")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        iMaxBlobNum = dial->getValue();
+    }
+    else if (e.getName() == "Mirror H")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        bMirrorH = toggle->getValue();
+    }
+    else if (e.getName() == "Mirror V")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        bMirrorV = toggle->getValue();
+    }
+    else if (e.getName() == "Use Approximation")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        bUseApprox = toggle->getValue();
+    }
+    else if (e.getName() == "Fill Holes")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        bFillHoles = toggle->getValue();
+    }
+    else if(e.getName() == "BLUR")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        fBlur = dial->getValue();
+    }
+    else if(e.getName() == "GAUSS_BLUR")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        gaussBlur = dial->getValue();
+    }
+    else if(e.getName() == "MEDIAN_BLUR")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        medianBlur = dial->getValue();
+    }
+    else if (e.getName() == "Draw CV")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        drawCV = toggle->getValue();
+    }
+    else if (e.getName() == "Draw Live")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        drawLiveImage = toggle->getValue();
+    }
+   // else if(e.widget->getName() == "Background_Color")
+   // {
+   //     ofxUIImageSampler *sampler = (ofxUIImageSampler *) e.widget;
+   //     backColor = sampler->getColor();
+   // }
+   // else if(e.widget->getName() == "Shadow_Color")
+   // {
+   //     ofxUIImageSampler *sampler = (ofxUIImageSampler *) e.widget;
+   //     shadowColor = sampler->getColor();
+   // }
 
-//     else if (e.getName() == "Show Data")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         canDrawData = toggle->getValue();
-//     }
-//     else if(e.getName() == "BLUR_PASS")
-//     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         shader.setRotation(dial->getValue());
+    else if (e.getName() == "Show Data")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        canDrawData = toggle->getValue();
+    }
+    else if(e.getName() == "BLUR_PASS")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        shader.setRotation(dial->getValue());
 
-//     }
-//     else if(e.getName() == "BLUR_RADIUS")
+    }
+    else if(e.getName() == "BLUR_RADIUS")
+    {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        shader.setScale(dial->getValue());
+    }
+    else if (e.getName() == "Use Shader")
+    {
+        ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+        useShader = toggle->getValue();
+    }
+//    else if (e.getName() == "DREAM_WAIT_TIME")
 //     {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         shader.setScale(dial->getValue());
+//	ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+//	dreamWaitTime =  dial->getValue();
 //     }
-//     else if (e.getName() == "Use Shader")
-//     {
-//         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-//         useShader = toggle->getValue();
-//     }
-// //    else if (e.getName() == "DREAM_WAIT_TIME")
-// //     {
-// //	ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-// //	dreamWaitTime =  dial->getValue();
-// //     }
-//     else if (e.getName() == "TIGER_PROBABILITY")
-//      {
-//         ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-//         tigerProbability =  dial->getValue();
-//      }
+    else if (e.getName() == "TIGER_PROBABILITY")
+     {
+        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+        tigerProbability =  dial->getValue();
+     }
 
+}
 
-// }
 //--------------------------------------------------------------
 // Debug Data
 //--------------------------------------------------------------

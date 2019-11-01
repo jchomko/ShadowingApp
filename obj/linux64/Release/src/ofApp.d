@@ -1,10 +1,14 @@
 obj/linux64/Release/src/ofApp.o: \
  /root/of_v0.10.1_linux64gcc4_release/apps/myApps/ShadowingApp/src/ofApp.cpp \
  /root/of_v0.10.1_linux64gcc4_release/apps/myApps/ShadowingApp/src/ofApp.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/src/ofxXmlPoco.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxSimpleTimer/src/ofxSimpleTimer.h \
+ ../../../libs/openFrameworks/ofMain.h \
  ../../../libs/openFrameworks/utils/ofConstants.h \
  ../../../libs/tess2/include/tesselator.h \
- ../../../libs/openFrameworks/types/ofParameter.h \
+ ../../../libs/openFrameworks/utils/ofFileUtils.h \
+ ../../../libs/openFrameworks/utils/ofLog.h \
+ ../../../libs/openFrameworks/utils/ofSystemUtils.h \
+ ../../../libs/openFrameworks/utils/ofURLFileLoader.h \
  ../../../libs/openFrameworks/events/ofEvents.h \
  ../../../libs/openFrameworks/events/ofEventUtils.h \
  ../../../libs/openFrameworks/events/ofEvent.h \
@@ -23,6 +27,11 @@ obj/linux64/Release/src/ofApp.o: \
  ../../../libs/glm/include/glm/detail/../simd/platform.h \
  ../../../libs/glm/include/glm/detail/type_int.hpp \
  ../../../libs/glm/include/glm/detail/type_vec2.inl \
+ ../../../libs/openFrameworks/utils/ofThread.h \
+ ../../../libs/openFrameworks/utils/ofThreadChannel.h \
+ ../../../libs/openFrameworks/utils/ofJson.h \
+ ../../../libs/json/include/json.hpp \
+ ../../../libs/openFrameworks/types/ofParameter.h \
  ../../../libs/openFrameworks/types/ofPoint.h \
  ../../../libs/openFrameworks/math/ofVec3f.h \
  ../../../libs/openFrameworks/math/ofVec2f.h \
@@ -51,74 +60,6 @@ obj/linux64/Release/src/ofApp.o: \
  ../../../libs/glm/include/glm/detail/type_vec1.inl \
  ../../../libs/glm/include/glm/detail/func_common_simd.inl \
  ../../../libs/glm/include/glm/detail/../simd/common.h \
- ../../../libs/openFrameworks/utils/ofLog.h \
- ../../../libs/openFrameworks/utils/ofFileUtils.h \
- ../../../libs/openFrameworks/types/ofParameterGroup.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Document.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XML.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Foundation.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Config.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Platform.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Platform_POSIX.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Alignment.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Bugcheck.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Types.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/AbstractContainerNode.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/AbstractNode.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Node.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/EventTarget.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMObject.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLString.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/NamespaceSupport.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/MutationEvent.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Event.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DocumentEvent.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Element.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/Name.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/NamePool.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/AutoReleasePool.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DocumentFragment.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMParser.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/SAXParser.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/XMLReader.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/ParserEngine.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/expat.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/expat_external.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLStream.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/Locator.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/TextEncoding.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SharedPtr.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Exception.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/AtomicCounter.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/ScopedLock.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex_POSIX.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMException.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLException.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/SAXException.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLWriter.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/ContentHandler.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/LexicalHandler.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/DTDHandler.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/StreamConverter.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/UnbufferedStreamBuf.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/StreamUtil.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMWriter.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Attr.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Text.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/CharacterData.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NodeIterator.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NodeFilter.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NamedNodeMap.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/ChildNodesList.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NodeList.h \
- ../../../libs/openFrameworks/ofMain.h \
- ../../../libs/openFrameworks/utils/ofSystemUtils.h \
- ../../../libs/openFrameworks/utils/ofURLFileLoader.h \
- ../../../libs/openFrameworks/utils/ofThread.h \
- ../../../libs/openFrameworks/utils/ofThreadChannel.h \
- ../../../libs/openFrameworks/utils/ofJson.h \
- ../../../libs/json/include/json.hpp \
  ../../../libs/openFrameworks/utils/ofXml.h \
  ../../../libs/pugixml/include/pugixml.hpp \
  ../../../libs/pugixml/include/pugiconfig.hpp \
@@ -126,6 +67,7 @@ obj/linux64/Release/src/ofApp.o: \
  ../../../libs/openFrameworks/graphics/ofGraphicsConstants.h \
  ../../../libs/openFrameworks/types/ofTypes.h \
  ../../../libs/openFrameworks/types/ofRectangle.h \
+ ../../../libs/openFrameworks/types/ofParameterGroup.h \
  ../../../libs/openFrameworks/math/ofMath.h \
  ../../../libs/glm/include/glm/gtc/constants.hpp \
  ../../../libs/glm/include/glm/gtc/constants.inl \
@@ -554,16 +496,87 @@ obj/linux64/Release/src/ofApp.o: \
  ../../../libs/openFrameworks/3d/of3dUtils.h \
  ../../../libs/openFrameworks/3d/ofCamera.h \
  ../../../libs/openFrameworks/3d/ofEasyCam.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/src/ofxXmlPoco.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Document.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XML.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Foundation.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Config.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Platform.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Platform_POSIX.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Alignment.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Bugcheck.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Types.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/AbstractContainerNode.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/AbstractNode.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Node.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/EventTarget.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMObject.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLString.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/NamespaceSupport.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/MutationEvent.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Event.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DocumentEvent.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Element.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/Name.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/NamePool.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/AutoReleasePool.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DocumentFragment.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMParser.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/SAXParser.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/XMLReader.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/ParserEngine.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/expat.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/expat_external.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLStream.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/Locator.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/TextEncoding.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SharedPtr.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Exception.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/AtomicCounter.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/ScopedLock.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex_POSIX.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMException.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLException.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/SAXException.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLWriter.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/ContentHandler.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/LexicalHandler.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/DTDHandler.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/StreamConverter.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/UnbufferedStreamBuf.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/StreamUtil.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMWriter.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Attr.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Text.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/CharacterData.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NodeIterator.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NodeFilter.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NamedNodeMap.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/ChildNodesList.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NodeList.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxDaveOpenCV/src/OCV.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxDaveOpenCV/src/Utilities.h \
- /usr/local/include/opencv4/opencv2/opencv.hpp \
- /usr/local/include/opencv4/opencv2/opencv_modules.hpp \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/FlyCapture2.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/FlyCapture2Platform.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/FlyCapture2Defs.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Error.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/BusManager.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Camera.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/CameraBase.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/GigECamera.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Image.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Utilities.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/AVIRecorder.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/TopologyNode.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/ImageStatistics.h \
+ /usr/local/include/opencv4/opencv2/imgcodecs.hpp \
  /usr/local/include/opencv4/opencv2/core.hpp \
  /usr/local/include/opencv4/opencv2/core/cvdef.h \
  /usr/local/include/opencv4/opencv2/core/hal/interface.h \
  /usr/local/include/opencv4/opencv2/core/cv_cpu_dispatch.h \
  /usr/local/include/opencv4/opencv2/core/version.hpp \
  /usr/local/include/opencv4/opencv2/core/base.hpp \
+ /usr/local/include/opencv4/opencv2/opencv_modules.hpp \
  /usr/local/include/opencv4/opencv2/core/cvstd.hpp \
  /usr/local/include/opencv4/opencv2/core/cvstd_wrapper.hpp \
  /usr/local/include/opencv4/opencv2/core/neon_utils.hpp \
@@ -584,6 +597,14 @@ obj/linux64/Release/src/ofApp.o: \
  /usr/local/include/opencv4/opencv2/core/optim.hpp \
  /usr/local/include/opencv4/opencv2/core/ovx.hpp \
  /usr/local/include/opencv4/opencv2/core/cvdef.h \
+ /usr/local/include/opencv4/opencv2/imgproc.hpp \
+ /usr/local/include/opencv4/opencv2/videoio.hpp \
+ /usr/local/include/opencv4/opencv2/highgui.hpp \
+ /usr/local/include/opencv4/opencv2/video.hpp \
+ /usr/local/include/opencv4/opencv2/video/tracking.hpp \
+ /usr/local/include/opencv4/opencv2/video/background_segm.hpp \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxDaveOpenCV/src/Utilities.h \
+ /usr/local/include/opencv4/opencv2/opencv.hpp \
  /usr/local/include/opencv4/opencv2/calib3d.hpp \
  /usr/local/include/opencv4/opencv2/features2d.hpp \
  /usr/local/include/opencv4/opencv2/flann/miniflann.hpp \
@@ -629,10 +650,6 @@ obj/linux64/Release/src/ofApp.o: \
  /usr/local/include/opencv4/opencv2/flann/index_testing.h \
  /usr/local/include/opencv4/opencv2/flann/timer.h \
  /usr/local/include/opencv4/opencv2/flann/sampling.h \
- /usr/local/include/opencv4/opencv2/highgui.hpp \
- /usr/local/include/opencv4/opencv2/imgcodecs.hpp \
- /usr/local/include/opencv4/opencv2/videoio.hpp \
- /usr/local/include/opencv4/opencv2/imgproc.hpp \
  /usr/local/include/opencv4/opencv2/ml.hpp \
  /usr/local/include/opencv4/opencv2/ml/ml.inl.hpp \
  /usr/local/include/opencv4/opencv2/objdetect.hpp \
@@ -656,31 +673,15 @@ obj/linux64/Release/src/ofApp.o: \
  /usr/local/include/opencv4/opencv2/stitching/detail/seam_finders.hpp \
  /usr/local/include/opencv4/opencv2/stitching/detail/blenders.hpp \
  /usr/local/include/opencv4/opencv2/stitching/detail/camera.hpp \
- /usr/local/include/opencv4/opencv2/video.hpp \
- /usr/local/include/opencv4/opencv2/video/tracking.hpp \
- /usr/local/include/opencv4/opencv2/video/background_segm.hpp \
  /usr/local/include/opencv4/opencv2/imgproc/imgproc_c.h \
  /usr/local/include/opencv4/opencv2/imgproc/types_c.h \
  /usr/local/include/opencv4/opencv2/core/core_c.h \
  /usr/local/include/opencv4/opencv2/core/types_c.h \
  /usr/local/include/opencv4/opencv2/calib3d/calib3d_c.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxXmlSettings/src/ofxXmlSettings.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxXmlSettings/libs/tinyxml.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/FlyCapture2.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/FlyCapture2Platform.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/FlyCapture2Defs.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Error.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/BusManager.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Camera.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/CameraBase.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/GigECamera.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Image.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Utilities.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/AVIRecorder.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/TopologyNode.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/ImageStatistics.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxUI/src/ofxUI.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxUI/src/ofxUIDefines.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxXmlSettings/src/ofxXmlSettings.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxXmlSettings/libs/tinyxml.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxUI/src/ofxUIWidget.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxUI/src/ofxUIWrapper.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxUI/src/ofxUIOFWrapper.h \
@@ -729,19 +730,27 @@ obj/linux64/Release/src/ofApp.o: \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxUI/src/ofxUIScrollableCanvas.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxUI/src/ofxUISuperCanvas.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxUI/src/ofxUITabBar.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxVideoBuffer/src/VideoBufferStorage.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxProjectorControl/src/ofxProjectorControl.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxVideoBuffer/src/VideoBufferStorage.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxBlur/src/ofxBlur.h
 
 /root/of_v0.10.1_linux64gcc4_release/apps/myApps/ShadowingApp/src/ofApp.h:
 
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/src/ofxXmlPoco.h:
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxSimpleTimer/src/ofxSimpleTimer.h:
+
+../../../libs/openFrameworks/ofMain.h:
 
 ../../../libs/openFrameworks/utils/ofConstants.h:
 
 ../../../libs/tess2/include/tesselator.h:
 
-../../../libs/openFrameworks/types/ofParameter.h:
+../../../libs/openFrameworks/utils/ofFileUtils.h:
+
+../../../libs/openFrameworks/utils/ofLog.h:
+
+../../../libs/openFrameworks/utils/ofSystemUtils.h:
+
+../../../libs/openFrameworks/utils/ofURLFileLoader.h:
 
 ../../../libs/openFrameworks/events/ofEvents.h:
 
@@ -778,6 +787,16 @@ obj/linux64/Release/src/ofApp.o: \
 ../../../libs/glm/include/glm/detail/type_int.hpp:
 
 ../../../libs/glm/include/glm/detail/type_vec2.inl:
+
+../../../libs/openFrameworks/utils/ofThread.h:
+
+../../../libs/openFrameworks/utils/ofThreadChannel.h:
+
+../../../libs/openFrameworks/utils/ofJson.h:
+
+../../../libs/json/include/json.hpp:
+
+../../../libs/openFrameworks/types/ofParameter.h:
 
 ../../../libs/openFrameworks/types/ofPoint.h:
 
@@ -835,142 +854,6 @@ obj/linux64/Release/src/ofApp.o: \
 
 ../../../libs/glm/include/glm/detail/../simd/common.h:
 
-../../../libs/openFrameworks/utils/ofLog.h:
-
-../../../libs/openFrameworks/utils/ofFileUtils.h:
-
-../../../libs/openFrameworks/types/ofParameterGroup.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Document.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XML.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Foundation.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Config.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Platform.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Platform_POSIX.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Alignment.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Bugcheck.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Types.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/AbstractContainerNode.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/AbstractNode.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Node.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/EventTarget.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMObject.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLString.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/NamespaceSupport.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/MutationEvent.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Event.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DocumentEvent.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Element.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/Name.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/NamePool.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/AutoReleasePool.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DocumentFragment.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMParser.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/SAXParser.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/XMLReader.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/ParserEngine.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/expat.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/expat_external.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLStream.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/Locator.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/TextEncoding.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SharedPtr.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Exception.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/AtomicCounter.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/ScopedLock.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex_POSIX.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMException.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLException.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/SAXException.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLWriter.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/ContentHandler.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/LexicalHandler.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/DTDHandler.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/StreamConverter.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/UnbufferedStreamBuf.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/StreamUtil.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMWriter.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Attr.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Text.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/CharacterData.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NodeIterator.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NodeFilter.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NamedNodeMap.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/ChildNodesList.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NodeList.h:
-
-../../../libs/openFrameworks/ofMain.h:
-
-../../../libs/openFrameworks/utils/ofSystemUtils.h:
-
-../../../libs/openFrameworks/utils/ofURLFileLoader.h:
-
-../../../libs/openFrameworks/utils/ofThread.h:
-
-../../../libs/openFrameworks/utils/ofThreadChannel.h:
-
-../../../libs/openFrameworks/utils/ofJson.h:
-
-../../../libs/json/include/json.hpp:
-
 ../../../libs/openFrameworks/utils/ofXml.h:
 
 ../../../libs/pugixml/include/pugixml.hpp:
@@ -984,6 +867,8 @@ obj/linux64/Release/src/ofApp.o: \
 ../../../libs/openFrameworks/types/ofTypes.h:
 
 ../../../libs/openFrameworks/types/ofRectangle.h:
+
+../../../libs/openFrameworks/types/ofParameterGroup.h:
 
 ../../../libs/openFrameworks/math/ofMath.h:
 
@@ -1869,13 +1754,153 @@ obj/linux64/Release/src/ofApp.o: \
 
 ../../../libs/openFrameworks/3d/ofEasyCam.h:
 
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/src/ofxXmlPoco.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Document.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XML.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Foundation.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Config.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Platform.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Platform_POSIX.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Alignment.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Bugcheck.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Types.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/AbstractContainerNode.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/AbstractNode.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Node.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/EventTarget.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMObject.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLString.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/NamespaceSupport.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/MutationEvent.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Event.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DocumentEvent.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Element.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/Name.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/NamePool.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/AutoReleasePool.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DocumentFragment.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMParser.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/SAXParser.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/XMLReader.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/ParserEngine.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/expat.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/expat_external.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLStream.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/Locator.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/TextEncoding.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SharedPtr.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Exception.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/AtomicCounter.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/ScopedLock.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex_POSIX.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMException.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLException.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/SAXException.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLWriter.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/ContentHandler.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/LexicalHandler.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/DTDHandler.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/StreamConverter.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/UnbufferedStreamBuf.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/StreamUtil.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMWriter.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Attr.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Text.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/CharacterData.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NodeIterator.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NodeFilter.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NamedNodeMap.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/ChildNodesList.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/NodeList.h:
+
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxDaveOpenCV/src/OCV.h:
 
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxDaveOpenCV/src/Utilities.h:
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/FlyCapture2.h:
 
-/usr/local/include/opencv4/opencv2/opencv.hpp:
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/FlyCapture2Platform.h:
 
-/usr/local/include/opencv4/opencv2/opencv_modules.hpp:
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/FlyCapture2Defs.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Error.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/BusManager.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Camera.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/CameraBase.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/GigECamera.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Image.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Utilities.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/AVIRecorder.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/TopologyNode.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/ImageStatistics.h:
+
+/usr/local/include/opencv4/opencv2/imgcodecs.hpp:
 
 /usr/local/include/opencv4/opencv2/core.hpp:
 
@@ -1888,6 +1913,8 @@ obj/linux64/Release/src/ofApp.o: \
 /usr/local/include/opencv4/opencv2/core/version.hpp:
 
 /usr/local/include/opencv4/opencv2/core/base.hpp:
+
+/usr/local/include/opencv4/opencv2/opencv_modules.hpp:
 
 /usr/local/include/opencv4/opencv2/core/cvstd.hpp:
 
@@ -1928,6 +1955,22 @@ obj/linux64/Release/src/ofApp.o: \
 /usr/local/include/opencv4/opencv2/core/ovx.hpp:
 
 /usr/local/include/opencv4/opencv2/core/cvdef.h:
+
+/usr/local/include/opencv4/opencv2/imgproc.hpp:
+
+/usr/local/include/opencv4/opencv2/videoio.hpp:
+
+/usr/local/include/opencv4/opencv2/highgui.hpp:
+
+/usr/local/include/opencv4/opencv2/video.hpp:
+
+/usr/local/include/opencv4/opencv2/video/tracking.hpp:
+
+/usr/local/include/opencv4/opencv2/video/background_segm.hpp:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxDaveOpenCV/src/Utilities.h:
+
+/usr/local/include/opencv4/opencv2/opencv.hpp:
 
 /usr/local/include/opencv4/opencv2/calib3d.hpp:
 
@@ -2019,14 +2062,6 @@ obj/linux64/Release/src/ofApp.o: \
 
 /usr/local/include/opencv4/opencv2/flann/sampling.h:
 
-/usr/local/include/opencv4/opencv2/highgui.hpp:
-
-/usr/local/include/opencv4/opencv2/imgcodecs.hpp:
-
-/usr/local/include/opencv4/opencv2/videoio.hpp:
-
-/usr/local/include/opencv4/opencv2/imgproc.hpp:
-
 /usr/local/include/opencv4/opencv2/ml.hpp:
 
 /usr/local/include/opencv4/opencv2/ml/ml.inl.hpp:
@@ -2073,12 +2108,6 @@ obj/linux64/Release/src/ofApp.o: \
 
 /usr/local/include/opencv4/opencv2/stitching/detail/camera.hpp:
 
-/usr/local/include/opencv4/opencv2/video.hpp:
-
-/usr/local/include/opencv4/opencv2/video/tracking.hpp:
-
-/usr/local/include/opencv4/opencv2/video/background_segm.hpp:
-
 /usr/local/include/opencv4/opencv2/imgproc/imgproc_c.h:
 
 /usr/local/include/opencv4/opencv2/imgproc/types_c.h:
@@ -2089,39 +2118,13 @@ obj/linux64/Release/src/ofApp.o: \
 
 /usr/local/include/opencv4/opencv2/calib3d/calib3d_c.h:
 
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxXmlSettings/src/ofxXmlSettings.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxXmlSettings/libs/tinyxml.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/FlyCapture2.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/FlyCapture2Platform.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/FlyCapture2Defs.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Error.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/BusManager.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Camera.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/CameraBase.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/GigECamera.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Image.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/Utilities.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/AVIRecorder.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/TopologyNode.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxFlyCapture/src/ImageStatistics.h:
-
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxUI/src/ofxUI.h:
 
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxUI/src/ofxUIDefines.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxXmlSettings/src/ofxXmlSettings.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxXmlSettings/libs/tinyxml.h:
 
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxUI/src/ofxUIWidget.h:
 
@@ -2219,8 +2222,8 @@ obj/linux64/Release/src/ofApp.o: \
 
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxUI/src/ofxUITabBar.h:
 
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxVideoBuffer/src/VideoBufferStorage.h:
-
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxProjectorControl/src/ofxProjectorControl.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxVideoBuffer/src/VideoBufferStorage.h:
 
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxBlur/src/ofxBlur.h:

@@ -6,20 +6,26 @@
 //* Copyright: (c) 2014 by Watershed Arts Trust Ltd.
 //--------------------------------------------------------------
 
-#pragma once
+// #pragma once
 
-#include "ofxXmlPoco.h"
-#include "ofMain.h"
-#include "OCV.h"
-// #include "ofxSimpleTimer.h"
-// #include "ofxUI.h"
-#include "VideoBufferStorage.h"
-// #include "ofxHttpUtils.h"
-#include "ofxProjectorControl.h"
 // #include "ofxGifEncoder.h"
 // #include "ofxIO.h"
 // #include "ofxHttpUtils.h"
+#include "ofxSimpleTimer.h"
+// #include "ofxUI.h"
+// #include "ofxHttpUtils.h"
+#include "ofMain.h"
+#include "ofxXmlPoco.h"
+#include "OCV.h"
+
+//Projctor control needs to be after OCV so that delcarations don't interfere
+//I guess namespaces would be good he
+#include "ofxProjectorControl.h"
+
+#include "VideoBufferStorage.h"
+
 #include "ofxBlur.h"
+
 
 
 #define CAM_WIDTH 320
@@ -44,7 +50,8 @@
 #define SAVE_PATH_NUC "/root/of_v0.8.3_linux64_release/apps/myApps/ShadowingApp/bin/data/gifs/"
 // #define HAVE_WEB
 #define NUC
-//#define DEBUG
+
+#define DEBUG
 
 // using namespace ofx::IO;
 class ofApp : public ofBaseApp{
@@ -102,8 +109,8 @@ class ofApp : public ofBaseApp{
         // GUI
         void setupGUI();
         void setupSimpleGUI();
-	    // void guiEvent(ofxUIEventArgs &e);
-     //    ofxUICanvas *gui;
+	    void guiEvent(ofxUIEventArgs &e);
+        ofxUICanvas *gui;
         ofImage *colorSampler;
 
         // Masks
@@ -173,19 +180,19 @@ class ofApp : public ofBaseApp{
         void drawData();
         bool canDrawData;
         bool cursorDisplay;
-	bool drawCamFull;
+	    bool drawCamFull;
         // Activity,Timers and Modes
         void setupTimers();
         bool inactive;
-        // ofxSimpleTimer activityTimer;
+        ofxSimpleTimer activityTimer;
         void activityTimerComplete(int &args);
         void activityTimerStarted(int &args);
 
-        // ofxSimpleTimer doCVBackgroundTimer;
+        ofxSimpleTimer doCVBackgroundTimer;
         void CVTimerComplete(int &args);
         void CVTimerStarted(int &args);
 
-        // ofxSimpleTimer statusTimer;
+        ofxSimpleTimer statusTimer;
         void statusTimerComplete(int &args);
         void statusTimerStarted(int &args);
 
@@ -246,25 +253,25 @@ class ofApp : public ofBaseApp{
         string _statusurl;
         string _uploadFileURL;
 
-	//Tiger Videos
-	void playTiger();
-	ofVideoPlayer tiger1;
-	ofVideoPlayer tiger2;
-	bool		whichTiger;
-	float 		tigerProbability;
+    	//Tiger Videos
+    	void playTiger();
+    	ofVideoPlayer tiger1;
+    	ofVideoPlayer tiger2;
+    	bool		whichTiger;
+    	float 		tigerProbability;
 
-	//Playback Offset
-	int playbackOffsetY;
-	
-	//Video Playback Delay
-	int delayFramesBeforePlayback;
+    	//Playback Offset
+    	int playbackOffsetY;
+    	
+    	//Video Playback Delay
+    	int delayFramesBeforePlayback;
 
-	//Mask Scale
-	int maskScale;
-	int maskCenterX;
-	int maskCenterY;
+    	//Mask Scale
+    	int maskScale;
+    	int maskCenterX;
+    	int maskCenterY;
 
-	//Logging
-	std::ofstream outfile;
+    	//Logging
+    	std::ofstream outfile;
 
 };

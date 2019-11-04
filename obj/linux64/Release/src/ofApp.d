@@ -1,7 +1,6 @@
 obj/linux64/Release/src/ofApp.o: \
  /root/of_v0.10.1_linux64gcc4_release/apps/myApps/ShadowingApp/src/ofApp.cpp \
  /root/of_v0.10.1_linux64gcc4_release/apps/myApps/ShadowingApp/src/ofApp.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxSimpleTimer/src/ofxSimpleTimer.h \
  ../../../libs/openFrameworks/ofMain.h \
  ../../../libs/openFrameworks/utils/ofConstants.h \
  ../../../libs/tess2/include/tesselator.h \
@@ -735,8 +734,6 @@ obj/linux64/Release/src/ofApp.o: \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxBlur/src/ofxBlur.h
 
 /root/of_v0.10.1_linux64gcc4_release/apps/myApps/ShadowingApp/src/ofApp.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxSimpleTimer/src/ofxSimpleTimer.h:
 
 ../../../libs/openFrameworks/ofMain.h:
 

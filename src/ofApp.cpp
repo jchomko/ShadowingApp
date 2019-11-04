@@ -63,7 +63,9 @@ void ofApp::setup()
 
     // Setup the Timer
     // setupTimers();
-
+    dreamTimer = ofGetElapsedTimeMillis()+10000;
+    statusTimer = ofGetElapsedTimeMillis()+30000;
+    
     // Setup Shaders
     setupShader();
     playBackLatch = false;
@@ -88,59 +90,51 @@ void ofApp::setup()
 void ofApp::update()
 {
     // Set Window Title
-    string title = "Shadowing: " + ofToString(ofGetTimestampString("%H:%M:%S  %d/%m/%Y"));
-    ofSetWindowTitle(title);
+    // string title = "Shadowing: " + ofToString(ofGetTimestampString("%H:%M:%S  %d/%m/%Y"));
+    // ofSetWindowTitle(title);
 
     //--------------------------------------------------------------
-    // If we have %i buffers in the memory then release one
-    if (buffers.size() > howManyBuffersToStore)
-    {
+    // If we have too many buffers in the memory then release one
+    if (buffers.size() > howManyBuffersToStore){
         buffers.pop_back();
     }
 
-    if (livebuffer.size() > 2) {
-        livebuffer.pop_back();
-    }
+    // if (livebuffer.size() > 2) {
+    //     livebuffer.pop_back();
+    // }
 
     //--------------------------------------------------------------
-    // Subtraction Plus Brightness and Contrast Settings
-     openCV.DsubtractionLoop(false,false);
-   
-    learnBackground = false;
-    // Do Blob Assembly
-    // openCV.readAndWriteBlobData(ofColor::white,ofColor::black);
+    openCV.DsubtractionLoop(false,false);
+
 
     // If blob detected Start Recording
-    if(openCV.isSomeoneThere() && imageCounter < MAX_BUFFER_SIZE)
-    {
+    if(openCV.isSomeoneThere() && imageCounter < MAX_BUFFER_SIZE){
 
-	if (buffers.size() > 3)
-	{
-		whichBufferAreWePlaying = 2;
-	}
-	else
-	{
-		whichBufferAreWePlaying = 0;
-	}
+
+    	// if (buffers.size() > 3){
+    	// 	whichBufferAreWePlaying = 2;
+    	// }else{
+    	// 	whichBufferAreWePlaying = 0;
+    	// }
+
 
         // canSaveGif = true;
         // activityTimer.stop();
         // doCVBackgroundTimer.stop();
         startRecording = true;
         hasBeenPushedFlag = false;
+       
         dream = false;
-        noneDream = false;
-        triggerDreamTimer = true;
-    }
+        dreamTimer = ofGetElapsedTimeMillis() + 10000;
+        // noneDream = false;
+        // triggerDreamTimer = true;
+    }else{
 
-    else
-    {
         bSwitch = true;
         startRecording = false;
-        if (hasBeenPushedFlag == false)
-        {
-            if (imageCounter >= MIN_BUFFER_SIZE)
-            {
+        if (hasBeenPushedFlag == false){
+
+            if (imageCounter >= MIN_BUFFER_SIZE){
 
 		/* //Stops saving gifs to see if that keeps us online at all
                 if (canSaveGif == true)
@@ -158,23 +152,19 @@ void ofApp::update()
                 //buffers.push_front(b);
                 //b.clear();
               	//Playing after a certain amount of frames have been recorded, instead of waiting for recording to end
-		//buffers[0].start();
-		//log activity to logfile
-		outfile << "rec length," << imageCounter << ", timestamp;," << ofGetTimestampString("%m/%d,%H:%M") << endl;
-		hasBeenPushedFlag = true;
+		        //buffers[0].start();
+		        //log activity to logfile
+                
+                outfile << "rec length," << imageCounter << ", timestamp;," << ofGetTimestampString("%m/%d,%H:%M") << endl;
+                hasBeenPushedFlag = true;
                 imageCounter = 0;
                 // doCVBackgroundTimer.start(false);
-            }
-	    //not long enough, trash that recording
-            else if(imageCounter < MIN_BUFFER_SIZE)
-            {
-		buffers.pop_front();
+            }else if(imageCounter < MIN_BUFFER_SIZE){
+                buffers.pop_front();
                 //b.clear();
                 imageCounter = 0;
                 hasBeenPushedFlag = true;
-            }
-            else
-            {
+            }else{
 
             }
         }
@@ -184,8 +174,7 @@ void ofApp::update()
         }
     }
 
-    if(startRecording == true)
-    {
+    if(startRecording == true){
         // If new frame
         //if (openCV.newFrame())
 
@@ -199,22 +188,22 @@ void ofApp::update()
             }
 		//Start new recording
             if(imageCounter == 0){
-		buffers.push_front(b);
-		cout << "starting new videobuffer" << endl;
+		      buffers.push_front(b);
+		      cout << "starting new videobuffer" << endl;
 	    }
 		//Playing recording before it has ended - put this frame number into settings
 		if(imageCounter == delayFramesBeforePlayback){
 			 buffers[0].start();
 		}
 
-		// Capture the CV image
-		//videoBuffers.push_back(videoBuffer);
-	     buffers[0].buffer.push_back(openCV.getRecordPixels());
-		//b.getNewImage(openCV.getRecordPixels());
+		    // Capture the CV image
+		    //videoBuffers.push_back(videoBuffer);
+	        buffers[0].buffer.push_back(openCV.getRecordPixels());
+		    //b.getNewImage(openCV.getRecordPixels());
                 //blobPath.push_back(openCV.getBlobPath());
              imageCounter++;
              recTimer = ofGetElapsedTimeMillis();
-	}
+	   }
     }
 
     if(!openCV.isSomeoneThere())
@@ -232,11 +221,23 @@ void ofApp::update()
         stopLoop = true;
     }
 
-    if (!openCV.isSomeoneThere() && triggerDreamTimer == true)
-    {
-        // activityTimer.start(false);
-        triggerDreamTimer = false;
+    // if (!openCV.isSomeoneThere() && triggerDreamTimer == true){
+    //     triggerDreamTimer = false;
+        
+    // }
+
+    if(ofGetElapsedTimeMillis() > statusTimer){
+        statusTimer = ofGetElapsedTimeMillis() + STATUS_FREQUENCY;
+        sendStatus();
+        cout << "status sent " << endl;
+
     }
+
+    if(ofGetElapsedTimeMillis() > dreamTimer && dream == false){
+        dream = true;
+        cout << "dreaming started " << endl;
+    }
+
 
     // Update the buffer progressors
     if (!buffers.empty())
@@ -260,79 +261,72 @@ void ofApp::update()
         ofHideCursor();
     }
 
-    //tiger1.update();
-    //tiger2.update();
 
-     mainOut.begin();
-    ofClear(backColor);
+    //Draw to FBO 
+    mainOut.begin();
+        ofClear(backColor);
 
-    ofPushStyle();
-    ofSetColor(0);
-    ofDrawBitmapString(ofGetTimestampString(),300,300);
-    ofPopStyle();
+        ofPushStyle();
+        ofSetColor(0);
+        ofDrawBitmapString(ofGetTimestampString(),300,300);
+        ofPopStyle();
 
-    if (useShader){
-        shader.begin();
-        ofSetColor(255, 255);
-        ofRect(0, 0, 320,240);
-    }
-
-    ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-    ofPushMatrix();
-    ofTranslate(0,playbackOffsetY);
-    if(!buffers.empty()){
-        for (int i = 0; i < buffers.size(); i++){   
-            //Buffers are only drawn if they are active, otherwise nothing happens during this call
-            buffers[i].draw(255);
+        if (useShader){
+            shader.begin();
+            ofSetColor(255, 255);
+            ofRect(0, 0, 320,240);
         }
-    }
-    ofPopMatrix();
-    ofDisableBlendMode();
 
-    //Trigger / reset playback of last buffer
-    ShadowingProductionModeA();
+        ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+        ofPushMatrix();
+        ofTranslate(0,playbackOffsetY);
+        if(!buffers.empty()){
+            for (int i = 0; i < buffers.size(); i++){   
+                //Buffers are only drawn if they are active, otherwise nothing happens during this call
+                buffers[i].draw(255);
+            }
+        }
+        ofPopMatrix();
+        ofDisableBlendMode();
 
-    if (useShader)
-    {
-        shader.end();
-        shader.draw();
-    }
+        //Trigger / reset playback of last buffer
+        ShadowingProductionModeA();
 
-    //tiger1.draw(0,0,ofGetWidth(), ofGetHeight());
-
+        if (useShader)
+        {
+            shader.end();
+            shader.draw();
+        }
+        
     mainOut.end();
+    //End FBpO
+
 
 }
 //--------------------------------------------------------------
 void ofApp::draw(){
 
     ofBackground(backColor);
-    
-//-------------Main Drawing Mechanism-----------
     ofSetColor(255, 255, 255);
     mainOut.draw(0,0,ofGetWidth(),ofGetHeight());
-//----------------------------------------------
 
     // As it implies does alpha layering and draws mask to blur the edges of the projection
-    if (drawMask)
-    {
+    if (drawMask){
         ofEnableAlphaBlending();
         ofSetColor(255, 255);
         masks[whichMask].draw(-maskScale+maskCenterX,-maskScale+maskCenterY,ofGetWidth()+maskScale,ofGetHeight()+maskScale);
         ofDisableAlphaBlending();
     }
 
-
     drawMisc();
     openCV.drawGui();
 
 	if(drawCamFull){
-	ofPushMatrix();
-	ofTranslate(0,playbackOffsetY);
-	openCV.drawCameraFullScreen();
-	ofPopMatrix();
-
-	}
+       ofPushMatrix();
+	   ofTranslate(0,playbackOffsetY);
+	   openCV.drawCameraFullScreen();
+	   ofPopMatrix();
+    }
 }
 
 //--------------------------------------------------------------
@@ -342,21 +336,7 @@ void ofApp::draw(){
 // If no users, Do the Dream State
 //--------------------------------------------------------------
 //--------------------------------------------------------------
-void ofApp::ShadowingProductionModeA()
-{
-// This will change the Blend Modes according to the brightness of FBO
-    // if (backColor.getBrightness() >= 125)
-    // {
-    //     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-    // }
-    // else if (backColor.getBrightness() <= 124)
-    // {
-    //     ofEnableBlendMode(OF_BLENDMODE_ADD);
-    // }
-    // else
-    // {
-    //     // Nothing
-    // }
+void ofApp::ShadowingProductionModeA(){
 
     // if someone enters the light quickly
     if(openCV.isSomeoneThere() && openCV.isSomeoneThere() != lastPresentState && buffers.size() > 0 && buffers[1].isNearlyFinished())
@@ -399,23 +379,22 @@ void ofApp::ShadowingDreamStateB()
     if (!buffers.empty())
     {
         buffers[whichBufferAreWePlaying].start();
-
-
-        // This will change the Blend Modes according to the brightness of FBO
-        if (backColor.getBrightness() >=125)
-        {
-            ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-        }
-        else if (backColor.getBrightness() <= 124)
-        {
-            ofEnableBlendMode(OF_BLENDMODE_ADD);
-        }
-        else
-        {
-            // Nothing
-        }
-        //buffers[whichBufferAreWePlaying].draw(255);
-        ofDisableBlendMode();
+        
+        // // This will change the Blend Modes according to the brightness of FBO
+        // if (backColor.getBrightness() >=125)
+        // {
+        //     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+        // }
+        // else if (backColor.getBrightness() <= 124)
+        // {
+        //     ofEnableBlendMode(OF_BLENDMODE_ADD);
+        // }
+        // else
+        // {
+        //     // Nothing
+        // }
+        // //buffers[whichBufferAreWePlaying].draw(255);
+        // ofDisableBlendMode();
 
         if (buffers.size() > 2)
         {
@@ -423,7 +402,7 @@ void ofApp::ShadowingDreamStateB()
             {
                 // randomWaitTimer = ofGetElapsedTimeMillis() + ofRandom(1000,4000);
 	            randomWaitLatch = true;
-        	// Reset the Awaiting buffer otherwise nothing will happen
+        	    // Reset the Awaiting buffer otherwise nothing will happen
                 // buffers[whichBufferAreWePlaying+1].reset();
                 // Progress the Buffer Counter
                 // whichBufferAreWePlaying++;
@@ -463,18 +442,6 @@ void ofApp::ShadowingDreamStateB()
 }
 
 
-void ofApp::playTiger(){
-		// whichTiger = !whichTiger;
-
-  //               if(whichTiger){
-	 //                tiger1.setPosition(0);
-  //       	        tiger1.play();
-  //               }else{
-  //              		tiger2.setPosition(0);
-  //              	 	tiger2.play();
-  //               }
-
-}
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
@@ -537,7 +504,7 @@ void ofApp::keyPressed(int key)
             // ((ofxUILabelToggle *) gui->getWidget("Show Buffers"))->setValue(showPreviousBuffers);
             break;
 	    case 'z':
-	       playTiger();
+	       // playTiger();
 	    break;
 
         case 't':
@@ -774,7 +741,7 @@ void ofApp::setupVariables()
     imageCounter = 0;
     playCounter = 0;
     dream = false;
-    triggerDreamTimer = false;
+    // triggerDreamTimer = false;
     // progress = 0;
     playbackMode = 0;
     howmanyrecordings = 0;
@@ -786,7 +753,7 @@ void ofApp::setupVariables()
     stopLoop = false;
     bSwitch = false;
     firstLearn = true;
-    noneDream == false;
+    // noneDream == false;
     drawCV = true;
 	recTimer = ofGetElapsedTimeMillis();
 }
@@ -869,23 +836,12 @@ void ofApp::setupProjector()
 {
     // Connect to the projector
     #ifndef DEBUG
-
         projector.openConnection("/dev/ttyUSB0",9600);
-	
-	cout << "after opening projector"<< endl;
-
-        projector.turnOffCamera();
-       // ofSleepMillis(1000);
-       // projector.turnOnCamera();
-       // ofSleepMillis(3000);
-
-        // Wait while connection is established
-        //ofSleepMillis(3000);
-
+	    cout << "after opening projector"<< endl;
+        // projector.turnOffCamera();
         // Turn the projector On
         projector.projectorOn();
-	
-    #endif
+	#endif
 }
 //--------------------------------------------------------------
 //  Setup Masks
@@ -922,25 +878,22 @@ void ofApp::setupMasks()
 //--------------------------------------------------------------
 // Setup Timers
 //--------------------------------------------------------------
-void ofApp::setupTimers()
-{
+// void ofApp::setupTimers(){
+
+    //Add to UI 
+    //dreamTimer.setup(10000); //set back to 30 secs
+	//ofAddListener(dreamTimer.TIMER_STARTED, this, &ofApp::dreamTimerStarted);
+    //ofAddListener(dreamTimer.TIMER_COMPLETE, this, &ofApp::dreamTimerComplete);
+    // dreamTimer = ofGetElapsedTimeMillis();
+
+    // statusTimer = ofGetElapsedTimeMillis();
+    //Send Status
     // statusTimer.setup(STATUS_TIMER); // Every 2 minutes 1000 millis * 60 seconds * 2
-	//activity timer is dream timer
-    // activityTimer.setup(30000); //set back to 30 secs
-	//using cvBackgroundTimer for Tigers
-    // doCVBackgroundTimer.setup(20000);
-
-    // ofAddListener(activityTimer.TIMER_STARTED, this, &ofApp::activityTimerStarted);
-    // ofAddListener(activityTimer.TIMER_COMPLETE, this, &ofApp::activityTimerComplete);
-
-    // ofAddListener(doCVBackgroundTimer.TIMER_STARTED, this, &ofApp::CVTimerStarted);
-    // ofAddListener(doCVBackgroundTimer.TIMER_COMPLETE, this, &ofApp::CVTimerComplete);
-
     // ofAddListener(statusTimer.TIMER_STARTED, this, &ofApp::statusTimerStarted);
     // ofAddListener(statusTimer.TIMER_COMPLETE, this, &ofApp::statusTimerComplete);
+    // statusTimer.start();
 
-    // statusTimer.start(true);
-}
+// }
 //--------------------------------------------------------------
 // Setup GUI
 //--------------------------------------------------------------
@@ -955,84 +908,82 @@ void ofApp::setupSimpleGUI()
     gui->addSpacer(255,1);
     gui->addSpacer(0,10);
   
-    gui->addWidgetDown(new ofxUILabel("Imaging Threshold", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "IMAGE_THRESHOLD", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabel("Playback Offset", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabel("Imaging Threshold", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "IMAGE_THRESHOLD", OFX_UI_FONT_MEDIUM));
+    
+    gui->addWidgetDown(new ofxUILabel("Playback Offset Y", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(-1000, 1000, 80, 0, "PLAYBACK_OFFSET_Y", OFX_UI_FONT_MEDIUM));
     
     gui->addWidgetDown(new ofxUILabel("Mask Scaler", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 1000, 1, 0, "MASK_SCALE", OFX_UI_FONT_MEDIUM));
-   
-	 gui->addWidgetDown(new ofxUILabel("Mask Center X ", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Mask Center X ", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(-500, 500, 1, 0, "MASK_CENTER_X", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Mask Center Y", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(-500, 500, 1, 0, "MASK_CENTER_Y", OFX_UI_FONT_MEDIUM));
 
-    gui->addWidgetDown(new ofxUILabel("Delay Before Playback", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Frame delay before Playback", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 400, 30, 0, "DELAY_BEFORE_PLAYBACK", OFX_UI_FONT_MEDIUM));
 	gui->addSpacer(0,30);
-    gui->addWidgetDown(new ofxUILabel("Advanced Settings", OFX_UI_FONT_MEDIUM));
-    gui->addSpacer(255,1);  
-	gui->addSpacer(0,10);  
+ //    gui->addWidgetDown(new ofxUILabel("Advanced Settings", OFX_UI_FONT_MEDIUM));
+ //    gui->addSpacer(255,1);  
+	// gui->addSpacer(0,10);  
 
-     gui->addWidgetDown(new ofxUILabel("Blur", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "BLUR", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabel("Blur", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "BLUR", OFX_UI_FONT_MEDIUM));
 
     gui->addWidgetDown(new ofxUILabel("Tracking Boundaries", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, CAM_HEIGHT/2,5, 0, "TRACKING_BOUNDARY", OFX_UI_FONT_MEDIUM));
-   
-    gui->addWidgetDown(new ofxUILabel("Movement Threshold", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "MOVE_THRESHOLD", OFX_UI_FONT_MEDIUM));
+ 
+    // gui->addWidgetDown(new ofxUILabel("Movement Threshold", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUINumberDialer(0, 255, 80, 0, "MOVE_THRESHOLD", OFX_UI_FONT_MEDIUM));
 
-    gui->addWidgetDown(new ofxUILabel("Brightness", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "BrightnessV", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabel("Contrast", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "ContrastV", OFX_UI_FONT_MEDIUM));
+
+    // gui->addWidgetDown(new ofxUILabel("Brightness", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "BrightnessV", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabel("Contrast", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "ContrastV", OFX_UI_FONT_MEDIUM));
 
 
 //    gui->addWidgetDown(new ofxUILabelToggle("Fullscreen",true,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabelToggle("Set Warp",false,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabelToggle("Draw CV",false,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabelToggle("Show Buffers",false,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabelToggle("Show Data",false,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabel("Imaging Mode", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "IMAGING_MODE", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabel("Number of Buffers", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 15,5, 0, "BUFFER_NUMBER", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabelToggle("Use Mask",true,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabel("Mask Number", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 5, 1, 0, "Mask_No", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabelToggle("Set Warp",false,255,30,OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabelToggle("Draw CV",false,255,30,OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabelToggle("Show Buffers",false,255,30,OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabelToggle("Show Data",false,255,30,OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabel("Imaging Mode", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "IMAGING_MODE", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabel("Number of Buffers", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUINumberDialer(0, 15,5, 0, "BUFFER_NUMBER", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabelToggle("Use Mask",true,255,30,OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabel("Mask Number", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUINumberDialer(0, 5, 1, 0, "Mask_No", OFX_UI_FONT_MEDIUM));
   
-    gui->addWidgetDown(new ofxUILabel("Min Blob Size", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, (CAM_WIDTH*CAM_HEIGHT)/3, 20, 1, "MIN_BLOB_SIZE", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabel("Max Blob Size", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, (CAM_WIDTH*CAM_HEIGHT), (CAM_WIDTH*CAM_HEIGHT)/3, 1, "MAX_BLOB_SIZE", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabel("Max Num Blob", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 10, 2, 0, "MAX_BLOB_NUM", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabelToggle("Fill Holes",false,255/2,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUILabelToggle("Use Approximation",false,255/2,30,OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabel("Min Blob Size", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUINumberDialer(0, (CAM_WIDTH*CAM_HEIGHT)/3, 20, 1, "MIN_BLOB_SIZE", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabel("Max Blob Size", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUINumberDialer(0, (CAM_WIDTH*CAM_HEIGHT), (CAM_WIDTH*CAM_HEIGHT)/3, 1, "MAX_BLOB_SIZE", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabel("Max Num Blob", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUINumberDialer(0, 10, 2, 0, "MAX_BLOB_NUM", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabelToggle("Fill Holes",false,255/2,30,OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUILabelToggle("Use Approximation",false,255/2,30,OFX_UI_FONT_MEDIUM));
  
-    gui->addWidgetDown(new ofxUILabel("Gauss Blur", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "GAUSS_BLUR", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabel("Gauss Blur", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "GAUSS_BLUR", OFX_UI_FONT_MEDIUM));
 
-    gui->addWidgetDown(new ofxUILabel("Median Blur", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "MEDIAN_BLUR", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabel("Median Blur", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 1, "MEDIAN_BLUR", OFX_UI_FONT_MEDIUM));
 
  
-    gui->addWidgetDown(new ofxUILabelToggle("Erode",false,255/2,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUILabelToggle("Dilate",false,255/2,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabelToggle("Progressive Background",false,255,30,OFX_UI_FONT_MEDIUM));
-    gui->addWidgetDown(new ofxUILabel("Progression Rate", OFX_UI_FONT_MEDIUM));
-    gui->addWidgetRight(new ofxUINumberDialer(0.00f, 1.00f, 0.01f, 4, "PROGRESSIVE_RATE", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabelToggle("Erode",false,255/2,30,OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUILabelToggle("Dilate",false,255/2,30,OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabelToggle("Progressive Background",false,255,30,OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetDown(new ofxUILabel("Progression Rate", OFX_UI_FONT_MEDIUM));
+    // gui->addWidgetRight(new ofxUINumberDialer(0.00f, 1.00f, 0.01f, 4, "PROGRESSIVE_RATE", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Use Shader",false,255/2,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Blur Radius", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BLUR_RADIUS", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Blur Pass", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 100, 1, 2, "BLUR_PASS", OFX_UI_FONT_MEDIUM));
-
-
     //gui->addWidgetDown(new ofxUINumberDialer(0,10,3,1,"TIGER_PROBABILITY", OFX_UI_FONT_MEDIUM));
-
     gui->autoSizeToFitWidgets();
     ofAddListener(gui->newGUIEvent,this, &ofApp::guiEvent);
 
@@ -1041,60 +992,44 @@ void ofApp::setupSimpleGUI()
 
 }
 
+// --------------------------------------------------------------
+void ofApp::sendStatus() //int &args
+{
+    // Send Status to the Server
+    // ofxHttpForm form;
+    // form.action = _statusurl;
+    // form.method = OFX_HTTP_POST;
+    // form.addFormField("secret", _secretKey);
+    // form.addFormField("location", _locationID);
+    // form.addFormField("status", "ON");
+    // form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
+    // form.addFormField("submit","1");
+    // httpUtils.addForm(form);
+
+    // // Pulse the Projector
+    // projector.projectorOn();
+
+    // //Make sure relay is open!
+    // //open usb relay
+    // ofSystem("sh /root/openusbrelay.sh");
+
+}
 //--------------------------------------------------------------
-// void ofApp::statusTimerComplete(int &args)
-// {
-//     // Send Status to the Server
-//     ofxHttpForm form;
-//     form.action = _statusurl;
-//     form.method = OFX_HTTP_POST;
-//     form.addFormField("secret", _secretKey);
-//     form.addFormField("location", _locationID);
-//     form.addFormField("status", "ON");
-//     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
-//     form.addFormField("submit","1");
-//     httpUtils.addForm(form);
-
-//     // Pulse the Projector
-//     projector.projectorOn();
-
-//     //Make sure relay is open!
-//     //open usb relay
-//     ofSystem("sh /root/openusbrelay.sh");
-
-
-// }
-// //--------------------------------------------------------------
-// void ofApp::statusTimerStarted(int &args)
+// void ofApp::statusTimerStarted() //int &args
 // {
 
 // }
-// //--------------------------------------------------------------
-// void ofApp::CVTimerStarted(int &args)
-// {
-//     CVstring = "CV Timer Started";
-// }
-// //--------------------------------------------------------------
-// void ofApp::CVTimerComplete(int &args)
-// {
-//     if(ofRandom(0,10) < tigerProbability){
-//     	playTiger();
-// 	CVstring = "CV Timer Done, Tiger playing";
-//      }else{
-//     //openCV.relearnBackground();
-//     CVstring = "CV Timer Done";
-//     }
-// }
-// //--------------------------------------------------------------
-// void ofApp::activityTimerComplete(int &args)
+
+//--------------------------------------------------------------
+// void ofApp::dreamTimerComplete()
 // {
 //     cout << "Timer Complete - dreaming starts now" << endl;
-// 	noneDream = false;
+// 	// noneDream = false;
 // 	dream = true;
 // 	//tiger1.play();
 // }
-// //--------------------------------------------------------------
-// void ofApp::activityTimerStarted(int &args)
+//--------------------------------------------------------------
+// void ofApp::dreamTimerStarted() //int &args
 // {
 //     cout << "triggered Timer" << endl;
 // }
@@ -1102,41 +1037,41 @@ void ofApp::setupSimpleGUI()
 void ofApp::drawMisc()
 {
     // Draw all the CV Stuff
-    ofPushStyle();
-    if(drawCV == true)
-    {
-        openCV.draw();
-    }
-    ofPopStyle();
+    // ofPushStyle();
+    // if(drawCV == true)
+    // {
+    //     openCV.draw();
+    // }
+    // ofPopStyle();
 
-    // Show the previous Buffers
-    ofPushStyle();
-     if (showPreviousBuffers)
-    {
-        if (!buffers.empty())
-        {
-            for (int i = 0; i < buffers.size(); i++)
-            {
-                // Draw the Mini Buffers
-                // buffers[i].drawMini(640, 0+(i*240/4));
-            }
-        }
-        if (!livebuffer.empty())
-        {
-            for (int i = 0; i < livebuffer.size(); i++)
-            {
-                // Draw the Mini Buffers
-                // livebuffer[i].drawMini(640+80, 0+(i*240/4));
-            }
-        }
-    }
-    ofPopStyle();
+    // // Show the previous Buffers
+    // ofPushStyle();
+    //  if (showPreviousBuffers)
+    // {
+    //     if (!buffers.empty())
+    //     {
+    //         for (int i = 0; i < buffers.size(); i++)
+    //         {
+    //             // Draw the Mini Buffers
+    //             // buffers[i].drawMini(640, 0+(i*240/4));
+    //         }
+    //     }
+    //     if (!livebuffer.empty())
+    //     {
+    //         for (int i = 0; i < livebuffer.size(); i++)
+    //         {
+    //             // Draw the Mini Buffers
+    //             // livebuffer[i].drawMini(640+80, 0+(i*240/4));
+    //         }
+    //     }
+    // }
+    // ofPopStyle();
 
-    // Debug for information about the buffers, openCV HTTP Posts
-    if (canDrawData == true)
-    {
-        drawData();
-    }
+    // // Debug for information about the buffers, openCV HTTP Posts
+    // if (canDrawData == true)
+    // {
+    //     drawData();
+    // }
 }
 
 
@@ -1354,11 +1289,11 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
 //	ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
 //	dreamWaitTime =  dial->getValue();
 //     }
-    else if (e.getName() == "TIGER_PROBABILITY")
-     {
-        ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
-        tigerProbability =  dial->getValue();
-     }
+    // else if (e.getName() == "TIGER_PROBABILITY")
+    //  {
+    //     ofxUINumberDialer * dial = (ofxUINumberDialer *) e.widget;
+    //     tigerProbability =  dial->getValue();
+    //  }
 
 }
 
@@ -1420,48 +1355,48 @@ void ofApp::drawData()
 
 //Extra modes:
 
-void ofApp::ShadowingDreamStateA()
-{
-    modeString = "Dreaming About Everybody";
-    if (!buffers.empty())
-    {
-        for (int i = 0; i < buffers.size(); i++)
-        {
-            buffers[i].start();
-        }
-    }
+// void ofApp::ShadowingDreamStateA()
+// {
+//     modeString = "Dreaming About Everybody";
+//     if (!buffers.empty())
+//     {
+//         for (int i = 0; i < buffers.size(); i++)
+//         {
+//             buffers[i].start();
+//         }
+//     }
 
-    if (!buffers.empty())
-    {
-        for (int i = 0; i < buffers.size(); i++)
-        {
-            if (buffers[i].isFinished())
-            {
-                buffers[i].reset();
-            }
-        }
-    }
+//     if (!buffers.empty())
+//     {
+//         for (int i = 0; i < buffers.size(); i++)
+//         {
+//             if (buffers[i].isFinished())
+//             {
+//                 buffers[i].reset();
+//             }
+//         }
+//     }
 
-    if (!buffers.empty())
-    {
-        for (int i = 0; i < buffers.size(); i++)
-        {
-            // This will change the Blend Modes according to the brightness of FBO
-            if (backColor.getBrightness() >=125)
-            {
-                ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-            }
-            else if (backColor.getBrightness() <= 124)
-            {
-                ofEnableBlendMode(OF_BLENDMODE_ADD);
-            }
-            else
-            {
-                // Nothing
-            }
+//     if (!buffers.empty())
+//     {
+//         for (int i = 0; i < buffers.size(); i++)
+//         {
+//             // This will change the Blend Modes according to the brightness of FBO
+//             if (backColor.getBrightness() >=125)
+//             {
+//                 ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+//             }
+//             else if (backColor.getBrightness() <= 124)
+//             {
+//                 ofEnableBlendMode(OF_BLENDMODE_ADD);
+//             }
+//             else
+//             {
+//                 // Nothing
+//             }
 
-            buffers[i].draw(255);
-            ofDisableBlendMode();
-        }
-    }
-}
+//             buffers[i].draw(255);
+//             ofDisableBlendMode();
+//         }
+//     }
+// }

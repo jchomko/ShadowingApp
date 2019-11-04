@@ -11,7 +11,7 @@
 // #include "ofxGifEncoder.h"
 // #include "ofxIO.h"
 // #include "ofxHttpUtils.h"
-#include "ofxSimpleTimer.h"
+// #include "ofxSimpleTimer.h"
 // #include "ofxUI.h"
 // #include "ofxHttpUtils.h"
 #include "ofMain.h"
@@ -24,34 +24,18 @@
 
 #include "VideoBufferStorage.h"
 // #include "VideoBufferStorage.h"
-
 #include "ofxBlur.h"
-
-
 
 #define CAM_WIDTH 320
 #define CAM_HEIGHT 240
 #define FRAMERATE 25
 #define MIN_BUFFER_SIZE 30 //Frames
 #define MAX_BUFFER_SIZE 900 //Frames
-#define STATUS_TIMER (1000*60)*5
-
-//--------------------------------------------------------------
-//* 1 = Wilder Street
-//* 2 = Cathedral Lane
-//* 3 = Tower Lane
-//* 4 = Champions Square
-//* 5 = Station Road
-//* 6 = Willmott Park
-//* 7 = Leonard Street
-//* 8 = Lower Ashley Road
-//* 9 = Dame Emily Park
-//--------------------------------------------------------------
+#define STATUS_FREQUENCY (1000*60)*5
 
 #define SAVE_PATH_NUC "/root/of_v0.8.3_linux64_release/apps/myApps/ShadowingApp/bin/data/gifs/"
 // #define HAVE_WEB
 #define NUC
-
 // #define DEBUG
 
 // using namespace ofx::IO;
@@ -90,7 +74,7 @@ class ofApp : public ofBaseApp{
         bool bProgressiveLearning;
         int  threshold;
         int  moveThreshold;
-	float fProgressiveRate;
+	    float fProgressiveRate;
         bool bUseApprox;
         bool bFillHoles;
         int iMinBlobSize;
@@ -101,11 +85,11 @@ class ofApp : public ofBaseApp{
         bool bMirrorV;
         float fBlur;
         int gaussBlur;
-	int medianBlur;
-	bool erode;
+	    int medianBlur;
+	    bool erode;
         bool dilate;
         vector<ofVec2f> blobPath;
-  	long recTimer;
+  	    long recTimer;
 
         // GUI
         void setupGUI();
@@ -132,31 +116,33 @@ class ofApp : public ofBaseApp{
         // void playSlowShadow();
 
         // Shadowing Dream States
-        void ShadowingDreamStateA();
         void ShadowingDreamStateB();
+        bool dream;
+
+        // void ShadowingDreamStateB();
 
         // Shadowing Modes
-        bool dream;
-        bool triggerDreamTimer;
-
+        // bool triggerDreamTimer;
+        // long dreamTimer;
+// 
         // New Modes
         void ShadowingProductionModeA();
-        void ShadowingProductionModeB();
-        void ShadowingProductionModeG();
-        void ShadowingProductionTest();
+        // void ShadowingProductionModeB();
+        // void ShadowingProductionModeG();
+        // void ShadowingProductionTest();
 
         // Old Modes
-        void ShadowingModeA();
-        void ShadowingModeB();
-        void ShadowingModeC();
-        void ShadowingModeD();
-        void ShadowingModeE();
-        void ShadowingModeF();
-        void ShadowingModeG();
-        void ShadowingModeH();
-        void ShadowingDefaultMode();
-        void ShadowingDefaultModeNoLoop();
-        void ShadowingDefaultMirroredMode();
+        // void ShadowingModeA();
+        // void ShadowingModeB();
+        // void ShadowingModeC();
+        // void ShadowingModeD();
+        // void ShadowingModeE();
+        // void ShadowingModeF();
+        // void ShadowingModeG();
+        // void ShadowingModeH();
+        // void ShadowingDefaultMode();
+        // void ShadowingDefaultModeNoLoop();
+        // void ShadowingDefaultMirroredMode();
 
         std::deque<videoBuffer> buffers;
         std::deque<videoBuffer>livebuffer;
@@ -183,19 +169,24 @@ class ofApp : public ofBaseApp{
         bool cursorDisplay;
 	    bool drawCamFull;
         // Activity,Timers and Modes
-        void setupTimers();
-        bool inactive;
-        ofxSimpleTimer activityTimer;
-        void activityTimerComplete(int &args);
-        void activityTimerStarted(int &args);
+        // void setupTimers();
+        // bool inactive;
+        
+        long dreamTimer;
+        long statusTimer;
+        void sendStatus();
+        // ofxSimpleTimer dreamTimer;
+        // void dreamTimerComplete();
+        // void dreamTimerStarted();
 
-        ofxSimpleTimer doCVBackgroundTimer;
-        void CVTimerComplete(int &args);
-        void CVTimerStarted(int &args);
+        // ofxSimpleTimer doCVBackgroundTimer;
+        // void CVTimerComplete(int &args);
+        // void CVTimerStarted(int &args);
 
-        ofxSimpleTimer statusTimer;
-        void statusTimerComplete(int &args);
-        void statusTimerStarted(int &args);
+        // ofxSimpleTimer statusTimer;
+        // void statusTimerComplete();
+        // void statusTimerStarted();
+
 
         string CVstring;
         void drawMisc();
@@ -218,8 +209,8 @@ class ofApp : public ofBaseApp{
         // HTTP
         // void setupHTTP();
         // void newResponse(ofxHttpResponse & response);
-     
         // ofxHttpUtils httpUtils;
+     
         string responseStr;
         string requestStr;
         string action_url;
@@ -255,11 +246,11 @@ class ofApp : public ofBaseApp{
         string _uploadFileURL;
 
     	//Tiger Videos
-    	void playTiger();
-    	ofVideoPlayer tiger1;
-    	ofVideoPlayer tiger2;
-    	bool		whichTiger;
-    	float 		tigerProbability;
+    	// void playTiger();
+    	// ofVideoPlayer tiger1;
+    	// ofVideoPlayer tiger2;
+    	// bool		whichTiger;
+    	// float 		tigerProbability;
 
     	//Playback Offset
     	int playbackOffsetY;

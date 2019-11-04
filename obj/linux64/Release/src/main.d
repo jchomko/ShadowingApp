@@ -495,7 +495,6 @@ obj/linux64/Release/src/main.o: \
  ../../../libs/openFrameworks/3d/ofCamera.h \
  ../../../libs/openFrameworks/3d/ofEasyCam.h \
  /root/of_v0.10.1_linux64gcc4_release/apps/myApps/ShadowingApp/src/ofApp.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxSimpleTimer/src/ofxSimpleTimer.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/src/ofxXmlPoco.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Document.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XML.h \
@@ -1751,8 +1750,6 @@ obj/linux64/Release/src/main.o: \
 ../../../libs/openFrameworks/3d/ofEasyCam.h:
 
 /root/of_v0.10.1_linux64gcc4_release/apps/myApps/ShadowingApp/src/ofApp.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxSimpleTimer/src/ofxSimpleTimer.h:
 
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/src/ofxXmlPoco.h:
 

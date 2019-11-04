@@ -80,6 +80,9 @@ void ofApp::setup()
 	
 	//open logging file // and append
 	outfile.open("activity.txt", std::ios::app);
+    
+    ofShowCursor();
+    cursorDisplay = true;
 }
 //--------------------------------------------------------------
 void ofApp::update()
@@ -239,8 +242,8 @@ void ofApp::update()
     if (!buffers.empty())
     {
         for (int i = 0; i < buffers.size(); i++)
-        {
-            buffers[i].update();
+        {   
+                buffers[i].update();
         }
     }
 
@@ -260,49 +263,34 @@ void ofApp::update()
     //tiger1.update();
     //tiger2.update();
 
-}
-//--------------------------------------------------------------
-void ofApp::draw()
-{
-    
-    ofBackground(backColor);
-    mainOut.begin();
+     mainOut.begin();
     ofClear(backColor);
 
     ofPushStyle();
-	ofSetColor(0);
-	ofDrawBitmapString(ofGetTimestampString(),300,300);
+    ofSetColor(0);
+    ofDrawBitmapString(ofGetTimestampString(),300,300);
     ofPopStyle();
 
-	if (useShader){
+    if (useShader){
         shader.begin();
         ofSetColor(255, 255);
         ofRect(0, 0, 320,240);
     }
+
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-
-   ofPushMatrix();
-   ofTranslate(0,playbackOffsetY);
-
-    if (!buffers.empty())
-    {
-        for (int i = 0; i < buffers.size(); i++)
-        {
+    ofPushMatrix();
+    ofTranslate(0,playbackOffsetY);
+    if(!buffers.empty()){
+        for (int i = 0; i < buffers.size(); i++){   
+            //Buffers are only drawn if they are active, otherwise nothing happens during this call
             buffers[i].draw(255);
         }
     }
-
-   ofPopMatrix();
-
-
-    //tiger1.draw(0,0,320,240);
-    //tiger2.draw(0,0,320,240);
-
+    ofPopMatrix();
     ofDisableBlendMode();
 
-
+    //Trigger / reset playback of last buffer
     ShadowingProductionModeA();
-
 
     if (useShader)
     {
@@ -314,6 +302,12 @@ void ofApp::draw()
 
     mainOut.end();
 
+}
+//--------------------------------------------------------------
+void ofApp::draw(){
+
+    ofBackground(backColor);
+    
 //-------------Main Drawing Mechanism-----------
     ofSetColor(255, 255, 255);
     mainOut.draw(0,0,ofGetWidth(),ofGetHeight());
@@ -351,18 +345,19 @@ void ofApp::draw()
 void ofApp::ShadowingProductionModeA()
 {
 // This will change the Blend Modes according to the brightness of FBO
-    if (backColor.getBrightness() >= 125)
-    {
-        ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-    }
-    else if (backColor.getBrightness() <= 124)
-    {
-        ofEnableBlendMode(OF_BLENDMODE_ADD);
-    }
-    else
-    {
-        // Nothing
-    }
+    // if (backColor.getBrightness() >= 125)
+    // {
+    //     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+    // }
+    // else if (backColor.getBrightness() <= 124)
+    // {
+    //     ofEnableBlendMode(OF_BLENDMODE_ADD);
+    // }
+    // else
+    // {
+    //     // Nothing
+    // }
+
     // if someone enters the light quickly
     if(openCV.isSomeoneThere() && openCV.isSomeoneThere() != lastPresentState && buffers.size() > 0 && buffers[1].isNearlyFinished())
     {
@@ -390,7 +385,7 @@ void ofApp::ShadowingProductionModeA()
     }
 
     lastPresentState = openCV.isSomeoneThere();
-    ofDisableBlendMode();
+    // ofDisableBlendMode();
 }
 
 //--------------------------------------------------------------
@@ -497,6 +492,8 @@ void ofApp::keyPressed(int key)
 	case 'm':
             gui->toggleVisible();
 	    drawCV = !drawCV;
+        cursorDisplay = !cursorDisplay;
+
             // ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
             break;
         // case OF_KEY_UP:

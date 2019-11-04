@@ -23,6 +23,7 @@
 #include "ofxProjectorControl.h"
 
 #include "VideoBufferStorage.h"
+// #include "VideoBufferStorage.h"
 
 #include "ofxBlur.h"
 
@@ -30,7 +31,7 @@
 
 #define CAM_WIDTH 320
 #define CAM_HEIGHT 240
-#define FRAMERATE 30
+#define FRAMERATE 25
 #define MIN_BUFFER_SIZE 30 //Frames
 #define MAX_BUFFER_SIZE 900 //Frames
 #define STATUS_TIMER (1000*60)*5
@@ -51,7 +52,7 @@
 // #define HAVE_WEB
 #define NUC
 
-#define DEBUG
+// #define DEBUG
 
 // using namespace ofx::IO;
 class ofApp : public ofBaseApp{

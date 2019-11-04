@@ -26,9 +26,13 @@ void ofApp::loadConfig()
 void ofApp::setup()
 {
     ofSetWindowShape(ofGetScreenWidth(), ofGetScreenHeight());
+
     ofSetFrameRate(FRAMERATE*2);
+    
     ofSetLogLevel(OF_LOG_VERBOSE);
+
     loadConfig();
+
     // Setup the Projector
     setupProjector();
 
@@ -48,18 +52,15 @@ void ofApp::setup()
 #endif
     // Setup CV
     setupCV();
-
     cout << "after setup cv"<< endl;
 
     // Looks for masks inside of the Masks folder
     setupMasks();
-
 	cout << "after setup masks"<< endl;
 
     // Setup the GUI
     //setupGUI();
     setupSimpleGUI();
-
 
     // Setup the Timer
     // setupTimers();
@@ -71,20 +72,20 @@ void ofApp::setup()
     playBackLatch = false;
     lastPresentState = false;
 
-
-    ofSetVerticalSync(true);
-    cout << "setup done"<< endl;
-
 	//open usb relay
     ofSystem("sh /root/openusbrelay.sh");
 
-    drawCamFull = false;
-	
 	//open logging file // and append
 	outfile.open("activity.txt", std::ios::app);
     
     ofShowCursor();
     cursorDisplay = true;
+    drawCamFull = false;
+
+    ofSetVerticalSync(true);
+
+    cout << "setup done"<< endl;
+
 }
 //--------------------------------------------------------------
 void ofApp::update()
@@ -110,20 +111,19 @@ void ofApp::update()
     // If blob detected Start Recording
     if(openCV.isSomeoneThere() && imageCounter < MAX_BUFFER_SIZE){
 
-
-    	// if (buffers.size() > 3){
-    	// 	whichBufferAreWePlaying = 2;
-    	// }else{
-    	// 	whichBufferAreWePlaying = 0;
-    	// }
-
+        //Dream mode buffers
+        if (buffers.size() > 3){
+    		whichBufferAreWePlaying = 2;
+    	}else{
+    		whichBufferAreWePlaying = 0;
+    	}
 
         // canSaveGif = true;
         // activityTimer.stop();
         // doCVBackgroundTimer.stop();
         startRecording = true;
         hasBeenPushedFlag = false;
-       
+
         dream = false;
         dreamTimer = ofGetElapsedTimeMillis() + 10000;
         // noneDream = false;
@@ -136,78 +136,73 @@ void ofApp::update()
 
             if (imageCounter >= MIN_BUFFER_SIZE){
 
-		/* //Stops saving gifs to see if that keeps us online at all
-                if (canSaveGif == true)
-                {
-                    #ifdef NUC
-                    gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
-                    #else
-                    gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
-                    #endif
-                    howmanyrecordings++;
-                    canSaveGif = false;
-                }
-		*/
+		         //Stops saving gifs to see if that keeps us online at all
+                // if (canSaveGif == true)
+                // {
+                //     #ifdef NUC
+                //     gifEncoder.save(SAVE_PATH_NUC+ofGetTimestampString()+".gif");
+                //     #else
+                //     gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
+                //     #endif
+                //     howmanyrecordings++;
+                //     canSaveGif = false;
+                // }
+		        
 
-                //buffers.push_front(b);
-                //b.clear();
-              	//Playing after a certain amount of frames have been recorded, instead of waiting for recording to end
-		        //buffers[0].start();
-		        //log activity to logfile
-                
-                outfile << "rec length," << imageCounter << ", timestamp;," << ofGetTimestampString("%m/%d,%H:%M") << endl;
+                //This triggers playback after the recording has ended 
+                //buffers[0].start();
+                // outfile << "rec length," << imageCounter << ", timestamp;," << ofGetTimestampString("%m/%d,%H:%M") << endl;
                 hasBeenPushedFlag = true;
                 imageCounter = 0;
-                // doCVBackgroundTimer.start(false);
+
             }else if(imageCounter < MIN_BUFFER_SIZE){
                 buffers.pop_front();
-                //b.clear();
                 imageCounter = 0;
                 hasBeenPushedFlag = true;
-            }else{
-
             }
-        }
-        else
-        {
-            //Do nothing
         }
     }
 
     if(startRecording == true){
-        // If new frame
+        
         //if (openCV.newFrame())
+        if(ofGetElapsedTimeMillis() - recTimer > 1000/FRAMERATE){
+            
+            //Capture Gif Image every 5 frames
+            //Turn off gif recording to see if that helps the internet situation
+            // if (ofGetFrameNum() % 5 == 0){	
+		        //captureFrame();
+            // }
 
-       if(ofGetElapsedTimeMillis() - recTimer > 1000/FRAMERATE)
-       {
-            // Capture Gif Image every 5 frames
-            if (ofGetFrameNum() % 5 == 0)
-            {	
-		//Turn off gif recording to see if that helps the internet situation
-                //captureFrame();
-            }
-		//Start new recording
+	       	//Start a new buffer if we're at frame 0 
             if(imageCounter == 0){
 		      buffers.push_front(b);
 		      cout << "starting new videobuffer" << endl;
-	    }
-		//Playing recording before it has ended - put this frame number into settings
-		if(imageCounter == delayFramesBeforePlayback){
-			 buffers[0].start();
-		}
+	        }
+		    
+            // Capture the CV image
+            // ofImage temp;
+            // temp.setFromPixels(openCV.getRecordPixels());
+            buffers[0].buffer.push_back(openCV.getRecordPixels());
+            // buffers[0].buffer.push_back( temp );
 
-		    // Capture the CV image
-		    //videoBuffers.push_back(videoBuffer);
-	        buffers[0].buffer.push_back(openCV.getRecordPixels());
-		    //b.getNewImage(openCV.getRecordPixels());
-                //blobPath.push_back(openCV.getBlobPath());
-             imageCounter++;
-             recTimer = ofGetElapsedTimeMillis();
+            cout << "pushing back record pixels " << endl;
+
+            imageCounter++;
+            //Playing recording before the person has left
+            delayFramesBeforePlayback = 60;
+
+		    if( imageCounter == delayFramesBeforePlayback ){
+                cout << "playback " << endl;
+                buffers[0].start();
+            }
+            cout << "end of frame " << endl;
+
+            recTimer = ofGetElapsedTimeMillis();
 	   }
     }
 
-    if(!openCV.isSomeoneThere())
-    {
+    // if(!openCV.isSomeoneThere()){
 //         if (canSaveGif == true)
 //         {
 //             #ifdef NUC
@@ -218,8 +213,8 @@ void ofApp::update()
 //             howmanyrecordings++;
 //             canSaveGif = false;
 //         }
-        stopLoop = true;
-    }
+        // stopLoop = true;
+    // }
 
     // if (!openCV.isSomeoneThere() && triggerDreamTimer == true){
     //     triggerDreamTimer = false;
@@ -230,7 +225,6 @@ void ofApp::update()
         statusTimer = ofGetElapsedTimeMillis() + STATUS_FREQUENCY;
         sendStatus();
         cout << "status sent " << endl;
-
     }
 
     if(ofGetElapsedTimeMillis() > dreamTimer && dream == false){
@@ -238,12 +232,9 @@ void ofApp::update()
         cout << "dreaming started " << endl;
     }
 
-
-    // Update the buffer progressors
-    if (!buffers.empty())
-    {
-        for (int i = 0; i < buffers.size(); i++)
-        {   
+    // Update the buffers 
+    if (!buffers.empty()){
+        for (int i = 0; i < buffers.size(); i++){   
                 buffers[i].update();
         }
     }
@@ -252,12 +243,9 @@ void ofApp::update()
     // statusTimer.update();
     // activityTimer.update();
 
-    if (cursorDisplay == true)
-    {
+    if (cursorDisplay == true){
         ofShowCursor();
-    }
-    else
-    {
+    }else{
         ofHideCursor();
     }
 
@@ -289,7 +277,7 @@ void ofApp::update()
         ofPopMatrix();
         ofDisableBlendMode();
 
-        //Trigger / reset playback of last buffer
+        //Trigger / reset playback of buffers
         ShadowingProductionModeA();
 
         if (useShader)
@@ -299,8 +287,7 @@ void ofApp::update()
         }
         
     mainOut.end();
-    //End FBpO
-
+    //End FBO
 
 }
 //--------------------------------------------------------------
@@ -332,8 +319,7 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 // Production BASIC A - Walking under light triggers the most recent recording
 // Then playback the new recorded buffer
-// Then playback the previous buffers sequentially
-// If no users, Do the Dream State
+// Then playback the previous buffers sequentially in Dream state
 //--------------------------------------------------------------
 //--------------------------------------------------------------
 void ofApp::ShadowingProductionModeA(){
@@ -342,7 +328,6 @@ void ofApp::ShadowingProductionModeA(){
     if(openCV.isSomeoneThere() && openCV.isSomeoneThere() != lastPresentState && buffers.size() > 0 && buffers[1].isNearlyFinished())
     {
         playBackLatch = false;
-
         modeString = "Shadowing Basic Mode";
         buffers[1].reset();
         buffers[1].start();
@@ -365,7 +350,6 @@ void ofApp::ShadowingProductionModeA(){
     }
 
     lastPresentState = openCV.isSomeoneThere();
-    // ofDisableBlendMode();
 }
 
 //--------------------------------------------------------------
@@ -486,12 +470,12 @@ void ofApp::keyPressed(int key)
         //    break;
         case 'd':
             canDrawData = !canDrawData;
-            ((ofxUILabelToggle *) gui->getWidget("Show Data"))->setValue(canDrawData);
+            // ((ofxUILabelToggle *) gui->getWidget("Show Data"))->setValue(canDrawData);
             break;
         case 'v':
             openCV.toggleGui();
 	        drawCV = !drawCV;
-            ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
+            // ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
             break;
         case 'c':
             	openCV.toggleGui();
@@ -741,6 +725,7 @@ void ofApp::setupVariables()
     imageCounter = 0;
     playCounter = 0;
     dream = false;
+    startRecording = false;
     // triggerDreamTimer = false;
     // progress = 0;
     playbackMode = 0;
@@ -953,9 +938,9 @@ void ofApp::setupSimpleGUI()
     // gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "IMAGING_MODE", OFX_UI_FONT_MEDIUM));
     // gui->addWidgetDown(new ofxUILabel("Number of Buffers", OFX_UI_FONT_MEDIUM));
     // gui->addWidgetRight(new ofxUINumberDialer(0, 15,5, 0, "BUFFER_NUMBER", OFX_UI_FONT_MEDIUM));
-    // gui->addWidgetDown(new ofxUILabelToggle("Use Mask",true,255,30,OFX_UI_FONT_MEDIUM));
-    // gui->addWidgetDown(new ofxUILabel("Mask Number", OFX_UI_FONT_MEDIUM));
-    // gui->addWidgetRight(new ofxUINumberDialer(0, 5, 1, 0, "Mask_No", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabelToggle("Use Mask",true,255,30,OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Mask Number", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 5, 1, 0, "Mask_No", OFX_UI_FONT_MEDIUM));
   
     // gui->addWidgetDown(new ofxUILabel("Min Blob Size", OFX_UI_FONT_MEDIUM));
     // gui->addWidgetRight(new ofxUINumberDialer(0, (CAM_WIDTH*CAM_HEIGHT)/3, 20, 1, "MIN_BLOB_SIZE", OFX_UI_FONT_MEDIUM));
@@ -1037,12 +1022,12 @@ void ofApp::sendStatus() //int &args
 void ofApp::drawMisc()
 {
     // Draw all the CV Stuff
-    // ofPushStyle();
-    // if(drawCV == true)
-    // {
-    //     openCV.draw();
-    // }
-    // ofPopStyle();
+    ofPushStyle();
+    if(drawCV == true)
+    {
+        openCV.draw();
+    }
+    ofPopStyle();
 
     // // Show the previous Buffers
     // ofPushStyle();
@@ -1067,11 +1052,11 @@ void ofApp::drawMisc()
     // }
     // ofPopStyle();
 
-    // // Debug for information about the buffers, openCV HTTP Posts
-    // if (canDrawData == true)
-    // {
-    //     drawData();
-    // }
+    // Debug for information about the buffers, openCV HTTP Posts
+    if (canDrawData == true)
+    {
+        drawData();
+    }
 }
 
 

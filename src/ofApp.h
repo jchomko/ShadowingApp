@@ -34,7 +34,7 @@
 #define STATUS_FREQUENCY (1000*60)*5
 
 #define SAVE_PATH_NUC "/root/of_v0.8.3_linux64_release/apps/myApps/ShadowingApp/bin/data/gifs/"
-// #define HAVE_WEB
+#define HAVE_WEB
 #define NUC
 // #define DEBUG
 
@@ -207,9 +207,9 @@ class ofApp : public ofBaseApp{
         void cleanGifFolder();
 
         // HTTP
-        // void setupHTTP();
-        // void newResponse(ofxHttpResponse & response);
-        // ofxHttpUtils httpUtils;
+        void setupHTTP();
+        void newResponse(ofxHttpResponse & response);
+        ofxHttpUtils httpUtils;
      
         string responseStr;
         string requestStr;

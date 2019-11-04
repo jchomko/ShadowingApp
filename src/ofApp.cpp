@@ -563,11 +563,11 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 
 }
 // //--------------------------------------------------------------
-// void ofApp::newResponse(ofxHttpResponse & response)
-// {
-// 	responseStr = ofToString(response.status) + ":" + (string)response.responseBody;
-// 	cout << responseStr << endl;
-// }
+void ofApp::newResponse(ofxHttpResponse & response)
+{
+	responseStr = ofToString(response.status) + ":" + (string)response.responseBody;
+	cout << responseStr << endl;
+}
 //--------------------------------------------------------------
 // void ofApp::onDirectoryWatcherItemAdded(const DirectoryWatcherManager::DirectoryEvent& evt)
 // {
@@ -627,6 +627,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 // }
 // //--------------------------------------------------------------------------------------------------
 // void ofApp::onDirectoryWatcherError(const Poco::Exception& exc){ }
+
 //--------------------------------------------------------------
 void ofApp::exit()
 {
@@ -784,23 +785,23 @@ void ofApp::setupDirectoryWatcher()
 //--------------------------------------------------------------
 // Setup HTTP Utils
 //--------------------------------------------------------------
-// void ofApp::setupHTTP()
-// {
-//     // Setup HTTP POST Unit
-//     ofAddListener(httpUtils.newResponseEvent,this,&ofApp::newResponse);
-// 	httpUtils.start();
+void ofApp::setupHTTP()
+{
+    // Setup HTTP POST Unit
+    ofAddListener(httpUtils.newResponseEvent,this,&ofApp::newResponse);
+	httpUtils.start();
 
-//     // Send Status
-//     ofxHttpForm form;
-//     form.action = _statusurl;
-//     form.method = OFX_HTTP_POST;
-//     form.addFormField("secret", _secretKey);
-//     form.addFormField("location", _locationID);
-//     form.addFormField("status", "STARTED");
-//     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
-//     form.addFormField("submit","1");
-//     httpUtils.addForm(form);
-// }
+    // Send Status
+    ofxHttpForm form;
+    form.action = _statusurl;
+    form.method = OFX_HTTP_POST;
+    form.addFormField("secret", _secretKey);
+    form.addFormField("location", _locationID);
+    form.addFormField("status", "STARTED");
+    form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
+    form.addFormField("submit","1");
+    httpUtils.addForm(form);
+}
 //--------------------------------------------------------------
 // Setup Gif Encoder
 //--------------------------------------------------------------
@@ -989,22 +990,22 @@ void ofApp::setupSimpleGUI()
 void ofApp::sendStatus() //int &args
 {
     // Send Status to the Server
-    // ofxHttpForm form;
-    // form.action = _statusurl;
-    // form.method = OFX_HTTP_POST;
-    // form.addFormField("secret", _secretKey);
-    // form.addFormField("location", _locationID);
-    // form.addFormField("status", "ON");
-    // form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
-    // form.addFormField("submit","1");
-    // httpUtils.addForm(form);
+    ofxHttpForm form;
+    form.action = _statusurl;
+    form.method = OFX_HTTP_POST;
+    form.addFormField("secret", _secretKey);
+    form.addFormField("location", _locationID);
+    form.addFormField("status", "ON");
+    form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
+    form.addFormField("submit","1");
+    httpUtils.addForm(form);
 
-    // // Pulse the Projector
-    // projector.projectorOn();
+    // Pulse the Projector
+    projector.projectorOn();
 
-    // //Make sure relay is open!
-    // //open usb relay
-    // ofSystem("sh /root/openusbrelay.sh");
+    //Make sure relay is open!
+    //open usb relay
+    ofSystem("sh /root/openusbrelay.sh");
 
 }
 //--------------------------------------------------------------

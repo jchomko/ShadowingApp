@@ -495,9 +495,8 @@ obj/linux64/Release/src/main.o: \
  ../../../libs/openFrameworks/3d/ofCamera.h \
  ../../../libs/openFrameworks/3d/ofEasyCam.h \
  /root/of_v0.10.1_linux64gcc4_release/apps/myApps/ShadowingApp/src/ofApp.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/src/ofxXmlPoco.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Document.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XML.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxHttpUtils/src/ofxHttpUtils.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Foundation.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Config.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Platform.h \
@@ -505,6 +504,28 @@ obj/linux64/Release/src/main.o: \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Alignment.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Bugcheck.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Types.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Exception.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/ScopedLock.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex_POSIX.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Net/HTTPResponse.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Net/Net.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Net/HTTPMessage.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Net/MessageHeader.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Net/NameValueCollection.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/String.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Ascii.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/ListMap.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Net/HTTPCookie.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Timestamp.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Condition.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/ScopedUnlock.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Event.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Event_POSIX.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Net/HTTPBasicCredentials.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxHttpUtils/src/ofxHttpTypes.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/src/ofxXmlPoco.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Document.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XML.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/AbstractContainerNode.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/AbstractNode.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Node.h \
@@ -530,11 +551,7 @@ obj/linux64/Release/src/main.o: \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/Locator.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/TextEncoding.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SharedPtr.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Exception.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/AtomicCounter.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/ScopedLock.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex_POSIX.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMException.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XMLException.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SAX/SAXException.h \
@@ -1751,11 +1768,9 @@ obj/linux64/Release/src/main.o: \
 
 /root/of_v0.10.1_linux64gcc4_release/apps/myApps/ShadowingApp/src/ofApp.h:
 
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/src/ofxXmlPoco.h:
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxHttpUtils/src/ofxHttpUtils.h:
 
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Document.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XML.h:
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex.h:
 
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Foundation.h:
 
@@ -1770,6 +1785,50 @@ obj/linux64/Release/src/main.o: \
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Bugcheck.h:
 
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Types.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Exception.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/ScopedLock.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex_POSIX.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Net/HTTPResponse.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Net/Net.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Net/HTTPMessage.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Net/MessageHeader.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Net/NameValueCollection.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/String.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Ascii.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/ListMap.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Net/HTTPCookie.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Timestamp.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Condition.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/ScopedUnlock.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Event.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Event_POSIX.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Net/HTTPBasicCredentials.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxHttpUtils/src/ofxHttpTypes.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/src/ofxXmlPoco.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/Document.h:
+
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/XML/XML.h:
 
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/AbstractContainerNode.h:
 
@@ -1821,15 +1880,7 @@ obj/linux64/Release/src/main.o: \
 
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/SharedPtr.h:
 
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Exception.h:
-
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/AtomicCounter.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/ScopedLock.h:
-
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/Mutex_POSIX.h:
 
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxPoco/libs/poco/include/Poco/DOM/DOMException.h:
 

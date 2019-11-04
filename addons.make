@@ -7,3 +7,4 @@ ofxVideoBuffer
 ofxUI
 ofxBlur
 ofxSimpleTimer
+ofxHttpUtils

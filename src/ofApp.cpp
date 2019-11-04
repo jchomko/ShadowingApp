@@ -101,6 +101,7 @@ void ofApp::update()
 
     //--------------------------------------------------------------
     // If we have too many buffers in the memory then release one
+   
     if (buffers.size() > howManyBuffersToStore){
         buffers.pop_back();
     }
@@ -181,38 +182,40 @@ void ofApp::update()
 
 	       	//Start a new buffer if we're at frame 0 
             if(imageCounter == 0){
+                  
                   buffers.push_front(vidBuffer);
-		          cout << "starting new videobuffer" << endl;
+		          // cout << "starting new videobuffer, buffer size is : " << buffers.size() << endl;
+
 	        }
 		    
             // Capture the CV image
-            // buffers[0].buffer.push_back(openCV.getRecordPixels());
+            buffers[0].buffer.push_back(openCV.getRecordPixels());
 
             // buffers[0].buffer.push_back(openCV.getRecordImage());
 
             // buffers[0].buffer.push_back(openCV.getRecordImage());
             // buffers[0].getNewImage(openCV.getRecordImage());
-            ofImage img = openCV.getRecordImage();
-            cout << "got image " << endl;
+            // ofImage img = openCV.getRecordImage();/
+            // cout << "got image " << endl;
             
-            buffers.front().buffer.push_back(img);
-            cout << "sent image" << endl;
+            // buffers.front().getNewImage(openCV.getRecordImage()); //buffer.push_back(img);
+            // cout << "sent image" << endl;
 
 
             // buffers[0].buffer.push_back( temp );
 
-            cout << "pushing back record pixels " << endl;
+            // cout << "pushing back record pixels " << endl;
 
             imageCounter++;
             //Playing recording before the person has left
             delayFramesBeforePlayback = 60;
 
 		    if( imageCounter == delayFramesBeforePlayback ){
-                cout << "playback " << endl;
+                // cout << "playback " << endl;
                 buffers[0].start();
             }
-            cout << "end of frame " << endl;
 
+            cout << "end of frame " << endl;
             recTimer = ofGetElapsedTimeMillis();
 	   }
     }
@@ -238,12 +241,12 @@ void ofApp::update()
 
     if(ofGetElapsedTimeMillis() > statusTimer){
         statusTimer = ofGetElapsedTimeMillis() + STATUS_FREQUENCY;
-        sendStatus();
+        // sendStatus();
         cout << "status sent " << endl;
     }
 
     if(ofGetElapsedTimeMillis() > dreamTimer && dream == false){
-        dream = true;
+        // dream = true;
         cout << "dreaming started " << endl;
     }
 
@@ -954,8 +957,8 @@ void ofApp::setupSimpleGUI()
     // gui->addWidgetDown(new ofxUILabelToggle("Show Data",false,255,30,OFX_UI_FONT_MEDIUM));
     // gui->addWidgetDown(new ofxUILabel("Imaging Mode", OFX_UI_FONT_MEDIUM));
     // gui->addWidgetRight(new ofxUINumberDialer(0, 12,1, 0, "IMAGING_MODE", OFX_UI_FONT_MEDIUM));
-    // gui->addWidgetDown(new ofxUILabel("Number of Buffers", OFX_UI_FONT_MEDIUM));
-    // gui->addWidgetRight(new ofxUINumberDialer(0, 15,5, 0, "BUFFER_NUMBER", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetDown(new ofxUILabel("Number of Buffers", OFX_UI_FONT_MEDIUM));
+    gui->addWidgetRight(new ofxUINumberDialer(0, 15,5, 0, "BUFFER_NUMBER", OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabelToggle("Use Mask",true,255,30,OFX_UI_FONT_MEDIUM));
     gui->addWidgetDown(new ofxUILabel("Mask Number", OFX_UI_FONT_MEDIUM));
     gui->addWidgetRight(new ofxUINumberDialer(0, 5, 1, 0, "Mask_No", OFX_UI_FONT_MEDIUM));

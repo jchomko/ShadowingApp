@@ -22,7 +22,7 @@
 //I guess namespaces would be good he
 #include "ofxProjectorControl.h"
 
-#include "VideoBufferStorage.h"
+#include "ofxVideoBuffers.h"
 // #include "VideoBufferStorage.h"
 #include "ofxBlur.h"
 
@@ -146,7 +146,7 @@ class ofApp : public ofBaseApp{
 
         std::deque<videoBuffer> buffers;
         std::deque<videoBuffer>livebuffer;
-        videoBuffer b;
+        videoBuffer vidBuffer;
 
         vector<ofImage> videoImage;
 

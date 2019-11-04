@@ -83,8 +83,13 @@ void ofApp::setup()
     drawCamFull = false;
 
     ofSetVerticalSync(true);
+    
+    //Setup Videobuffer
+    // vidBuffer = VideoBuffer();
+                
 
     cout << "setup done"<< endl;
+
 
 }
 //--------------------------------------------------------------
@@ -176,14 +181,24 @@ void ofApp::update()
 
 	       	//Start a new buffer if we're at frame 0 
             if(imageCounter == 0){
-		      buffers.push_front(b);
-		      cout << "starting new videobuffer" << endl;
+                  buffers.push_front(vidBuffer);
+		          cout << "starting new videobuffer" << endl;
 	        }
 		    
             // Capture the CV image
-            // ofImage temp;
-            // temp.setFromPixels(openCV.getRecordPixels());
-            buffers[0].buffer.push_back(openCV.getRecordPixels());
+            // buffers[0].buffer.push_back(openCV.getRecordPixels());
+
+            // buffers[0].buffer.push_back(openCV.getRecordImage());
+
+            // buffers[0].buffer.push_back(openCV.getRecordImage());
+            // buffers[0].getNewImage(openCV.getRecordImage());
+            ofImage img = openCV.getRecordImage();
+            cout << "got image " << endl;
+            
+            buffers.front().buffer.push_back(img);
+            cout << "sent image" << endl;
+
+
             // buffers[0].buffer.push_back( temp );
 
             cout << "pushing back record pixels " << endl;
@@ -268,12 +283,14 @@ void ofApp::update()
         ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
         ofPushMatrix();
         ofTranslate(0,playbackOffsetY);
+
         if(!buffers.empty()){
             for (int i = 0; i < buffers.size(); i++){   
                 //Buffers are only drawn if they are active, otherwise nothing happens during this call
                 buffers[i].draw(255);
             }
         }
+        
         ofPopMatrix();
         ofDisableBlendMode();
 
@@ -731,6 +748,7 @@ void ofApp::setupVariables()
     playbackMode = 0;
     howmanyrecordings = 0;
     whichBufferAreWePlaying = 0;
+    
     imagingMode = 0;
     hasBeenPushedFlag = true;
     learnBackground = true;

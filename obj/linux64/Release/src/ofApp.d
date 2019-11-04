@@ -730,7 +730,7 @@ obj/linux64/Release/src/ofApp.o: \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxUI/src/ofxUISuperCanvas.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxUI/src/ofxUITabBar.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxProjectorControl/src/ofxProjectorControl.h \
- /root/of_v0.10.1_linux64gcc4_release/addons/ofxVideoBuffer/src/VideoBufferStorage.h \
+ /root/of_v0.10.1_linux64gcc4_release/addons/ofxVideoBuffer/src/ofxVideoBuffers.h \
  /root/of_v0.10.1_linux64gcc4_release/addons/ofxBlur/src/ofxBlur.h
 
 /root/of_v0.10.1_linux64gcc4_release/apps/myApps/ShadowingApp/src/ofApp.h:
@@ -2221,6 +2221,6 @@ obj/linux64/Release/src/ofApp.o: \
 
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxProjectorControl/src/ofxProjectorControl.h:
 
-/root/of_v0.10.1_linux64gcc4_release/addons/ofxVideoBuffer/src/VideoBufferStorage.h:
+/root/of_v0.10.1_linux64gcc4_release/addons/ofxVideoBuffer/src/ofxVideoBuffers.h:
 
 /root/of_v0.10.1_linux64gcc4_release/addons/ofxBlur/src/ofxBlur.h:

@@ -10,7 +10,7 @@
 
 // #include "ofxGifEncoder.h"
 // #include "ofxIO.h"
-// #include "ofxHttpUtils.h"
+#include "ofxHttpUtils.h"
 // #include "ofxSimpleTimer.h"
 // #include "ofxUI.h"
 // #include "ofxHttpUtils.h"

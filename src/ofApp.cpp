@@ -101,7 +101,6 @@ void ofApp::update()
 
     //--------------------------------------------------------------
     // If we have too many buffers in the memory then release one
-   
     if (buffers.size() > howManyBuffersToStore){
         buffers.pop_back();
     }
@@ -191,21 +190,6 @@ void ofApp::update()
             // Capture the CV image
             buffers[0].buffer.push_back(openCV.getRecordPixels());
 
-            // buffers[0].buffer.push_back(openCV.getRecordImage());
-
-            // buffers[0].buffer.push_back(openCV.getRecordImage());
-            // buffers[0].getNewImage(openCV.getRecordImage());
-            // ofImage img = openCV.getRecordImage();/
-            // cout << "got image " << endl;
-            
-            // buffers.front().getNewImage(openCV.getRecordImage()); //buffer.push_back(img);
-            // cout << "sent image" << endl;
-
-
-            // buffers[0].buffer.push_back( temp );
-
-            // cout << "pushing back record pixels " << endl;
-
             imageCounter++;
             //Playing recording before the person has left
             delayFramesBeforePlayback = 60;
@@ -215,7 +199,7 @@ void ofApp::update()
                 buffers[0].start();
             }
 
-            cout << "end of frame " << endl;
+            // cout << "end of frame " << endl;
             recTimer = ofGetElapsedTimeMillis();
 	   }
     }
@@ -461,9 +445,9 @@ void ofApp::keyPressed(int key)
 	    playbackMode = 3;
 	    break;
 	case 'm':
-            gui->toggleVisible();
+        gui->toggleVisible();
 	    drawCV = !drawCV;
-        cursorDisplay = !cursorDisplay;
+        // cursorDisplay = !cursorDisplay;
 
             // ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
             break;
@@ -762,6 +746,9 @@ void ofApp::setupVariables()
     // noneDream == false;
     drawCV = true;
 	recTimer = ofGetElapsedTimeMillis();
+
+    //These are loaded by GUI but here as defaults
+    howManyBuffersToStore = 6;
 }
 //--------------------------------------------------------------
 // Setup Directory Watcher

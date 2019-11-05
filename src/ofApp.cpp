@@ -23,6 +23,37 @@ void ofApp::loadConfig()
 }
 
 //--------------------------------------------------------------
+// Setup Variables
+//--------------------------------------------------------------
+void ofApp::setupVariables()
+{
+    ofSetLogLevel(OF_LOG_WARNING);
+    imageCounter = 0;
+    playCounter = 0;
+    dream = false;
+    startRecording = false;
+    // triggerDreamTimer = false;
+    // progress = 0;
+    playbackMode = 0;
+    howmanyrecordings = 0;
+    whichBufferAreWePlaying = 0;
+    
+    imagingMode = 0;
+    hasBeenPushedFlag = true;
+    learnBackground = true;
+    // canSaveGif = false;
+    stopLoop = false;
+    bSwitch = false;
+    firstLearn = true;
+    // noneDream == false;
+    drawCV = true;
+    recTimer = ofGetElapsedTimeMillis();
+
+    //These are loaded by GUI but here as defaults
+    howManyBuffersToStore = 6;
+}
+
+//--------------------------------------------------------------
 void ofApp::setup()
 {
     ofSetWindowShape(ofGetScreenWidth(), ofGetScreenHeight());
@@ -78,8 +109,8 @@ void ofApp::setup()
 	//open logging file // and append
 	outfile.open("activity.txt", std::ios::app);
     
-    ofShowCursor();
-    cursorDisplay = true;
+    // ofShowCursor();
+    cursorDisplay = false;
     drawCamFull = false;
 
     ofSetVerticalSync(true);
@@ -230,8 +261,8 @@ void ofApp::update()
     }
 
     if(ofGetElapsedTimeMillis() > dreamTimer && dream == false){
-        // dream = true;
-        cout << "dreaming started " << endl;
+        dream = true;
+        // cout << "dreaming started " << endl;
     }
 
     // Update the buffers 
@@ -240,17 +271,6 @@ void ofApp::update()
                 buffers[i].update();
         }
     }
-
-    // doCVBackgroundTimer.update();
-    // statusTimer.update();
-    // activityTimer.update();
-
-    if (cursorDisplay == true){
-        ofShowCursor();
-    }else{
-        ofHideCursor();
-    }
-
 
     //Draw to FBO 
     mainOut.begin();
@@ -310,7 +330,7 @@ void ofApp::draw(){
     }
 
     drawMisc();
-    openCV.drawGui();
+    // openCV.drawGui();
 
 	if(drawCamFull){
        ofPushMatrix();
@@ -318,6 +338,7 @@ void ofApp::draw(){
 	   openCV.drawCameraFullScreen();
 	   ofPopMatrix();
     }
+
 }
 
 //--------------------------------------------------------------
@@ -329,31 +350,24 @@ void ofApp::draw(){
 void ofApp::ShadowingProductionModeA(){
 
     // if someone enters the light quickly
-    if(openCV.isSomeoneThere() && openCV.isSomeoneThere() != lastPresentState && buffers.size() > 0 && buffers[1].isNearlyFinished())
-    {
+    if(openCV.isSomeoneThere() && openCV.isSomeoneThere() != lastPresentState && buffers.size() > 0 && buffers[1].isNearlyFinished()){
         playBackLatch = false;
         modeString = "Shadowing Basic Mode";
         buffers[1].reset();
         buffers[1].start();
-    }
-
-    //Just stepped out of the light
-    else if(!openCV.isSomeoneThere() && dream == false && playBackLatch == false)
-    {
+    //someone just stepped out of the light
+    }else if(!openCV.isSomeoneThere() && dream == false && playBackLatch == false){
         bSwitch = true;
         modeString = "Shadowing Basic Mode Stage 2";
         buffers[1].start();
         playBackLatch  = false;
-
-    }
-    else if(dream == true)
-    {
+    }else if(dream == true){
             // Dream Sequentially
             ShadowingDreamStateB();
-
     }
 
     lastPresentState = openCV.isSomeoneThere();
+
 }
 
 //--------------------------------------------------------------
@@ -388,7 +402,8 @@ void ofApp::ShadowingDreamStateB()
         {
             if (buffers[whichBufferAreWePlaying].isFinished() && randomWaitLatch == false)
             {
-                // randomWaitTimer = ofGetElapsedTimeMillis() + ofRandom(1000,4000);
+                
+                randomWaitTimer = ofGetElapsedTimeMillis() + ofRandom(1000,4000);
 	            randomWaitLatch = true;
         	    // Reset the Awaiting buffer otherwise nothing will happen
                 // buffers[whichBufferAreWePlaying+1].reset();
@@ -438,40 +453,29 @@ void ofApp::keyPressed(int key)
         case '1':
 	    imagingMode = 0;
 	    break;
-	case '2':
-	    imagingMode = 1;
-	    break;
-	case '3':
-	    playbackMode = 3;
-	    break;
-	case 'm':
-        gui->toggleVisible();
-	    drawCV = !drawCV;
-        // cursorDisplay = !cursorDisplay;
-
+    	case '2':
+    	    imagingMode = 1;
+    	    break;
+    	case '3':
+    	    playbackMode = 3;
+    	    break;
+    	case 'm':
+            gui->toggleVisible();
+    	    drawCV = !drawCV;
+            cursorDisplay = !cursorDisplay;
+            if (cursorDisplay == true){
+                ofShowCursor();
+            }else{
+                ofHideCursor();
+            }
             // ((ofxUILabelToggle *) gui->getWidget("Draw CV"))->setValue(drawCV);
             break;
-        // case OF_KEY_UP:
-        //     projector.up();
-        //     break;
-        // case OF_KEY_DOWN:
-        //     projector.down();
-        //     break;
-        // case OF_KEY_LEFT:
-        //     projector.left();
-        //     break;
-        // case OF_KEY_RIGHT:
-        //     projector.right();
-        //     break;
         case 'i':
             projector.projectorOn();
             break;
         case 'o':
             projector.projectorOff();
             break;
-        //case 'c':
-        //    cursorDisplay = !cursorDisplay; // NULL on the ubuntu system
-        //    break;
         case 'd':
             canDrawData = !canDrawData;
             // ((ofxUILabelToggle *) gui->getWidget("Show Data"))->setValue(canDrawData);
@@ -487,16 +491,8 @@ void ofApp::keyPressed(int key)
 	    case 'f':
 		      drawCamFull = !drawCamFull;
 		break;
-	    case 'b':
-            showPreviousBuffers = !showPreviousBuffers;
-            // ((ofxUILabelToggle *) gui->getWidget("Show Buffers"))->setValue(showPreviousBuffers);
-            break;
-	    case 'z':
-	       // playTiger();
-	    break;
-
         case 't':
-#ifdef HAVE_WEB      // Send the Gif to the Server
+            #ifdef HAVE_WEB      // Send the Gif to the Server
             ofxHttpForm form;
             form.action = _statusurl;
             form.method = OFX_HTTP_POST;
@@ -510,7 +506,6 @@ void ofApp::keyPressed(int key)
          #else
             break;
          #endif
-
     }
 }
 //--------------------------------------------------------------
@@ -716,41 +711,12 @@ void ofApp::setupCV()
     openCV.setup(CAM_WIDTH,CAM_HEIGHT,FRAMERATE);
 
     // Its a Mystery
-    openCV.relearnBackground();
+    // openCV.relearnBackground();
 
     // Sets the internal Tracking boundaries at 40px from each boundary
     openCV.setTrackingBoundaries(40, 40);
 }
-//--------------------------------------------------------------
-// Setup Variables
-//--------------------------------------------------------------
-void ofApp::setupVariables()
-{
-    ofSetLogLevel(OF_LOG_WARNING);
-    imageCounter = 0;
-    playCounter = 0;
-    dream = false;
-    startRecording = false;
-    // triggerDreamTimer = false;
-    // progress = 0;
-    playbackMode = 0;
-    howmanyrecordings = 0;
-    whichBufferAreWePlaying = 0;
-    
-    imagingMode = 0;
-    hasBeenPushedFlag = true;
-    learnBackground = true;
-    // canSaveGif = false;
-    stopLoop = false;
-    bSwitch = false;
-    firstLearn = true;
-    // noneDream == false;
-    drawCV = true;
-	recTimer = ofGetElapsedTimeMillis();
 
-    //These are loaded by GUI but here as defaults
-    howManyBuffersToStore = 6;
-}
 //--------------------------------------------------------------
 // Setup Directory Watcher
 //--------------------------------------------------------------
@@ -1081,8 +1047,8 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
     else if (e.getName() == "Do Calibration")
     {
         ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
-        doCalibration = toggle->getValue();
-        openCV.setCalibration(toggle->getValue());
+        // doCalibration = toggle->getValue();
+        // openCV.setCalibration(toggle->getValue());
     }
     else if(e.getName() == "Use Mask")
     {
@@ -1102,7 +1068,7 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
     else if(e.getName() == "Learn Background")
     {
         ofxUILabelButton * button = (ofxUILabelButton *) e.widget;
-        openCV.relearnBackground();
+        // openCV.relearnBackground();
         //learnBackground = button->getValue();
     }
     else if(e.getName() == "PROGRESSIVE_RATE")

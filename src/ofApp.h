@@ -198,6 +198,7 @@ class ofApp : public ofBaseApp{
         // DirectoryWatcherManager gifWatcher;
         // HiddenFileFilter fileFilter;
         string latestGifPath;
+        
         // void onDirectoryWatcherItemAdded(const DirectoryWatcherManager::DirectoryEvent& evt);
         // void onDirectoryWatcherItemRemoved(const DirectoryWatcherManager::DirectoryEvent& evt);
         // void onDirectoryWatcherItemModified(const DirectoryWatcherManager::DirectoryEvent& evt);

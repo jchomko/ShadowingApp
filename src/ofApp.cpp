@@ -126,19 +126,12 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    // Set Window Title
-    // string title = "Shadowing: " + ofToString(ofGetTimestampString("%H:%M:%S  %d/%m/%Y"));
-    // ofSetWindowTitle(title);
 
     //--------------------------------------------------------------
     // If we have too many buffers in the memory then release one
     if (buffers.size() > howManyBuffersToStore){
         buffers.pop_back();
     }
-
-    // if (livebuffer.size() > 2) {
-    //     livebuffer.pop_back();
-    // }
 
     //--------------------------------------------------------------
     openCV.DsubtractionLoop(false,false);
@@ -153,17 +146,13 @@ void ofApp::update()
     	}else{
     		whichBufferAreWePlaying = 0;
     	}
-
-        // canSaveGif = true;
-        // activityTimer.stop();
-        // doCVBackgroundTimer.stop();
+        
         startRecording = true;
         hasBeenPushedFlag = false;
 
         dream = false;
         dreamTimer = ofGetElapsedTimeMillis() + 10000;
-        // noneDream = false;
-        // triggerDreamTimer = true;
+
     }else{
 
         bSwitch = true;
@@ -172,7 +161,7 @@ void ofApp::update()
 
             if (imageCounter >= MIN_BUFFER_SIZE){
 
-		         //Stops saving gifs to see if that keeps us online at all
+		        //Stops saving gifs to see if that keeps us online at all
                 // if (canSaveGif == true)
                 // {
                 //     #ifdef NUC
@@ -183,11 +172,10 @@ void ofApp::update()
                 //     howmanyrecordings++;
                 //     canSaveGif = false;
                 // }
-		        
-
-                //This triggers playback after the recording has ended 
+		        //This triggers playback after the recording has ended 
                 //buffers[0].start();
                 // outfile << "rec length," << imageCounter << ", timestamp;," << ofGetTimestampString("%m/%d,%H:%M") << endl;
+                
                 hasBeenPushedFlag = true;
                 imageCounter = 0;
 
@@ -214,8 +202,7 @@ void ofApp::update()
             if(imageCounter == 0){
                   
                   buffers.push_front(vidBuffer);
-		          // cout << "starting new videobuffer, buffer size is : " << buffers.size() << endl;
-
+		    
 	        }
 		    
             // Capture the CV image
@@ -249,14 +236,10 @@ void ofApp::update()
         // stopLoop = true;
     // }
 
-    // if (!openCV.isSomeoneThere() && triggerDreamTimer == true){
-    //     triggerDreamTimer = false;
-        
-    // }
 
     if(ofGetElapsedTimeMillis() > statusTimer){
         statusTimer = ofGetElapsedTimeMillis() + STATUS_FREQUENCY;
-        // sendStatus();
+        sendStatus();
         cout << "status sent " << endl;
     }
 
@@ -275,17 +258,18 @@ void ofApp::update()
     //Draw to FBO 
     mainOut.begin();
         ofClear(backColor);
-
+        ofSetVerticalSync(true);
         ofPushStyle();
         ofSetColor(0);
         ofDrawBitmapString(ofGetTimestampString(),300,300);
         ofPopStyle();
 
-        if (useShader){
-            shader.begin();
-            ofSetColor(255, 255);
-            ofRect(0, 0, 320,240);
-        }
+        //Shader is slow, should be removed 
+        // if (useShader){
+        //     shader.begin();
+        //     ofSetColor(255, 255);
+        //     ofRect(0, 0, 320,240);
+        // }
 
         ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
         ofPushMatrix();
@@ -304,11 +288,11 @@ void ofApp::update()
         //Trigger / reset playback of buffers
         ShadowingProductionModeA();
 
-        if (useShader)
-        {
-            shader.end();
-            shader.draw();
-        }
+        // if (useShader)
+        // {
+        //     shader.end();
+        //     shader.draw();
+        // }
         
     mainOut.end();
     //End FBO
@@ -378,33 +362,16 @@ void ofApp::ShadowingDreamStateB()
     modeString = "Dreaming Sequentially";
     // Check if the buffers are live. Start and Draw the first element in the vector.
     // When the buffer has finished playing the iterate to the next buffer
-    if (!buffers.empty())
-    {
-        buffers[whichBufferAreWePlaying].start();
-        
-        // // This will change the Blend Modes according to the brightness of FBO
-        // if (backColor.getBrightness() >=125)
-        // {
-        //     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-        // }
-        // else if (backColor.getBrightness() <= 124)
-        // {
-        //     ofEnableBlendMode(OF_BLENDMODE_ADD);
-        // }
-        // else
-        // {
-        //     // Nothing
-        // }
-        // //buffers[whichBufferAreWePlaying].draw(255);
-        // ofDisableBlendMode();
+    if (!buffers.empty()){
 
-        if (buffers.size() > 2)
-        {
-            if (buffers[whichBufferAreWePlaying].isFinished() && randomWaitLatch == false)
-            {
+        buffers[whichBufferAreWePlaying].start();
+
+        if (buffers.size() > 2){
+
+            if (buffers[whichBufferAreWePlaying].isFinished() && randomWaitLatch == false){
                 
                 randomWaitTimer = ofGetElapsedTimeMillis() + ofRandom(1000,4000);
-	            randomWaitLatch = true;
+                randomWaitLatch = true;
         	    // Reset the Awaiting buffer otherwise nothing will happen
                 // buffers[whichBufferAreWePlaying+1].reset();
                 // Progress the Buffer Counter
@@ -412,36 +379,37 @@ void ofApp::ShadowingDreamStateB()
                 // buffers[whichBufferAreWePlaying].start();
             }
         }
-    	if (buffers.size() > 2)
-    	{
-            if (randomWaitLatch && ofGetElapsedTimeMillis() > randomWaitTimer)
-        	{
-            if (whichBufferAreWePlaying >= buffers.size())
-                {
+
+    	if (buffers.size() > 2){
+
+            if (randomWaitLatch && ofGetElapsedTimeMillis() > randomWaitTimer){
+
+                if (whichBufferAreWePlaying >= buffers.size()){
                         // Reset the first Buffer
                         buffers[0].reset();
                         // Go back to the start and Await my instructions
                         whichBufferAreWePlaying = 0;
                         buffers[whichBufferAreWePlaying].start();
                         randomWaitLatch = false;
+                    }else{
+                        buffers[whichBufferAreWePlaying+1].reset();
+                        whichBufferAreWePlaying++;
+                        buffers[whichBufferAreWePlaying].start();
+                        randomWaitLatch = false;
                 }
-            else
-            {
-                buffers[whichBufferAreWePlaying+1].reset();
-                whichBufferAreWePlaying++;
-                buffers[whichBufferAreWePlaying].start();
-                randomWaitLatch = false;
             }
         }
 
+        if (whichBufferAreWePlaying >= buffers.size()){
+
+            buffers[0].reset();
+            whichBufferAreWePlaying = 0;
+            buffers[whichBufferAreWePlaying].start();
+        
+        }
+
     }
-    if (whichBufferAreWePlaying >= buffers.size())
-    {
-        buffers[0].reset();
-        whichBufferAreWePlaying = 0;
-        buffers[whichBufferAreWePlaying].start();
-    }
-    }
+
 }
 
 
@@ -634,15 +602,15 @@ void ofApp::exit()
     // cleanGifFolder();
     #ifdef HAVE_WEB
     // Send the Gif to the Server
-    // ofxHttpForm form;
-    // form.action = _statusurl;
-    // form.method = OFX_HTTP_POST;
-    // form.addFormField("secret", _secretKey);
-    // form.addFormField("location", _locationID);
-    // form.addFormField("status", "STOPPED");
-    // form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
-    // form.addFormField("submit","1");
-    // httpUtils.addForm(form);
+    ofxHttpForm form;
+    form.action = _statusurl;
+    form.method = OFX_HTTP_POST;
+    form.addFormField("secret", _secretKey);
+    form.addFormField("location", _locationID);
+    form.addFormField("status", "STOPPED");
+    form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
+    form.addFormField("submit","1");
+    httpUtils.addForm(form);
 #endif
     cout << "Releasing Camera" << endl;
     openCV.releaseCamera();
@@ -707,14 +675,9 @@ void ofApp::exit()
 //--------------------------------------------------------------
 void ofApp::setupCV()
 {
-    // Setup Custom openCV Class
+    // Setup openCV Class
     openCV.setup(CAM_WIDTH,CAM_HEIGHT,FRAMERATE);
 
-    // Its a Mystery
-    // openCV.relearnBackground();
-
-    // Sets the internal Tracking boundaries at 40px from each boundary
-    openCV.setTrackingBoundaries(40, 40);
 }
 
 //--------------------------------------------------------------
@@ -818,18 +781,17 @@ void ofApp::setupMasks()
     // Not sure why I've sorted them?
     maskDirectory.sort();
 	cout << "after opening director"<< endl;
-    if(nFiles)
-    {
+    
+    if(nFiles){
         ofLog(OF_LOG_NOTICE, "Found Mask Folder");
-        for(int i = 0; i< maskDirectory.numFiles(); i++)
-        {
+        for(int i = 0; i< maskDirectory.size(); i++){
+
             string filePath = maskDirectory.getPath(i);
             cout << filePath << endl;
-		masks[i].loadImage(filePath);
+		    masks[i].loadImage(filePath);
         }
-    }
-    else
-    {
+
+    }else{
         ofLog(OF_LOG_ERROR, "Can't Find Mask Folder");
     }
 

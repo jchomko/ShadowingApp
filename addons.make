@@ -1,3 +1,4 @@
+#ofxOpenCV4
 ofxPoco
 ofxProjectorControl
 ofxFlyCapture

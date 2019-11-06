@@ -77,6 +77,9 @@
 # incorporated directly into the final executable application binary.
 ################################################################################
 PROJECT_LDFLAGS= -lflycapture -lopencv_calib3d -lopencv_contrib -lopencv_core -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -L/usr/local/lib/opencv 
+#PROJECT_LDFLAGS= -lflycapture $
+
+# -lopencv_calib3d -lopencv_contrib -lopencv_core -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -L/usr/local/lib/opencv 
 
 # -I/usr/local/lib/opencv/libopencv_calib3d.so -I/usr/local/lib/opencv/libopencv_core.so -I/usr/local/lib/opencv/libopencv_dnn.so -I/usr/local/lib/opencv/libopencv_features2d.so -I/usr/local/lib/opencv/libopencv_flann.so -I/usr/local/lib/opencv/libopencv_gapi.so -I/usr/local/lib/opencv/libopencv_highgui.so -I/usr/local/lib/opencv/libopencv_imgcodecs.so -I/usr/local/lib/opencv/libopencv_imgproc.so.4.1.2 -I/usr/local/lib/opencv/libopencv_ml.so -I/usr/local/lib/opencv/libopencv_objdetect.so -I/usr/local/lib/opencv/libopencv_photo.so -I/usr/local/lib/opencv/libopencv_stitching.so -I/usr/local/lib/opencv/libopencv_videoio.so -I/usr/local/lib/opencv/libopencv_video.so
 

@@ -112,6 +112,8 @@ void ofApp::setup()
 	//open logging file // and append
 	outfile.open("activity.txt", std::ios::app);
     
+    outfile << "Startup: " << ofGetTimestampString("%m/%d/%Y - %H:%M") << endl;
+                
     // ofShowCursor();
     cursorDisplay = false;
     drawCamFull = false;
@@ -176,7 +178,7 @@ void ofApp::update()
                 // }
 		        //This triggers playback after the recording has ended 
                 //buffers[0].start();
-                // outfile << "rec length," << imageCounter << ", timestamp;," << ofGetTimestampString("%m/%d,%H:%M") << endl;
+                outfile << "Recording complete: \t" << imageCounter << "\tTime: " << ofGetTimestampString("%m/%d/%Y - %H:%M") << "\tFramerate: " << ofGetFrameRate() <<  endl;
                 howmanyrecordings++;    
                 hasBeenPushedFlag = true;
                 imageCounter = 0;
@@ -598,6 +600,7 @@ void ofApp::exit()
 {
     // gifWatcher.unregisterAllEvents(this);
 
+    
     ofSystem("sh /root/closeusbrelay.sh");
     
     // As it says
@@ -634,7 +637,10 @@ void ofApp::exit()
     	cout << "Projector Off" << endl;
     #endif
 
+
 	cout << "Finished Exit" << endl;
+
+    outfile << "Shutdown: " << ofGetTimestampString("%m/%d/%Y - %H:%M") << endl;
 
 }
 //--------------------------------------------------------------

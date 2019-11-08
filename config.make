@@ -77,7 +77,9 @@
 # incorporated directly into the final executable application binary.
 ################################################################################
 PROJECT_LDFLAGS= -lflycapture -lopencv_calib3d -lopencv_contrib -lopencv_core -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -L/usr/local/lib/opencv 
-#PROJECT_LDFLAGS= -lflycapture $
+# PROJECT_LDFLAGS= -lflycapture -lopencv_calib3d -lopencv_contrib -lopencv_core -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -L/root/of_v0.10.1_linux64gcc4_release/addons/ofxOpenCV4/libs/lib/emscripten/
+
+# PROJECT_LDFLAGS= -lflycapture $
 
 # -lopencv_calib3d -lopencv_contrib -lopencv_core -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -L/usr/local/lib/opencv 
 
@@ -120,6 +122,7 @@ PROJECT_LDFLAGS= -lflycapture -lopencv_calib3d -lopencv_contrib -lopencv_core -l
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
 PROJECT_CFLAGS = -I/usr/local/include/opencv4/ 
+# PROJECT_CFLAGS = -I/root/of_v0.10.1_linux64gcc4_release/addons/ofxOpenCV4/libs/opencv/include/opencv4/
 
 
 

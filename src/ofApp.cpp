@@ -28,27 +28,30 @@ void ofApp::loadConfig()
 void ofApp::setupVariables()
 {
     ofSetLogLevel(OF_LOG_WARNING);
-    imageCounter = 0;
-    playCounter = 0;
-    dream = false;
+    
+    // playbackMode = 0;
+    // imagingMode = 0;
+    
     startRecording = false;
-    // triggerDreamTimer = false;
-    // progress = 0;
-    playbackMode = 0;
+    imageCounter = 0;
+
+    //Recording counter
     howmanyrecordings = 0;
+    
+    dream = false;
     whichBufferAreWePlaying = 0;
     
-    imagingMode = 0;
     hasBeenPushedFlag = true;
-    learnBackground = true;
-    // canSaveGif = false;
-    stopLoop = false;
-    bSwitch = false;
-    firstLearn = true;
-    // noneDream == false;
-    drawCV = true;
-    recTimer = ofGetElapsedTimeMillis();
 
+    // learnBackground = true;
+    // canSaveGif = false;
+    // stopLoop = false;
+    // bSwitch = false;
+    // firstLearn = true;
+    // noneDream == false;
+    recTimer = ofGetElapsedTimeMillis();
+    drawCV = false;
+    
     //These are loaded by GUI but here as defaults
     howManyBuffersToStore = 6;
 }
@@ -169,13 +172,12 @@ void ofApp::update()
                 //     #else
                 //     gifEncoder.save(SAVE_PATH_MAC+ofGetTimestampString()+".gif");
                 //     #endif
-                //     howmanyrecordings++;
                 //     canSaveGif = false;
                 // }
 		        //This triggers playback after the recording has ended 
                 //buffers[0].start();
                 // outfile << "rec length," << imageCounter << ", timestamp;," << ofGetTimestampString("%m/%d,%H:%M") << endl;
-                
+                howmanyrecordings++;    
                 hasBeenPushedFlag = true;
                 imageCounter = 0;
 
@@ -341,7 +343,7 @@ void ofApp::ShadowingProductionModeA(){
         buffers[1].start();
     //someone just stepped out of the light
     }else if(!openCV.isSomeoneThere() && dream == false && playBackLatch == false){
-        bSwitch = true;
+        // bSwitch = true;
         modeString = "Shadowing Basic Mode Stage 2";
         buffers[1].start();
         playBackLatch  = false;
@@ -429,7 +431,7 @@ void ofApp::keyPressed(int key)
     	    break;
     	case 'm':
             gui->toggleVisible();
-    	    drawCV = !drawCV;
+    	    // drawCV = !drawCV;
             cursorDisplay = !cursorDisplay;
             if (cursorDisplay == true){
                 ofShowCursor();

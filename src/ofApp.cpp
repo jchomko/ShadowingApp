@@ -113,6 +113,7 @@ void ofApp::setup()
 	outfile.open("activity.txt", std::ios::app);
     
     outfile << "Startup: " << ofGetTimestampString("%m/%d/%Y - %H:%M") << endl;
+    cout << "Startup: " << ofGetTimestampString("%m/%d/%Y - %H:%M") << endl;
                 
     // ofShowCursor();
     cursorDisplay = false;
@@ -178,6 +179,7 @@ void ofApp::update()
                 // }
 		        //This triggers playback after the recording has ended 
                 //buffers[0].start();
+                cout << "Recording complete: \t" << imageCounter << "\tTime: " << ofGetTimestampString("%m/%d/%Y - %H:%M") << "\tFramerate: " << ofGetFrameRate() <<  endl;
                 outfile << "Recording complete: \t" << imageCounter << "\tTime: " << ofGetTimestampString("%m/%d/%Y - %H:%M") << "\tFramerate: " << ofGetFrameRate() <<  endl;
                 howmanyrecordings++;    
                 hasBeenPushedFlag = true;
@@ -640,6 +642,7 @@ void ofApp::exit()
 
 	cout << "Finished Exit" << endl;
 
+    cout << "Shutdown: " << ofGetTimestampString("%m/%d/%Y - %H:%M") << endl;
     outfile << "Shutdown: " << ofGetTimestampString("%m/%d/%Y - %H:%M") << endl;
 
 }
@@ -738,6 +741,7 @@ void ofApp::setupHTTP()
     form.addFormField("numberofrecordings", ofToString(howmanyrecordings));
     form.addFormField("submit","1");
     httpUtils.addForm(form);
+
 }
 //--------------------------------------------------------------
 // Setup Gif Encoder

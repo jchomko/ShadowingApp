@@ -64,7 +64,7 @@ class ofApp : public ofBaseApp{
 
         // Projector Commands
         void setupProjector();
-        //ofxProjectorControl projector;
+        ofxProjectorControl projector;
 
         // OPEN CV
         void setupCV();

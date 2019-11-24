@@ -70,8 +70,6 @@ void ofApp::setup()
     loadConfig();
 
     // Setup the Projector
-//    setupProjector();
-    //ofSystem("./root/projectorOn.sh");
 
     // Setup Variables
     setupVariables();
@@ -112,7 +110,6 @@ void ofApp::setup()
 	//open usb relay
     ofSystem("sh /root/openusbrelay.sh");
 
-
 	//open logging file // and append
 	outfile.open("activity.txt", std::ios::app);
     
@@ -127,8 +124,8 @@ void ofApp::setup()
     
     //Setup Videobuffer
     // vidBuffer = VideoBuffer();
+                
 
-    //ofSetFullscreen(true);
     cout << "setup done"<< endl;
 
 

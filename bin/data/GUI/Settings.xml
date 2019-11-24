@@ -1,0 +1,60 @@
+<Widget>
+    <Kind>8</Kind>
+    <Name>PLAYBACK_OFFSET_Y</Name>
+    <Value>0.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>MASK_SCALE</Name>
+    <Value>1.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>MASK_CENTER_X</Name>
+    <Value>1.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>MASK_CENTER_Y</Name>
+    <Value>1.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>DELAY_BEFORE_PLAYBACK</Name>
+    <Value>30.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>TRACKING_BOUNDARY</Name>
+    <Value>30.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>BUFFER_NUMBER</Name>
+    <Value>5.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Use Mask</Name>
+    <Value>1</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>Mask_No</Name>
+    <Value>2.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Use Shader</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>BLUR_RADIUS</Name>
+    <Value>0.129999965</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>BLUR_PASS</Name>
+    <Value>0.060000010</Value>
+</Widget>

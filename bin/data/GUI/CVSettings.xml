@@ -1,0 +1,55 @@
+<Widget>
+    <Kind>8</Kind>
+    <Name>learningRate</Name>
+    <Value>-1.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>frameDiffThresh</Name>
+    <Value>26.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>pre_blur</Name>
+    <Value>2.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>morph_size</Name>
+    <Value>3.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>morph_iterations</Name>
+    <Value>2.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>_minContArea</Name>
+    <Value>29.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>_maxContArea</Name>
+    <Value>30000.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>smooth_size</Name>
+    <Value>6.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>smooth_sigma1</Name>
+    <Value>4.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>presenceTimeoutMillis</Name>
+    <Value>1000.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>maxBrightnessDiff</Name>
+    <Value>1200.000000000</Value>
+</Widget>
